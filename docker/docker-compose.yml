@@ -1,0 +1,16 @@
+version: "3"
+services:
+  web:
+    image: nginx:1.17
+    ports:
+      - 80:80
+    links:
+      - issue-feedback-react:app
+
+  issue-feedback-react:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    stdin_open: true
+    ports:
+      - 3000:3000
