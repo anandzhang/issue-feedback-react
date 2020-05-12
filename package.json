@@ -1,0 +1,33 @@
+{
+  "name": "issue-feedback-react",
+  "version": "0.1.0",
+  "description": "软件问题反馈的收集",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anandzhang/issue-feedback-react.git"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
