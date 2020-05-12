@@ -1,0 +1,49 @@
+{
+  "name": "issue-feedback-react",
+  "version": "0.1.0",
+  "description": "软件问题反馈的收集",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anandzhang/issue-feedback-react.git"
+  },
+  "dependencies": {
+    "antd": "4.2.2",
+    "babel-plugin-import": "1.13.0",
+    "customize-cra": "0.9.1",
+    "react": "16.13.1",
+    "react-app-rewired": "2.1.6",
+    "react-dom": "16.13.1",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint --fix --ext .js,.jsx . && git add ."
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.5"
+  }
+}
