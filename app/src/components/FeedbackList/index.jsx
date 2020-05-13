@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Avatar, Row, Col, Button, List } from 'antd'
 import axios from 'axios'
+import './index.css'
 
 const { Meta } = Card
 
@@ -34,11 +35,10 @@ class FeedbackList extends Component {
           size='large'
           src={value.avatar}
           alt={`${value.nickname}-avatar`}
-          style={{ float: 'left', marginRight: 20 }}
         />
       )
       return (
-        <Card key={value.id} style={{ margin: '10px 0' }}>
+        <Card key={value.id} className='feedback-item'>
           <Meta
             avatar={avatar}
             title={value.nickname}
@@ -53,12 +53,14 @@ class FeedbackList extends Component {
     const { fixed } = this.state
     return (
       <div>
-        <div style={{ fontSize: 16, margin: 20 }}>最近反馈</div>
+        <div className='feedback-title'>最近反馈</div>
         <Row gutter={12}>
           <Col span={18}>{this.renderFeedback()}</Col>
           <Col span={6}>
-            <Card style={{ marginTop: 10 }}><Button type='primary'>反馈一下</Button></Card>
-            <Card title='最新动态' style={{ marginTop: 12 }}>
+            <Card className='margin-t-10'>
+              <Button type='primary' className='feedback-btn'>反馈一下</Button>
+            </Card>
+            <Card title='最新动态' className='margin-t-10'>
               <List
                 dataSource={fixed}
                 renderItem={item => <List.Item>{item}</List.Item>}
@@ -66,7 +68,7 @@ class FeedbackList extends Component {
             </Card>
           </Col>
         </Row>
-      </div >
+      </div>
     )
   }
 }
