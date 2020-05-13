@@ -10,9 +10,9 @@ class Header extends Component {
   constructor (props) {
     super(props)
     this._menu = menu.map(value => {
-      const { title, icon, route } = value
+      const { title, route } = value
       return (
-        <Item key={route} icon={icon}>
+        <Item key={route}>
           <Link to={route}>{title}</Link>
         </Item>
       )
@@ -21,7 +21,7 @@ class Header extends Component {
 
   render () {
     return (
-      <Menu mode='horizontal'>
+      <Menu mode='horizontal' style={{ lineHeight: '60px' }}>
         {this._menu}
         <Link to='/login' className='login'>登录</Link>
       </Menu>
