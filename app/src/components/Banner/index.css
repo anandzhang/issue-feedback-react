@@ -1,0 +1,18 @@
+.banner {
+  height: 300px;
+  margin: 30px 0;
+  border: 1px solid #c7f0ff;
+  border-radius: 20px;
+  /* 图片来自 dribbble： https://dribbble.com/shots/5037235-Feedback-illustration */
+  background: url('/images/feedback.png') no-repeat right;
+}
+
+.text-large {
+  margin: 70px 80px 0;
+  font-size: 28px;
+}
+
+.text-middle {
+  margin: 10px 100px;
+  font-size: 22px;
+}
