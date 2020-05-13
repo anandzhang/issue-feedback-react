@@ -1,32 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Menu } from 'antd'
 import { Link } from 'react-router-dom'
-import menu from './menu'
+import menuConfig from './menuConfig'
 import './index.css'
 
 const { Item } = Menu
 
-class Header extends Component {
-  constructor (props) {
-    super(props)
-    this._menu = menu.map(value => {
-      const { title, route } = value
-      return (
-        <Item key={route}>
-          <Link to={route}>{title}</Link>
-        </Item>
-      )
-    })
-  }
-
-  render () {
+function Header () {
+  const menu = menuConfig.map(value => {
+    const { title, route } = value
     return (
-      <Menu mode='horizontal' style={{ lineHeight: '60px' }}>
-        {this._menu}
-        <Link to='/login' className='login'>登录</Link>
-      </Menu>
+      <Item key={route}>
+        <Link to={route}>{title}</Link>
+      </Item>
     )
-  }
+  })
+
+  return (
+    <Menu mode='horizontal' className='menu'>
+      {menu}
+      <Link to='/login' className='login'>登录</Link>
+    </Menu>
+  )
 }
 
 export default Header
