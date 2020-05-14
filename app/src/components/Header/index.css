@@ -1,8 +1,12 @@
+.header {
+  background-color: #fff;
+}
+
 .menu {
   line-height: 60px;
 }
 
 .login {
-  float: right;
-  margin-right: 20px;
+  line-height: 60px;
+  text-align: center;
 }
