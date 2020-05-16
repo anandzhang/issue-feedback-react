@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, message, Button } from 'antd'
+import { requestRegister, requestLogin } from '../../api/baseApi'
 import './index.css'
 
 const { Item } = Form
@@ -23,22 +24,30 @@ class Login extends Component {
   handleLogin = async () => {
     try {
       const values = await this.form.current.validateFields()
-      message.success(JSON.stringify(values))
-      this.changeVisible()
+      const { ok, message: msg } = await requestLogin(values)
+      if (ok) {
+        this.changeVisible()
+      } else {
+        message.error(msg)
+      }
     } catch (err) { }
   }
 
   handleRegister = async () => {
     try {
       const values = await this.form.current.validateFields()
-      message.success(JSON.stringify(values))
-      this.changeVisible()
+      const { ok, message: msg } = await requestRegister(values)
+      if (ok) {
+        this.changeVisible()
+      } else {
+        message.error(msg)
+      }
     } catch (err) { }
   }
 
   changeMode = () => {
     this.setState({
-      login: false
+      login: !this.state.login
     })
   }
 
@@ -59,7 +68,7 @@ class Login extends Component {
         >
           <Item
             label='邮箱'
-            name='email'
+            name='account_id'
             rules={[{ required: true, message: '请输入邮箱' }]}
           >
             <Input />
@@ -81,13 +90,13 @@ class Login extends Component {
             </Button>
           </Item>
           <Item>
-            没有账号？去
+            {login ? '没有账号？去' : '已有账号？去'}
             <Button
               type='link'
               onClick={this.changeMode}
               className='no-padding'
             >
-              注册
+              {login ? '注册' : '登录'}
             </Button>
           </Item>
         </Form>
