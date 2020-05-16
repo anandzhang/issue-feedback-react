@@ -12,12 +12,12 @@ class FeedbackList extends Component {
   }
 
   getFeedback = async () => {
-    const { data } = await axios.get('/feedback.json')
+    const data = await axios.get('/feedback.json')
     this.setState({ feedback: data })
   }
 
   getFixed = async () => {
-    const { data } = await axios.get('/fixed.json')
+    const data = await axios.get('/fixed.json')
     this.setState({ fixed: data })
   }
 

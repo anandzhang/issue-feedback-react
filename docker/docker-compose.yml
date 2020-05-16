@@ -7,6 +7,8 @@ services:
       - 80:80
     links:
       - issue-feedback-react:app
+    external_links: 
+      - issue_feedback_sanic:backend
     depends_on:
       - issue-feedback-react
     volumes:
