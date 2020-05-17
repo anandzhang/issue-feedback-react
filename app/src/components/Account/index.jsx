@@ -7,7 +7,7 @@ import './index.css'
 
 const { Item } = Form
 
-class Login extends Component {
+class Account extends Component {
   constructor (props) {
     super(props)
     this.form = React.createRef()
@@ -24,8 +24,15 @@ class Login extends Component {
   }
 
   getProfile = async () => {
-    const data = await requsetProfile()
-    message.success(JSON.stringify(data))
+    try {
+      const { ok, message: msg, result } = await requsetProfile()
+      if (ok) {
+        const { nickname } = result
+        this.props.changeNickname(nickname)
+      } else {
+        message.error(msg)
+      }
+    } catch (err) { }
   }
 
   handleLogin = async () => {
@@ -52,7 +59,6 @@ class Login extends Component {
       if (ok) {
         message.success('注册成功')
         this.changeVisible()
-        this.props.showProfileModal()
       } else {
         message.error(msg)
       }
@@ -127,8 +133,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  showProfileModal: PropTypes.func
+Account.propTypes = {
+  changeNickname: PropTypes.func
 }
 
-export default Login
+export default Account

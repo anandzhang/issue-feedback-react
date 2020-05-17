@@ -19,5 +19,5 @@ export const requsetProfile = async () => {
 
 export const requestUpdateProfile = async data => {
   const userId = Storage.get('userId')
-  return await axios.post(PROFILE_URL.UPDATE, { user_id: userId, ...data })
+  return await axios.put(PROFILE_URL.UPDATE, { user_id: userId, ...data })
 }
