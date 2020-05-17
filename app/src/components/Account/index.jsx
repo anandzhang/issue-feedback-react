@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, message, Button } from 'antd'
-import { requestRegister, requestLogin } from '../../api/baseApi'
+import PropTypes from 'prop-types'
+import { requestRegister, requestLogin, requsetProfile } from '../../api/baseApi'
 import Storage from '../../utils/Storage'
 import './index.css'
 
@@ -22,6 +23,11 @@ class Login extends Component {
     })
   }
 
+  getProfile = async () => {
+    const data = await requsetProfile()
+    message.success(JSON.stringify(data))
+  }
+
   handleLogin = async () => {
     try {
       const values = await this.form.current.validateFields()
@@ -31,6 +37,7 @@ class Login extends Component {
         const { user_id: userId, token } = result
         Storage.saveMany({ userId, token })
         message.success('登录成功')
+        this.getProfile()
         this.changeVisible()
       } else {
         message.error(msg)
@@ -43,7 +50,9 @@ class Login extends Component {
       const values = await this.form.current.validateFields()
       const { ok, message: msg } = await requestRegister(values)
       if (ok) {
+        message.success('注册成功')
         this.changeVisible()
+        this.props.showProfileModal()
       } else {
         message.error(msg)
       }
@@ -116,6 +125,10 @@ class Login extends Component {
       </Modal>
     )
   }
+}
+
+Login.propTypes = {
+  showProfileModal: PropTypes.func
 }
 
 export default Login

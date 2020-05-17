@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import menuConfig from './menuConfig'
 import Account from '../Account'
 import './index.css'
+import Profile from '../Profile'
 
 const { Item } = Menu
 
@@ -12,6 +13,7 @@ class Header extends Component {
     super(props)
     this.menu = this.getMenuItem()
     this.accountModal = React.createRef()
+    this.profileModal = React.createRef()
   }
 
   getMenuItem = () => menuConfig.map(value => {
@@ -27,6 +29,10 @@ class Header extends Component {
     this.accountModal.current.changeVisible()
   }
 
+  showProfileModal = () => {
+    this.profileModal.current.changeVisible()
+  }
+
   render () {
     return (
       <Row className='header'>
@@ -37,7 +43,8 @@ class Header extends Component {
         </Col>
         <Col className='login' span={2} offset={16}>
           <Button type='link' onClick={this.showModal}>登录</Button>
-          <Account ref={this.accountModal} />
+          <Account ref={this.accountModal} showProfileModal={this.showProfileModal} />
+          <Profile ref={this.profileModal} />
         </Col>
       </Row>
     )
