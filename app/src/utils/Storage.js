@@ -14,7 +14,7 @@ export default class Storage {
   }
 
   static get (key) {
-    window.localStorage.getItem(key)
+    return window.localStorage.getItem(key)
   }
 
   static remove (key) {
