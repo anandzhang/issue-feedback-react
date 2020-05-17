@@ -6,3 +6,8 @@ export const ACCOUNT_URL = {
   REGISTER: createURL('/account'),
   LOGIN: createURL('/login')
 }
+
+export const PROFILE_URL = {
+  GET: createURL('/profile'),
+  UPDATE: createURL('/profile')
+}

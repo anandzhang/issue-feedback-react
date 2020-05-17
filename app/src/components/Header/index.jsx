@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Menu, Button, Row, Col } from 'antd'
+import { Menu, Button, Row, Col, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import menuConfig from './menuConfig'
+import Storage from '../../utils/Storage'
 import Account from '../Account'
 import './index.css'
 
@@ -27,7 +30,19 @@ class Header extends Component {
     this.accountModal.current.changeVisible()
   }
 
+  logout = () => {
+    Storage.remove('userId')
+    this.props.changeNickname('')
+  }
+
   render () {
+    const { nickname, changeNickname } = this.props
+    const menu = (
+      <Menu>
+        <Item key='profile' icon={<UserOutlined />}>个人中心</Item>
+        <Item key='logout' icon={<LogoutOutlined />} onClick={this.logout}>退出登录</Item>
+      </Menu>
+    )
     return (
       <Row className='header'>
         <Col span={6}>
@@ -36,12 +51,25 @@ class Header extends Component {
           </Menu>
         </Col>
         <Col className='login' span={2} offset={16}>
-          <Button type='link' onClick={this.showModal}>登录</Button>
-          <Account ref={this.accountModal} />
+          {
+            nickname
+              ? (
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button type='link'>{nickname}</Button>
+                </Dropdown>
+              )
+              : <Button type='link' onClick={this.showModal}>登录</Button>
+          }
+          <Account ref={this.accountModal} changeNickname={changeNickname} />
         </Col>
       </Row>
     )
   }
+}
+
+Header.propTypes = {
+  nickname: PropTypes.string,
+  changeNickname: PropTypes.func
 }
 
 export default Header

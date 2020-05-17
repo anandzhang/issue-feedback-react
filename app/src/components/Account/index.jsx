@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, message, Button } from 'antd'
-import { requestRegister, requestLogin } from '../../api/baseApi'
+import PropTypes from 'prop-types'
+import { requestRegister, requestLogin, requsetProfile } from '../../api/baseApi'
+import Storage from '../../utils/Storage'
 import './index.css'
 
 const { Item } = Form
 
-class Login extends Component {
+class Account extends Component {
   constructor (props) {
     super(props)
     this.form = React.createRef()
@@ -21,11 +23,28 @@ class Login extends Component {
     })
   }
 
-  handleLogin = async () => {
+  getProfile = async () => {
     try {
-      const values = await this.form.current.validateFields()
-      const { ok, message: msg } = await requestLogin(values)
+      const { ok, message: msg, result } = await requsetProfile()
       if (ok) {
+        const { nickname } = result
+        this.props.changeNickname(nickname)
+      } else {
+        message.error(msg)
+      }
+    } catch (err) { }
+  }
+
+  handleLogin = async (values) => {
+    try {
+      values = values || await this.form.current.validateFields()
+      const data = await requestLogin(values)
+      const { ok, message: msg, result } = data
+      if (ok) {
+        const { user_id: userId, token } = result
+        Storage.saveMany({ userId, token })
+        message.success('登录成功')
+        this.getProfile()
         this.changeVisible()
       } else {
         message.error(msg)
@@ -38,7 +57,8 @@ class Login extends Component {
       const values = await this.form.current.validateFields()
       const { ok, message: msg } = await requestRegister(values)
       if (ok) {
-        this.changeVisible()
+        message.success('注册成功')
+        this.handleLogin(values)
       } else {
         message.error(msg)
       }
@@ -69,14 +89,22 @@ class Login extends Component {
           <Item
             label='邮箱'
             name='account_id'
-            rules={[{ required: true, message: '请输入邮箱' }]}
+            rules={[
+              { required: true, message: '请输入邮箱' },
+              { type: 'email', message: '请输入正确的邮箱格式' }
+            ]}
           >
             <Input />
           </Item>
           <Item
             label='密码'
             name='password'
-            rules={[{ required: true, message: '请输入密码' }]}
+            rules={[
+              { required: true, message: '请输入密码' },
+              { min: 8, message: '必须大于8位' },
+              { max: 16, message: '不能超多16位' },
+              { pattern: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[.~!@&%#_])[a-zA-Z0-9.~!@&%#_]*$/, message: '必须包含字母、符号.~!@&%#_、数字' }
+            ]}
           >
             <Input.Password />
           </Item>
@@ -105,4 +133,8 @@ class Login extends Component {
   }
 }
 
-export default Login
+Account.propTypes = {
+  changeNickname: PropTypes.func
+}
+
+export default Account
