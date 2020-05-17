@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd'
+import { requsetProfile } from '../../api/baseApi'
 import Header from '../../components/Header'
 import Banner from '../../components/Banner'
 import FeedbackList from '../../components/FeedbackList'
@@ -17,6 +18,14 @@ class Home extends Component {
 
   changeNickname = nickname => {
     this.setState({ nickname })
+  }
+
+  async componentDidMount () {
+    const { ok, result } = await requsetProfile()
+    if (ok) {
+      const { nickname } = result
+      this.setState({ nickname })
+    }
   }
 
   render () {

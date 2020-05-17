@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import menuConfig from './menuConfig'
+import Storage from '../../utils/Storage'
 import Account from '../Account'
 import './index.css'
 
@@ -29,8 +30,9 @@ class Header extends Component {
     this.accountModal.current.changeVisible()
   }
 
-  changeNickname = nickname => {
-    this.setState({ nickname })
+  logout = () => {
+    Storage.remove('userId')
+    this.props.changeNickname('')
   }
 
   render () {
@@ -38,7 +40,7 @@ class Header extends Component {
     const menu = (
       <Menu>
         <Item key='profile' icon={<UserOutlined />}>个人中心</Item>
-        <Item key='logout' icon={<LogoutOutlined />}>退出登录</Item>
+        <Item key='logout' icon={<LogoutOutlined />} onClick={this.logout}>退出登录</Item>
       </Menu>
     )
     return (
