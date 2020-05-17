@@ -35,9 +35,9 @@ class Account extends Component {
     } catch (err) { }
   }
 
-  handleLogin = async () => {
+  handleLogin = async (values) => {
     try {
-      const values = await this.form.current.validateFields()
+      values = values || await this.form.current.validateFields()
       const data = await requestLogin(values)
       const { ok, message: msg, result } = data
       if (ok) {
@@ -58,7 +58,7 @@ class Account extends Component {
       const { ok, message: msg } = await requestRegister(values)
       if (ok) {
         message.success('注册成功')
-        this.changeVisible()
+        this.handleLogin(values)
       } else {
         message.error(msg)
       }
