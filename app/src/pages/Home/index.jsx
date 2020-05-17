@@ -8,13 +8,25 @@ import './index.css'
 const { Content } = Layout
 
 class Home extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      nickname: ''
+    }
+  }
+
+  changeNickname = nickname => {
+    this.setState({ nickname })
+  }
+
   render () {
+    const { nickname } = this.state
     return (
       <Layout className='container'>
-        <Header />
+        <Header nickname={nickname} changeNickname={this.changeNickname} />
         <Content className='content'>
           <Banner />
-          <FeedbackList />
+          <FeedbackList nickname={nickname} />
         </Content>
       </Layout>
     )

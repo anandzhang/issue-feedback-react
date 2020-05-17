@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Button, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import menuConfig from './menuConfig'
 import Account from '../Account'
 import './index.css'
@@ -12,9 +13,6 @@ class Header extends Component {
     super(props)
     this.menu = this.getMenuItem()
     this.accountModal = React.createRef()
-    this.state = {
-      nickname: ''
-    }
   }
 
   getMenuItem = () => menuConfig.map(value => {
@@ -35,7 +33,7 @@ class Header extends Component {
   }
 
   render () {
-    const { nickname } = this.state
+    const { nickname, changeNickname } = this.props
     return (
       <Row className='header'>
         <Col span={6}>
@@ -47,11 +45,16 @@ class Header extends Component {
           {
             nickname || <Button type='link' onClick={this.showModal}>登录</Button>
           }
-          <Account ref={this.accountModal} changeNickname={this.changeNickname} />
+          <Account ref={this.accountModal} changeNickname={changeNickname} />
         </Col>
       </Row>
     )
   }
+}
+
+Header.propTypes = {
+  nickname: PropTypes.string,
+  changeNickname: PropTypes.func
 }
 
 export default Header
