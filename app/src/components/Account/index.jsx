@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, message, Button } from 'antd'
 import { requestRegister, requestLogin } from '../../api/baseApi'
+import Storage from '../../utils/Storage'
 import './index.css'
 
 const { Item } = Form
@@ -24,8 +25,12 @@ class Login extends Component {
   handleLogin = async () => {
     try {
       const values = await this.form.current.validateFields()
-      const { ok, message: msg } = await requestLogin(values)
+      const data = await requestLogin(values)
+      const { ok, message: msg, result } = data
       if (ok) {
+        const { user_id: userId, token } = result
+        Storage.saveMany({ userId, token })
+        message.success('登录成功')
         this.changeVisible()
       } else {
         message.error(msg)

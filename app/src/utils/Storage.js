@@ -3,6 +3,12 @@ export default class Storage {
     window.localStorage.setItem(key, value)
   }
 
+  static saveMany (obj) {
+    Object.entries(obj).map(value => {
+      this.save(value[0], value[1])
+    })
+  }
+
   static saveJSON (key, value) {
     window.localStorage.setItem(key, JSON.stringify(value))
   }
