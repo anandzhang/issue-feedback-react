@@ -7,6 +7,8 @@ options=('restart 重启服务'
   'app 进入项目容器'
   'ps 查看容器'
   'kill 停止并删除容器')
+uuid=ab21553e-574f-40b8-9801-1f547c6c7b38
+startInfo='Starting the development server'
 
 in_cyan() { echo -e "\e[1;36m$*\e[0m"; }
 
@@ -15,7 +17,21 @@ if [ $(curl -sI -w "%{http_code}" -o /dev/null ${backendUrl}) != '404' ]; then
 else
   if [ $# == 0 ]; then
     ${dockerCmd} up -d
-    in_cyan "\napp is running on http://localhost/"
+    echo '请稍等，容器正在安装需要的项目依赖，耗时较长...'
+    while true; do
+      logs=$(${dockerCmd} logs issue-feedback-react | grep ${uuid})
+      if [ -n "$logs" ]; then
+        echo '项目依赖安装完成，正在启动项目...'
+        while true; do
+          startLog=$(${dockerCmd} logs issue-feedback-react | grep "${startInfo}")
+          if [ -n "$startLog" ]; then
+            in_cyan "\napp is running on http://localhost/"
+            break 2
+          fi
+        done
+      fi
+      sleep 5
+    done
   else
     case $1 in
     'restart')
