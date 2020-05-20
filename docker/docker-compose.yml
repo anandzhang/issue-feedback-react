@@ -20,5 +20,5 @@ services:
     working_dir: /opt/app
     volumes:
       - ../app/:/opt/app
-    command: npm start
+    command: bash startup.sh
     stdin_open: true
