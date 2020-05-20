@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# 安装依赖、启动项目
 
 if [ ! -d 'node_modules' ]; then
   npm install
