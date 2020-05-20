@@ -1,10 +1,11 @@
 #!/bin/bash
 
 backendUrl='localhost:8923'
-dockerCmd='docker-compose -f ../docker/docker-compose.yml'
+dockerCmd='docker-compose -f docker/docker-compose.yml'
 options=('restart 重启服务'
   'web 进入Nginx容器'
   'app 进入项目容器'
+  'ps 查看容器'
   'kill 停止并删除容器')
 
 in_cyan() { echo -e "\e[1;36m$*\e[0m"; }
@@ -21,10 +22,13 @@ else
       ${dockerCmd} restart
       ;;
     'web')
-      ${dockerCmd} up -d
+      ${dockerCmd} exec web bash
       ;;
     'app')
       ${dockerCmd} exec issue-feedback-react bash
+      ;;
+    'ps')
+      ${dockerCmd} ps
       ;;
     'kill')
       ${dockerCmd} down
