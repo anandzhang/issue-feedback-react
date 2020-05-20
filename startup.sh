@@ -10,6 +10,7 @@ readonly SCRIPT_HRLP=('restart 重启服务'
   'app 进入项目容器'
   'ps 查看容器'
   'logs 查看项目容器日志'
+  'follow 跟随查看容器日志'
   'kill 停止并删除容器')
 readonly FLAG_DEPENDENCY_INSTALLED='node_modules is installed'
 readonly FLAG_APP_STARTING='Starting the development server'
@@ -19,12 +20,14 @@ in_cyan() { echo -e "\e[1;36m$*\e[0m"; }
 startup_project() {
   $DOCKER_COMPOSE_CMD up -d
   echo '正在安装项目依赖，耗时较长，请稍等...'
+  echo '如果5分钟没有反应，请新开一个终端使用 follow 参数查看日志：'
+  echo 'bash startup.sh follow'
   while true; do
     if check_container_status "$FLAG_DEPENDENCY_INSTALLED"; then
       echo '依赖安装已安装，正在启动项目...'
       while true; do
         if check_container_status "$FLAG_APP_STARTING"; then
-          in_cyan '\n项目已运行： http://localhost/'
+          in_cyan '项目已运行： http://localhost/'
           break 2
         fi
       done
@@ -59,6 +62,9 @@ match_script_params() {
     ;;
   'logs')
     $DOCKER_COMPOSE_CMD logs $PROJECT_NAME
+    ;;
+  'follow')
+    $DOCKER_COMPOSE_CMD logs -f --tail 1 $PROJECT_NAME
     ;;
   'kill')
     $DOCKER_COMPOSE_CMD down
