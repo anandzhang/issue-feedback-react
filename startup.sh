@@ -7,7 +7,7 @@ options=('restart 重启服务'
   'app 进入项目容器'
   'ps 查看容器'
   'kill 停止并删除容器')
-uuid=ab21553e-574f-40b8-9801-1f547c6c7b38
+dependencyInfo='node_modules is installed'
 startInfo='Starting the development server'
 
 in_cyan() { echo -e "\e[1;36m$*\e[0m"; }
@@ -19,7 +19,7 @@ else
     ${dockerCmd} up -d
     echo '请稍等，容器正在安装需要的项目依赖，耗时较长...'
     while true; do
-      logs=$(${dockerCmd} logs issue-feedback-react | grep ${uuid})
+      logs=$(${dockerCmd} logs issue-feedback-react | grep ${dependencyInfo})
       if [ -n "$logs" ]; then
         echo '项目依赖安装完成，正在启动项目...'
         while true; do
@@ -28,6 +28,7 @@ else
             in_cyan "\napp is running on http://localhost/"
             break 2
           fi
+          sleep 3
         done
       fi
       sleep 5
