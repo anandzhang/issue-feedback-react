@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, InputNumber, Button, Row, Col, message } from 'antd'
+import PropTypes from 'prop-types'
 import { requestSendCode, requestRegister } from '../../api/baseApi'
 
 const { Item } = Form
 
 class RegisterModal extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.form = React.createRef()
     this.state = {
@@ -27,7 +28,6 @@ class RegisterModal extends Component {
 
   sendMailCode = async () => {
     const value = await this.form.current.validateFields(['account_id'])
-    console.log(value)
     const { ok, message: msg, result } = await requestSendCode(value)
     if (ok) {
       this.form.current.setFieldsValue(result)
@@ -39,18 +39,17 @@ class RegisterModal extends Component {
   handleRegister = async () => {
     try {
       const values = await this.form.current.validateFields()
-      console.log(values)
       const { ok, message: msg } = await requestRegister(values)
       if (ok) {
         message.success('注册成功')
-        this.handleLogin(values)
+        this.changeVisible()
       } else {
         message.error(msg)
       }
     } catch (err) { }
   }
 
-  render() {
+  render () {
     const { visible } = this.state
     return (
       <Modal
@@ -127,6 +126,10 @@ class RegisterModal extends Component {
       </Modal>
     )
   }
+}
+
+RegisterModal.propTypes = {
+  showLoginModal: PropTypes.func
 }
 
 export default RegisterModal

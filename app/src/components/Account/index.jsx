@@ -1,40 +1,25 @@
 import React, { Component, Fragment } from 'react'
-import { Modal, Form, Input, message, Button } from 'antd'
 import PropTypes from 'prop-types'
-import { requestRegister, requestLogin, requsetProfile } from '../../api/baseApi'
-import Storage from '../../utils/Storage'
-import './index.css'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
-
+import './index.css'
 
 class Account extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.loginModal = React.createRef()
     this.registerModal = React.createRef()
-  }
-
-  getProfile = async () => {
-    try {
-      const { ok, message: msg, result } = await requsetProfile()
-      if (ok) {
-        const { nickname } = result
-        this.props.changeNickname(nickname)
-      } else {
-        message.error(msg)
-      }
-    } catch (err) { }
   }
 
   showLoginModal = () => this.loginModal.current.changeVisible()
 
   showRegisterModal = () => this.registerModal.current.changeVisible()
 
-  render() {
+  render () {
+    const { changeNickname } = this.props
     return (
       <Fragment>
-        <LoginModal ref={this.loginModal} showRegisterModal={this.showRegisterModal} />
+        <LoginModal ref={this.loginModal} showRegisterModal={this.showRegisterModal} changeNickname={changeNickname} />
         <RegisterModal ref={this.registerModal} showLoginModal={this.showLoginModal} />
       </Fragment>
     )

@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Button, message } from 'antd'
-import { requestLogin } from '../../api/baseApi'
+import PropTypes from 'prop-types'
+import { requestLogin, requsetProfile } from '../../api/baseApi'
+import Storage from '../../utils/Storage'
 
 const { Item } = Form
 
 class LoginModal extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.form = React.createRef()
     this.state = {
@@ -25,12 +27,11 @@ class LoginModal extends Component {
     showRegisterModal()
   }
 
-  handleLogin = async (values) => {
+  handleLogin = async () => {
     try {
-      values = values || await this.form.current.validateFields()
+      const values = await this.form.current.validateFields()
       const data = await requestLogin(values)
       const { ok, message: msg, result } = data
-      console.log(data)
       if (ok) {
         const { user_id: userId, token } = result
         Storage.saveMany({ userId, token })
@@ -43,7 +44,19 @@ class LoginModal extends Component {
     } catch (err) { }
   }
 
-  render() {
+  getProfile = async () => {
+    try {
+      const { ok, message: msg, result } = await requsetProfile()
+      if (ok) {
+        const { nickname } = result
+        this.props.changeNickname(nickname)
+      } else {
+        message.error(msg)
+      }
+    } catch (err) { }
+  }
+
+  render () {
     const { visible } = this.state
     return (
       <Modal
@@ -98,6 +111,11 @@ class LoginModal extends Component {
       </Modal>
     )
   }
+}
+
+LoginModal.propTypes = {
+  showRegisterModal: PropTypes.func,
+  changeNickname: PropTypes.func
 }
 
 export default LoginModal
