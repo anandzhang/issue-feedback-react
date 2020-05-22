@@ -13,15 +13,16 @@ readonly SCRIPT_HRLP=('restart 重启服务'
   'follow 跟随查看容器日志'
   'kill 停止并删除容器')
 readonly FLAG_DEPENDENCY_INSTALLED='node_modules is installed'
-readonly FLAG_APP_STARTING='Starting the development server'
+readonly FLAG_APP_STARTING='Compiled'
 
 in_cyan() { echo -e "\e[1;36m$*\e[0m"; }
 
 startup_project() {
   $DOCKER_COMPOSE_CMD up -d
   echo '正在安装项目依赖，耗时较长，请稍等...'
-  echo '如果5分钟没有反应，请新开一个终端使用 follow 参数查看日志：'
-  echo 'bash startup.sh follow'
+  echo '如果5分钟没有反应，请新开一个终端查看日志：'
+  echo "  1. bash startup.sh logs 查看日志"
+  echo "  2. bash startup.sh follow 跟随日志尾行"
   while true; do
     if check_container_status "$FLAG_DEPENDENCY_INSTALLED"; then
       echo '依赖安装已安装，正在启动项目...'
@@ -46,10 +47,25 @@ check_container_status() {
   fi
 }
 
+delete_flag_app_starting() {
+  echo "请求删除容器日志中以前的项目启动标识行，以便检测项目运行状态"
+  local log_path
+  log_path="$(docker inspect -f '{{.LogPath}}' "docker_$1_1")"
+  sudo sed -i "/$FLAG_APP_STARTING/d" "$log_path"
+}
+
 match_script_params() {
   case $1 in
   'restart')
+    delete_flag_app_starting $PROJECT_NAME
     $DOCKER_COMPOSE_CMD restart
+    echo '正在启动项目...'
+    while true; do
+      if check_container_status "$FLAG_APP_STARTING"; then
+        in_cyan '项目已运行： http://localhost/'
+        break
+      fi
+    done
     ;;
   'web')
     $DOCKER_COMPOSE_CMD exec web bash
