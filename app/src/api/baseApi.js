@@ -4,6 +4,10 @@ import { ACCOUNT_URL, PROFILE_URL } from './config'
 
 axios.interceptors.response.use(response => response.data)
 
+export const requestSendCode = async data => {
+  return await axios.post(ACCOUNT_URL.SEND_CODE, data)
+}
+
 export const requestRegister = async data => {
   return await axios.post(ACCOUNT_URL.REGISTER, data)
 }
