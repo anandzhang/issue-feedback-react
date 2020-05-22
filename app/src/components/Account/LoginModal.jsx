@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Form, Input, Button,message } from 'antd'
+import { Modal, Form, Input, Button, message } from 'antd'
 import { requestLogin } from '../../api/baseApi'
 
 const { Item } = Form
@@ -17,6 +17,12 @@ class LoginModal extends Component {
     this.setState({
       visible: !this.state.visible
     })
+  }
+
+  showRegisterModal = () => {
+    const { showRegisterModal } = this.props
+    this.changeVisible()
+    showRegisterModal()
   }
 
   handleLogin = async (values) => {
@@ -82,7 +88,7 @@ class LoginModal extends Component {
             没有账号？去
             <Button
               type='link'
-              onClick={this.changeMode}
+              onClick={this.showRegisterModal}
               className='no-padding'
             >
               注册

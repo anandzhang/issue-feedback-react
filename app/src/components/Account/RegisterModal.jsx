@@ -19,6 +19,12 @@ class RegisterModal extends Component {
     })
   }
 
+  showLoginModal = () => {
+    const { showLoginModal } = this.props
+    this.changeVisible()
+    showLoginModal()
+  }
+
   sendMailCode = async () => {
     const value = await this.form.current.validateFields(['account_id'])
     console.log(value)
@@ -111,7 +117,7 @@ class RegisterModal extends Component {
             已有账号？去
             <Button
               type='link'
-              onClick={this.changeMode}
+              onClick={this.showLoginModal}
               className='no-padding'
             >
               登录

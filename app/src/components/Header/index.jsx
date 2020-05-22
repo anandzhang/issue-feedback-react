@@ -26,9 +26,7 @@ class Header extends Component {
     )
   })
 
-  showModal = () => {
-    this.accountModal.current.changeVisible()
-  }
+  showLoginModal = () => this.accountModal.current.showLoginModal()
 
   logout = () => {
     Storage.remove('userId')
@@ -58,7 +56,7 @@ class Header extends Component {
                   <Button type='link'>{nickname}</Button>
                 </Dropdown>
               )
-              : <Button type='link' onClick={this.showModal}>登录</Button>
+              : <Button type='link' onClick={this.showLoginModal}>登录</Button>
           }
           <Account ref={this.accountModal} changeNickname={changeNickname} />
         </Col>
