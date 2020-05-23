@@ -17,7 +17,11 @@ export default class Storage {
     return window.localStorage.getItem(key)
   }
 
-  static remove (key) {
+  static delete (key) {
     window.localStorage.removeItem(key)
+  }
+
+  static deleteMany (arr) {
+    arr.forEach(value => this.delete(value))
   }
 }

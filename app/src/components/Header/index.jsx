@@ -29,8 +29,9 @@ class Header extends Component {
   showLoginModal = () => this.accountModal.current.showLoginModal()
 
   logout = () => {
-    Storage.remove('userId')
+    Storage.deleteMany(['userId', 'roleId', 'roken'])
     this.props.changeNickname('')
+    this.props.history.push('/')
   }
 
   render () {
