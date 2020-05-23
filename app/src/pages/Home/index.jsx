@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
 import { requsetProfile } from '../../api/baseApi'
 import Header from '../../components/Header'
@@ -35,13 +35,11 @@ class Home extends Component {
       <Layout className='container'>
         <Header nickname={nickname} changeNickname={this.changeNickname} />
         <Content className='content'>
-          <BrowserRouter>
-            <Switch>
-              <Route exact path='/' state={nickname} component={Feedback} />
-              <Route path='/profile' component={Profile} />
-              <Redirect to='/' />
-            </Switch>
-          </BrowserRouter>
+          <Switch>
+            <Route exact path='/' component={Feedback} />
+            <Route path='/profile' component={Profile} />
+            <Redirect to='/' />
+          </Switch>
         </Content>
       </Layout>
     )

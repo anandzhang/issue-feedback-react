@@ -7,18 +7,22 @@ import Storage from '../../utils/Storage'
 import { message } from 'antd'
 
 class Profile extends Component {
+  state = {
+    content: <div></div>
+  }
+
   roleId = Storage.get('roleId')
 
   componentDidMount () {
     switch (this.roleId) {
       case 'USER':
-        this.content = <User />
+        this.setState({ content: <User /> })
         break
       case 'MANAGER':
-        this.content = <Manager />
+        this.setState({ content: <Manager /> })
         break
       case 'DEVELOPER':
-        this.content = <Developer />
+        this.setState({ content: <Developer /> })
         break
       default:
         message.error('没有你的角色信息')
@@ -27,12 +31,13 @@ class Profile extends Component {
   }
 
   render () {
-    return <Fragment>{this.content}</Fragment>
+    const { content } = this.state
+    return <Fragment>{content}</Fragment>
   }
 }
 
 Profile.propTypes = {
-  history: PropTypes.func
+  history: PropTypes.object
 }
 
 export default Profile

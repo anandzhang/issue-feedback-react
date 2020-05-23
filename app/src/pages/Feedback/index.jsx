@@ -10,7 +10,7 @@ class Feedback extends Component {
     return (
       <div>
         <Banner />
-        <FeedbackList nickname={''} />
+        <FeedbackList />
       </div>
     )
   }

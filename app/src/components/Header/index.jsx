@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Menu, Button, Row, Col, Dropdown } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import menuConfig from './menuConfig'
@@ -37,8 +37,20 @@ class Header extends Component {
     const { nickname, changeNickname } = this.props
     const menu = (
       <Menu>
-        <Item key='profile' icon={<UserOutlined />}>个人中心</Item>
-        <Item key='logout' icon={<LogoutOutlined />} onClick={this.logout}>退出登录</Item>
+        <Item
+          key='profile'
+          icon={<UserOutlined />}
+          onClick={() => this.props.history.push('/profile')}
+        >
+          个人中心
+        </Item>
+        <Item
+          key='logout'
+          icon={<LogoutOutlined />}
+          onClick={this.logout}
+        >
+          退出登录
+        </Item>
       </Menu>
     )
     return (
@@ -67,7 +79,8 @@ class Header extends Component {
 
 Header.propTypes = {
   nickname: PropTypes.string,
-  changeNickname: PropTypes.func
+  changeNickname: PropTypes.func,
+  history: PropTypes.object
 }
 
-export default Header
+export default withRouter(Header)
