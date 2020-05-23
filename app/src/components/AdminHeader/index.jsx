@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Avatar, Row, Col } from 'antd'
 
-class AdminHeader extends Component {
+class Header extends Component {
   render () {
     return (
       <Row justify='end' style={{ backgroundColor: '#fff', padding: 8 }}>
@@ -17,4 +17,4 @@ class AdminHeader extends Component {
   }
 }
 
-export default AdminHeader
+export default Header
