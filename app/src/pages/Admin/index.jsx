@@ -13,7 +13,7 @@ const { Sider, Content } = Layout
 class Admin extends Component {
   render () {
     return (
-      <Layout>
+      <Layout style={{ height: '100vh' }}>
         <Sider theme='light'><SiderMenu /></Sider>
         <Layout>
           <Header />

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Button, Row, Col, Dropdown } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
+import { UserOutlined, LogoutOutlined, ControlOutlined } from '@ant-design/icons'
 import menuConfig from './menuConfig'
 import Storage from '../../utils/Storage'
 import Account from '../Account'
@@ -44,6 +44,13 @@ class Header extends Component {
           onClick={() => this.props.history.push('/profile')}
         >
           个人中心
+        </Item>
+        <Item
+          key='admin'
+          icon={<ControlOutlined />}
+          onClick={() => this.props.history.push('/admin')}
+        >
+          后台管理
         </Item>
         <Item
           key='logout'
