@@ -62,7 +62,7 @@ class Layout extends Component {
 Layout.propTypes = {
   profile: PropTypes.object,
   tabList: PropTypes.array,
-  contentList: PropTypes.array
+  contentList: PropTypes.object
 }
 
 export default Layout
