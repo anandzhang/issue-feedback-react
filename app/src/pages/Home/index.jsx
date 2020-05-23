@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
 import { requsetProfile } from '../../api/baseApi'
 import Header from '../../components/Header'
-import Banner from '../../components/Banner'
-import FeedbackList from '../../components/FeedbackList'
+import Feedback from '../Feedback'
+import Profile from '../Profile'
 import './index.css'
 
 const { Content } = Layout
 
 class Home extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       nickname: ''
@@ -20,7 +21,7 @@ class Home extends Component {
     this.setState({ nickname })
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     const { ok, result } = await requsetProfile()
     if (ok) {
       const { nickname } = result
@@ -28,14 +29,19 @@ class Home extends Component {
     }
   }
 
-  render () {
+  render() {
     const { nickname } = this.state
     return (
       <Layout className='container'>
         <Header nickname={nickname} changeNickname={this.changeNickname} />
         <Content className='content'>
-          <Banner />
-          <FeedbackList nickname={nickname} />
+          <BrowserRouter>
+            <Switch>
+              <Route exact path='/' state={nickname} component={Feedback} />
+              <Route path='/profile' component={Profile} />
+              <Redirect to='/' />
+            </Switch>
+          </BrowserRouter>
         </Content>
       </Layout>
     )
