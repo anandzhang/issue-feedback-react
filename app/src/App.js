@@ -7,8 +7,8 @@ function App () {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' component={Home} />
         <Route path='/admin' component={Admin} />
+        <Route path='/' component={Home} />
         <Redirect to='/' />
       </Switch>
     </BrowserRouter>
