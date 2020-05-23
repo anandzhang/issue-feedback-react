@@ -33,8 +33,8 @@ class LoginModal extends Component {
       const data = await requestLogin(values)
       const { ok, message: msg, result } = data
       if (ok) {
-        const { user_id: userId, token } = result
-        Storage.saveMany({ userId, token })
+        const { user_id: userId, role_id: roleId, token } = result
+        Storage.saveMany({ userId, roleId, token })
         message.success('登录成功')
         this.getProfile()
         this.changeVisible()

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
 import { requsetProfile } from '../../api/baseApi'
 import Header from '../../components/Header'
-import Banner from '../../components/Banner'
-import FeedbackList from '../../components/FeedbackList'
+import Feedback from '../Feedback'
+import Profile from '../Profile'
 import './index.css'
 
 const { Content } = Layout
@@ -34,8 +35,11 @@ class Home extends Component {
       <Layout className='container'>
         <Header nickname={nickname} changeNickname={this.changeNickname} />
         <Content className='content'>
-          <Banner />
-          <FeedbackList nickname={nickname} />
+          <Switch>
+            <Route exact path='/' component={Feedback} />
+            <Route path='/profile' component={Profile} />
+            <Redirect to='/' />
+          </Switch>
         </Content>
       </Layout>
     )
