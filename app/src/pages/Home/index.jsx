@@ -10,7 +10,7 @@ import './index.css'
 const { Content } = Layout
 
 class Home extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       nickname: ''
@@ -21,7 +21,7 @@ class Home extends Component {
     this.setState({ nickname })
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     const { ok, result } = await requsetProfile()
     if (ok) {
       const { nickname } = result
@@ -29,7 +29,7 @@ class Home extends Component {
     }
   }
 
-  render() {
+  render () {
     const { nickname } = this.state
     return (
       <Layout className='container'>
