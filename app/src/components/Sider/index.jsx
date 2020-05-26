@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu } from 'antd'
 import menuConfig from './menuConfig'
-import { SubMenu } from 'rc-menu'
 
-const { Item } = Menu
+const { Item, SubMenu } = Menu
 
 class Sider extends Component {
   constructor (props) {

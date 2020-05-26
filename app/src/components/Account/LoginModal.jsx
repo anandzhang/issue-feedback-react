@@ -34,16 +34,16 @@ class LoginModal extends Component {
       const { user_id: userId, role_id: roleId, token } = result
       Storage.saveMany({ userId, roleId, token })
       message.success('登录成功')
-      this.getProfile()
+      this.getProfile(userId)
       this.changeVisible()
     } catch (err) {
       message.error(err)
     }
   }
 
-  getProfile = async () => {
+  getProfile = async userId => {
     try {
-      const { nickname } = await requsetProfile()
+      const { nickname } = await requsetProfile(userId)
       this.props.changeNickname(nickname)
     } catch (err) {
       message.error(err)
