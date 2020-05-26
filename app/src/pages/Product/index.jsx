@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Button, message, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 import { requestProductList } from '../../api/base'
 import AddModal from './AddModal'
 
@@ -15,7 +17,8 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'created_at'
+    dataIndex: 'created_at',
+    render: date => moment(date).locale('zh-cn').fromNow()
   },
   {
     title: '创建人',
@@ -67,7 +70,7 @@ class Product extends Component {
           columns={columns}
           rowKey='product_id'
         />
-        <AddModal ref={this.addModal} />
+        <AddModal ref={this.addModal} getProducts={this.getProducts} />
       </Card>
     )
   }

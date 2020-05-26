@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Modal, Form, Input, message } from 'antd'
 import { requestCreateProduct } from '../../api/base'
 
@@ -20,11 +21,13 @@ class AddModal extends Component {
   }
 
   addProduct = async () => {
+    const { getProducts } = this.props
     const { validateFields, resetFields } = this.form.current
     try {
       const values = await validateFields()
       await requestCreateProduct(values)
       message.success('添加成功')
+      getProducts()
       resetFields()
       this.changeVisible()
     } catch (err) {
@@ -66,6 +69,10 @@ class AddModal extends Component {
       </Modal>
     )
   }
+}
+
+AddModal.propTypes = {
+  getProducts: PropTypes.func
 }
 
 export default AddModal
