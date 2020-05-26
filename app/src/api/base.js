@@ -18,14 +18,16 @@ export const requsetProfile = userId => {
   config[0] = config[0].replace('<user_id>', userId)
   return Api.request(...config)
 }
-
 export const requestUpdateProfile = async data => {
   const userId = Storage.get('userId')
   return Api.request(...PROFILE.UPDATE, { user_id: userId, ...data })
 }
 
 // Product Request
-export const requestCreateProduct = () => {}
+export const requestCreateProduct = data => {
+  const userId = Storage.get('userId')
+  return Api.request(...PRODUCT.CREATE, { manager_id: userId, ...data })
+}
 export const requestProductList = () => Api.request(...PRODUCT.LIST)
 
 // service API 暂用于测试

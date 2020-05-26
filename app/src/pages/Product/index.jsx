@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, Button, message, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { requestProductList } from '../../api/base'
+import AddModal from './AddModal'
 
 const columns = [
   {
@@ -23,8 +24,12 @@ const columns = [
 ]
 
 class Product extends Component {
-  state = {
-    products: []
+  constructor (props) {
+    super(props)
+    this.addModal = React.createRef()
+    this.state = {
+      products: []
+    }
   }
 
   getProducts = async () => {
@@ -36,6 +41,8 @@ class Product extends Component {
     }
   }
 
+  showAddModal = () => this.addModal.current.changeVisible()
+
   componentDidMount () {
     this.getProducts()
   }
@@ -45,13 +52,22 @@ class Product extends Component {
     return (
       <Card
         title='产品管理'
-        extra={<Button type='primary' icon={<PlusOutlined />}>添加产品</Button>}
+        extra={
+          <Button
+            type='primary'
+            icon={<PlusOutlined />}
+            onClick={this.showAddModal}
+          >
+            添加产品
+          </Button>
+        }
       >
         <Table
           dataSource={products}
           columns={columns}
           rowKey='product_id'
         />
+        <AddModal ref={this.addModal} />
       </Card>
     )
   }
