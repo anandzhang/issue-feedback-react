@@ -25,6 +25,12 @@ export const requestUpdateProfile = async data => {
   return Api.request(...PROFILE.UPDATE, { user_id: userId, ...data })
 }
 axios.interceptors.response.use(response => response.data)
+export const testFeedbackList = () => {
+  return axios.get('/feedback.json')
+}
+export const testFixedList = data => {
+  return axios.get('/fixed.json')
+}
 export const testSendCode = data => {
   return axios.post('/api/service/v1/account/send_code', data)
 }
