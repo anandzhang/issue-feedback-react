@@ -3,6 +3,7 @@ import { Card, Avatar, Row, Col, Button, List, Statistic } from 'antd'
 import PropTypes from 'prop-types'
 import './index.css'
 import { testFeedbackList, testFixedList } from '../../api/base'
+import AddModal from './AddModal'
 
 const { Meta } = Card
 
@@ -77,6 +78,7 @@ class FeedbackList extends Component {
             </Card>
           </Col>
         </Row>
+        <AddModal />
       </div>
     )
   }
