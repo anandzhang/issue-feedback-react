@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Avatar, Row, Col, Button, List, Statistic } from 'antd'
+import { Card, Avatar, Row, Col, Button, List, Statistic, message } from 'antd'
 import PropTypes from 'prop-types'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 import './index.css'
-import { testFeedbackList, testFixedList } from '../../api/base'
+import { requestFeedbackList, requestProductList } from '../../api/base'
 import AddModal from './AddModal'
 
 const { Meta } = Card
@@ -12,19 +14,48 @@ class FeedbackList extends Component {
     super(props)
     this.addModal = React.createRef()
     this.state = {
+      products: [],
       feedback: [],
       fixed: []
     }
   }
 
+  getProducts = async () => {
+    try {
+      const { products } = await requestProductList()
+      this.setState({ products }, () => {
+        this.getFeedback()
+        this.getFixed()
+      })
+    } catch (err) {
+      message.error(err)
+    }
+  }
+
   getFeedback = async () => {
-    const data = await testFeedbackList()
-    this.setState({ feedback: data })
+    const { products } = this.state
+    try {
+      const { issues } = await requestFeedbackList({
+        product_id: products[0].product_id,
+        status: 'opening'
+      })
+      this.setState({ feedback: issues })
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   getFixed = async () => {
-    const data = await testFixedList()
-    this.setState({ fixed: data })
+    const { products } = this.state
+    try {
+      const { issues } = await requestFeedbackList({
+        product_id: products[0].product_id,
+        status: 'closed'
+      })
+      this.setState({ fixed: issues })
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   showAddModal = () => {
@@ -32,35 +63,37 @@ class FeedbackList extends Component {
   }
 
   componentDidMount () {
-    this.getFeedback()
-    this.getFixed()
+    this.getProducts()
   }
 
   renderFeedback = () => {
     const { feedback } = this.state
     return feedback.map(value => {
+      const { issue_id: id, title, description, created_at: time } = value
       const avatar = (
         <Avatar
           shape='square'
           size='large'
-          src={value.avatar}
-          alt={`${value.nickname}-avatar`}
+          // TODO: 后端暂无头像字段
+          src='https://anand-app.oss-cn-beijing.aliyuncs.com/avatar/1.jpg'
+          alt='avatar'
         />
       )
       return (
-        <Card key={value.id} className='feedback-item'>
+        <Card key={id} className='feedback-item'>
           <Meta
             avatar={avatar}
-            title={value.nickname}
-            description={value.content}
+            title={title}
+            description={description}
           />
+          {moment(time).locale('zh-cn').fromNow()}
         </Card>
       )
     })
   }
 
   render () {
-    const { fixed } = this.state
+    const { products, fixed } = this.state
     const { nickname } = this.props
     const statistic = (
       <Row gutter={16}>
@@ -86,7 +119,7 @@ class FeedbackList extends Component {
             </Card>
           </Col>
         </Row>
-        <AddModal ref={this.addModal} />
+        <AddModal ref={this.addModal} products={products} />
       </div>
     )
   }

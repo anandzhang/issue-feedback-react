@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Modal, Form, Input, Select, message } from 'antd'
-import { requestProductList, requestCreateFeedback } from '../../api/base'
+import { requestCreateFeedback } from '../../api/base'
 
 const { Item } = Form
 const { Option } = Select
@@ -10,8 +11,7 @@ class AddModal extends Component {
     super(props)
     this.form = React.createRef()
     this.state = {
-      visible: false,
-      products: []
+      visible: false
     }
   }
 
@@ -34,21 +34,9 @@ class AddModal extends Component {
     }
   }
 
-  getProducts = async () => {
-    try {
-      const { products } = await requestProductList()
-      this.setState({ products })
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
-  componentDidMount () {
-    this.getProducts()
-  }
-
   render () {
-    const { visible, products } = this.state
+    const { visible } = this.state
+    const { products } = this.props
     return (
       <Modal
         title='用户反馈'
@@ -83,6 +71,10 @@ class AddModal extends Component {
       </Modal>
     )
   }
+}
+
+AddModal.propTypes = {
+  products: PropTypes.array
 }
 
 export default AddModal

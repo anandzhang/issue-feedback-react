@@ -36,6 +36,12 @@ export const requestCreateFeedback = data => {
   const userId = Storage.get('userId')
   return Api.request(...FEEDBACK.CREATE, { owner_id: userId, ...data })
 }
+export const requestFeedbackList = data => {
+  const config = FEEDBACK.LIST
+  config[0] = config[0].replace('<product_id>', data.product_id)
+  delete data.product_id
+  return Api.request(...config, data)
+}
 
 // service API 暂用于测试
 axios.interceptors.response.use(response => response.data)
