@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Button, message } from 'antd'
 import PropTypes from 'prop-types'
-import { requestLogin, requsetProfile } from '../../api/baseApi'
+import { requestLogin, requsetProfile } from '../../api/base'
 import Storage from '../../utils/Storage'
 
 const { Item } = Form

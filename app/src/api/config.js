@@ -1,15 +1,26 @@
 export const SERVER_URL = '/api/v1'
 
-const createURL = path => `${SERVER_URL}${path}`
+const config = (url, method = 'GET') => ({ url, method })
 
-export const ACCOUNT_URL = {
-  // TODO: /service/v1 为服务端内部API 暂用于测试
-  SEND_CODE: '/api/service/v1/account/send_code',
-  REGISTER: createURL('/account'),
-  LOGIN: createURL('/login')
+export const ACCOUNT = {
+  SEND_CODE: config('/account/send_code', 'POST'),
+  REGISTER: config('/account', 'POST'),
+  LOGIN: config('/login', 'POST')
 }
 
-export const PROFILE_URL = {
-  GET: createURL('/profile'),
-  UPDATE: createURL('/profile')
+export const PROFILE = {
+  GET: config('/profile'),
+  UPDATE: config('/profile/<user_id>', 'PUT')
+}
+
+export const FEEDBACK = {
+  CREATE: config('/issue', 'POST'),
+  VOTE: config('/issue/<issue_id>/user/<user_id>/vote', 'PUT'),
+  LIST: config('/issue/product/<product_id>/opening')
+}
+
+export const PRODUCT = {
+  CREATE: config('/product', 'POST'),
+  LIST: config('/products'),
+  LIST_BY_MANAGER: config('/product/manager/<manager_id>')
 }
