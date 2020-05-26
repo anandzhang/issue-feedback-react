@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Button, message } from 'antd'
 import PropTypes from 'prop-types'
-import { requestLogin, requsetProfile } from '../../api/baseApi'
+import { requestLogin, requsetProfile } from '../../api/base'
 import Storage from '../../utils/Storage'
 
 const { Item } = Form
@@ -30,30 +30,24 @@ class LoginModal extends Component {
   handleLogin = async () => {
     try {
       const values = await this.form.current.validateFields()
-      const data = await requestLogin(values)
-      const { ok, message: msg, result } = data
-      if (ok) {
-        const { user_id: userId, role_id: roleId, token } = result
-        Storage.saveMany({ userId, roleId, token })
-        message.success('登录成功')
-        this.getProfile()
-        this.changeVisible()
-      } else {
-        message.error(msg)
-      }
-    } catch (err) { }
+      const result = await requestLogin(values)
+      const { user_id: userId, role_id: roleId, token } = result
+      Storage.saveMany({ userId, roleId, token })
+      message.success('登录成功')
+      this.getProfile(userId)
+      this.changeVisible()
+    } catch (err) {
+      message.error(err)
+    }
   }
 
-  getProfile = async () => {
+  getProfile = async userId => {
     try {
-      const { ok, message: msg, result } = await requsetProfile()
-      if (ok) {
-        const { nickname } = result
-        this.props.changeNickname(nickname)
-      } else {
-        message.error(msg)
-      }
-    } catch (err) { }
+      const { nickname } = await requsetProfile(userId)
+      this.props.changeNickname(nickname)
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   render () {

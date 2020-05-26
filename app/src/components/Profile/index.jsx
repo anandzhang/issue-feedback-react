@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Radio, Upload, Button, message } from 'antd'
-import { requestUpdateProfile } from '../../api/baseApi'
+import { requestUpdateProfile } from '../../api/base'
 
 const { Item } = Form
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, InputNumber, Button, Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
-import { requestSendCode, requestRegister } from '../../api/baseApi'
+import { testSendCode, requestRegister } from '../../api/base'
 
 const { Item } = Form
 
@@ -27,26 +27,26 @@ class RegisterModal extends Component {
   }
 
   sendMailCode = async () => {
-    const value = await this.form.current.validateFields(['account_id'])
-    const { ok, message: msg, result } = await requestSendCode(value)
-    if (ok) {
+    try {
+      const value = await this.form.current.validateFields(['account_id'])
+      // TODO: 使用了测试API
+      const data = await testSendCode(value)
+      const { result } = data
       this.form.current.setFieldsValue(result)
-    } else {
-      message.error(msg)
+    } catch (err) {
+      message.error(err)
     }
   }
 
   handleRegister = async () => {
     try {
       const values = await this.form.current.validateFields()
-      const { ok, message: msg } = await requestRegister(values)
-      if (ok) {
-        message.success('注册成功')
-        this.changeVisible()
-      } else {
-        message.error(msg)
-      }
-    } catch (err) { }
+      await requestRegister(values)
+      message.success('注册成功')
+      this.changeVisible()
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   render () {
