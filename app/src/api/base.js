@@ -1,11 +1,10 @@
 import Api from './Api'
 import {
   ACCOUNT,
-  PROFILE
+  PROFILE,
+  PRODUCT
 } from './config'
 import Storage from '../utils/Storage'
-
-// service API 暂用于测试
 import axios from 'axios'
 
 // Account Request
@@ -24,6 +23,12 @@ export const requestUpdateProfile = async data => {
   const userId = Storage.get('userId')
   return Api.request(...PROFILE.UPDATE, { user_id: userId, ...data })
 }
+
+// Product Request
+export const requestCreateProduct = () => {}
+export const requestProductList = () => Api.request(...PRODUCT.LIST)
+
+// service API 暂用于测试
 axios.interceptors.response.use(response => response.data)
 export const testFeedbackList = () => {
   return axios.get('/feedback.json')
