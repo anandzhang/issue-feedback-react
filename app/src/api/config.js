@@ -1,6 +1,6 @@
 export const SERVER_URL = '/api/v1'
 
-const config = (url, method = 'GET') => ({ url, method })
+const config = (url, method = 'GET') => [url, method]
 
 export const ACCOUNT = {
   SEND_CODE: config('/account/send_code', 'POST'),
@@ -9,7 +9,7 @@ export const ACCOUNT = {
 }
 
 export const PROFILE = {
-  GET: config('/profile'),
+  GET: config('/profile/<user_id>'),
   UPDATE: config('/profile/<user_id>', 'PUT')
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Avatar, Row, Col, Button, List, Statistic } from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 import './index.css'
 
 const { Meta } = Card
@@ -13,12 +12,14 @@ class FeedbackList extends Component {
   }
 
   getFeedback = async () => {
-    const data = await axios.get('/feedback.json')
+    // const data = await axios.get('/feedback.json')
+    const data = []
     this.setState({ feedback: data })
   }
 
   getFixed = async () => {
-    const data = await axios.get('/fixed.json')
+    // const data = await axios.get('/fixed.json')
+    const data = []
     this.setState({ fixed: data })
   }
 

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
-import { requsetProfile } from '../../api/baseApi'
+import { requsetProfile } from '../../api/base'
 import Header from '../../components/Header'
 import Feedback from '../Feedback'
 import Profile from '../Profile'
 import './index.css'
+import Storage from '../../utils/Storage'
 
 const { Content } = Layout
 
@@ -22,8 +23,9 @@ class Home extends Component {
   }
 
   async componentDidMount () {
-    const { ok, result } = await requsetProfile()
-    if (ok) {
+    const userId = Storage.get('userId')
+    if (userId) {
+      const result = await requsetProfile(userId)
       const { nickname } = result
       this.setState({ nickname })
     }

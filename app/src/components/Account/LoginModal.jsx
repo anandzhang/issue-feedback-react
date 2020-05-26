@@ -30,30 +30,24 @@ class LoginModal extends Component {
   handleLogin = async () => {
     try {
       const values = await this.form.current.validateFields()
-      const data = await requestLogin(values)
-      const { ok, message: msg, result } = data
-      if (ok) {
-        const { user_id: userId, role_id: roleId, token } = result
-        Storage.saveMany({ userId, roleId, token })
-        message.success('登录成功')
-        this.getProfile()
-        this.changeVisible()
-      } else {
-        message.error(msg)
-      }
-    } catch (err) { }
+      const result = await requestLogin(values)
+      const { user_id: userId, role_id: roleId, token } = result
+      Storage.saveMany({ userId, roleId, token })
+      message.success('登录成功')
+      this.getProfile()
+      this.changeVisible()
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   getProfile = async () => {
     try {
-      const { ok, message: msg, result } = await requsetProfile()
-      if (ok) {
-        const { nickname } = result
-        this.props.changeNickname(nickname)
-      } else {
-        message.error(msg)
-      }
-    } catch (err) { }
+      const { nickname } = await requsetProfile()
+      this.props.changeNickname(nickname)
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   render () {
