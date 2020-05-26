@@ -34,27 +34,35 @@ class FeedbackList extends Component {
 
   getFeedback = async () => {
     const { products } = this.state
-    try {
-      const { issues } = await requestFeedbackList({
-        product_id: products[0].product_id,
-        status: 'opening'
-      })
-      this.setState({ feedback: issues })
-    } catch (err) {
-      message.error(err)
+    if (products.length !== 0) {
+      try {
+        const { issues } = await requestFeedbackList({
+          product_id: products[0].product_id,
+          status: 'opening'
+        })
+        this.setState({ feedback: issues })
+      } catch (err) {
+        message.error(err)
+      }
+    } else {
+      message.error('没有任何产品')
     }
   }
 
   getFixed = async () => {
     const { products } = this.state
-    try {
-      const { issues } = await requestFeedbackList({
-        product_id: products[0].product_id,
-        status: 'closed'
-      })
-      this.setState({ fixed: issues })
-    } catch (err) {
-      message.error(err)
+    if (products.length !== 0) {
+      try {
+        const { issues } = await requestFeedbackList({
+          product_id: products[0].product_id,
+          status: 'closed'
+        })
+        this.setState({ fixed: issues })
+      } catch (err) {
+        message.error(err)
+      }
+    } else {
+      message.error('没有任何产品')
     }
   }
 
