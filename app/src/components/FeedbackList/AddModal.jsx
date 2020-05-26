@@ -22,11 +22,13 @@ class AddModal extends Component {
   }
 
   addFeedback = async () => {
+    const { getFeedback } = this.props
     const { validateFields, resetFields } = this.form.current
     try {
       const values = await validateFields()
       await requestCreateFeedback(values)
       message.success('反馈成功')
+      getFeedback()
       resetFields()
       this.changeVisible()
     } catch (err) {
@@ -74,7 +76,8 @@ class AddModal extends Component {
 }
 
 AddModal.propTypes = {
-  products: PropTypes.array
+  products: PropTypes.array,
+  getFeedback: PropTypes.func
 }
 
 export default AddModal

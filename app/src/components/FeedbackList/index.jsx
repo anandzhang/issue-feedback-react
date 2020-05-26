@@ -37,6 +37,7 @@ class FeedbackList extends Component {
     if (products.length !== 0) {
       try {
         const { issues } = await requestFeedbackList({
+          // TODO: 暂取第一个产品进行反馈数据渲染
           product_id: products[0].product_id,
           status: 'opening'
         })
@@ -54,6 +55,7 @@ class FeedbackList extends Component {
     if (products.length !== 0) {
       try {
         const { issues } = await requestFeedbackList({
+          // TODO: 暂取第一个产品进行反馈数据渲染
           product_id: products[0].product_id,
           status: 'closed'
         })
@@ -127,7 +129,7 @@ class FeedbackList extends Component {
             </Card>
           </Col>
         </Row>
-        <AddModal ref={this.addModal} products={products} />
+        <AddModal ref={this.addModal} products={products} getFeedback={this.getFeedback} />
       </div>
     )
   }
