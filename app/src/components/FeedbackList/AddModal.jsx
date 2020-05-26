@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Select, message } from 'antd'
-import { requestProductList } from '../../api/base'
+import { requestProductList, requestCreateFeedback } from '../../api/base'
 
 const { Item } = Form
 const { Option } = Select
@@ -10,7 +10,7 @@ class AddModal extends Component {
     super(props)
     this.form = React.createRef()
     this.state = {
-      visible: true,
+      visible: false,
       products: []
     }
   }
@@ -22,8 +22,16 @@ class AddModal extends Component {
   }
 
   addFeedback = async () => {
-    // const values = await this.form.current.validateFields()
-    // console.log(values)
+    const { validateFields, resetFields } = this.form.current
+    try {
+      const values = await validateFields()
+      await requestCreateFeedback(values)
+      message.success('反馈成功')
+      resetFields()
+      this.changeVisible()
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   getProducts = async () => {

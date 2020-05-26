@@ -8,9 +8,13 @@ import AddModal from './AddModal'
 const { Meta } = Card
 
 class FeedbackList extends Component {
-  state = {
-    feedback: [],
-    fixed: []
+  constructor (props) {
+    super(props)
+    this.addModal = React.createRef()
+    this.state = {
+      feedback: [],
+      fixed: []
+    }
   }
 
   getFeedback = async () => {
@@ -21,6 +25,10 @@ class FeedbackList extends Component {
   getFixed = async () => {
     const data = await testFixedList()
     this.setState({ fixed: data })
+  }
+
+  showAddModal = () => {
+    this.addModal.current.changeVisible()
   }
 
   componentDidMount () {
@@ -68,7 +76,7 @@ class FeedbackList extends Component {
           <Col span={6}>
             <Card className='margin-t-10'>
               {nickname ? statistic : ''}
-              <Button type='primary' className='feedback-btn'>反馈一下</Button>
+              <Button type='primary' className='feedback-btn' onClick={this.showAddModal}>反馈一下</Button>
             </Card>
             <Card title='最新动态' className='margin-t-10'>
               <List
@@ -78,7 +86,7 @@ class FeedbackList extends Component {
             </Card>
           </Col>
         </Row>
-        <AddModal />
+        <AddModal ref={this.addModal} />
       </div>
     )
   }

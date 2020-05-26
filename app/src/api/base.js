@@ -2,7 +2,8 @@ import Api from './Api'
 import {
   ACCOUNT,
   PROFILE,
-  PRODUCT
+  PRODUCT,
+  FEEDBACK
 } from './config'
 import Storage from '../utils/Storage'
 import axios from 'axios'
@@ -29,6 +30,12 @@ export const requestCreateProduct = data => {
   return Api.request(...PRODUCT.CREATE, { manager_id: userId, ...data })
 }
 export const requestProductList = () => Api.request(...PRODUCT.LIST)
+
+// Feedback Request
+export const requestCreateFeedback = data => {
+  const userId = Storage.get('userId')
+  return Api.request(...FEEDBACK.CREATE, { owner_id: userId, ...data })
+}
 
 // service API 暂用于测试
 axios.interceptors.response.use(response => response.data)
