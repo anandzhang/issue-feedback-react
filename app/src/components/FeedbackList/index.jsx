@@ -1,57 +1,109 @@
 import React, { Component } from 'react'
-import { Card, Avatar, Row, Col, Button, List, Statistic } from 'antd'
+import { Card, Avatar, Row, Col, Button, List, Statistic, message } from 'antd'
 import PropTypes from 'prop-types'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 import './index.css'
-import { testFeedbackList, testFixedList } from '../../api/base'
+import { requestFeedbackList, requestProductList } from '../../api/base'
+import AddModal from './AddModal'
 
 const { Meta } = Card
 
 class FeedbackList extends Component {
-  state = {
-    feedback: [],
-    fixed: []
+  constructor (props) {
+    super(props)
+    this.addModal = React.createRef()
+    this.state = {
+      products: [],
+      feedback: [],
+      fixed: []
+    }
+  }
+
+  getProducts = async () => {
+    try {
+      const { products } = await requestProductList()
+      this.setState({ products }, () => {
+        this.getFeedback()
+        this.getFixed()
+      })
+    } catch (err) {
+      message.error(err)
+    }
   }
 
   getFeedback = async () => {
-    const data = await testFeedbackList()
-    this.setState({ feedback: data })
+    const { products } = this.state
+    if (products.length !== 0) {
+      try {
+        const { issues } = await requestFeedbackList({
+          // TODO: 暂取第一个产品进行反馈数据渲染
+          product_id: products[0].product_id,
+          status: 'opening'
+        })
+        this.setState({ feedback: issues })
+      } catch (err) {
+        message.error(err)
+      }
+    } else {
+      message.error('没有任何产品')
+    }
   }
 
   getFixed = async () => {
-    const data = await testFixedList()
-    this.setState({ fixed: data })
+    const { products } = this.state
+    if (products.length !== 0) {
+      try {
+        const { issues } = await requestFeedbackList({
+          // TODO: 暂取第一个产品进行反馈数据渲染
+          product_id: products[0].product_id,
+          status: 'closed'
+        })
+        this.setState({ fixed: issues })
+      } catch (err) {
+        message.error(err)
+      }
+    } else {
+      message.error('没有任何产品')
+    }
+  }
+
+  showAddModal = () => {
+    this.addModal.current.changeVisible()
   }
 
   componentDidMount () {
-    this.getFeedback()
-    this.getFixed()
+    this.getProducts()
   }
 
   renderFeedback = () => {
     const { feedback } = this.state
     return feedback.map(value => {
+      const { issue_id: id, title, description, created_at: time } = value
       const avatar = (
         <Avatar
           shape='square'
           size='large'
-          src={value.avatar}
-          alt={`${value.nickname}-avatar`}
+          // TODO: 后端暂无头像字段
+          src='https://anand-app.oss-cn-beijing.aliyuncs.com/avatar/1.jpg'
+          alt='avatar'
         />
       )
       return (
-        <Card key={value.id} className='feedback-item'>
+        <Card key={id} className='feedback-item'>
           <Meta
             avatar={avatar}
-            title={value.nickname}
-            description={value.content}
+            title={title}
+            description={description}
           />
+          {moment(time).locale('zh-cn').fromNow()}
         </Card>
       )
     })
   }
 
   render () {
-    const { fixed } = this.state
+    const { products, fixed } = this.state
     const { nickname } = this.props
     const statistic = (
       <Row gutter={16}>
@@ -67,7 +119,7 @@ class FeedbackList extends Component {
           <Col span={6}>
             <Card className='margin-t-10'>
               {nickname ? statistic : ''}
-              <Button type='primary' className='feedback-btn'>反馈一下</Button>
+              <Button type='primary' className='feedback-btn' onClick={this.showAddModal}>反馈一下</Button>
             </Card>
             <Card title='最新动态' className='margin-t-10'>
               <List
@@ -77,6 +129,7 @@ class FeedbackList extends Component {
             </Card>
           </Col>
         </Row>
+        <AddModal ref={this.addModal} products={products} getFeedback={this.getFeedback} />
       </div>
     )
   }

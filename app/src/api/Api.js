@@ -26,7 +26,7 @@ axios.interceptors.response.use(response => {
 class Api {
   static async request (url, method = 'GET', data = {}) {
     const config = { url, method, data }
-    if (data && method.toUpperCase === 'GET') {
+    if (data && method.toUpperCase() === 'GET') {
       delete config.data
       config.params = data
     }
