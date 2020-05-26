@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Storage from '../utils/Storage'
 import { ACCOUNT_URL, PROFILE_URL } from './config'
+import Api from './Api'
 
 axios.interceptors.response.use(response => response.data)
 
@@ -13,7 +14,7 @@ export const requestRegister = async data => {
 }
 
 export const requestLogin = async data => {
-  return await axios.post(ACCOUNT_URL.LOGIN, data)
+  return Api.request('/login', 'POST', data)
 }
 
 export const requsetProfile = async () => {

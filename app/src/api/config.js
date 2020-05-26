@@ -1,4 +1,4 @@
-const SERVER_URL = '/api/v1'
+export const SERVER_URL = '/api/v1'
 
 const createURL = path => `${SERVER_URL}${path}`
 
