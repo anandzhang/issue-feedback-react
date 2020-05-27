@@ -4,6 +4,7 @@ import { List, Avatar, Space } from 'antd'
 import { LikeOutlined, DislikeOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+import './index.css'
 
 const { Item } = List
 const { Meta } = Item
@@ -26,7 +27,7 @@ const FeedbackList2 = ({ dataSource }) => {
       />
     )
     return (
-      <Item actions={actions}>
+      <Item actions={actions} className='feedback-list-item'>
         <Meta
           avatar={avatar}
           title={title}
