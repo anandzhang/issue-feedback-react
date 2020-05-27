@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Row, Col, Statistic, Button, Card } from 'antd'
+import { Row, Col, Button, Card } from 'antd'
 import Banner from '../../components/Banner'
 import FeedbackList from '../../components/FeedbackList'
 import FixedFeedbackList from '../../components/FixedFeedbackList'

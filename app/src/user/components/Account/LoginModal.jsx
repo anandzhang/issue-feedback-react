@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Button, message } from 'antd'
 import PropTypes from 'prop-types'
-import { requestLogin, requsetProfile } from '../../api/base'
-import Storage from '../../utils/Storage'
+import { requestLogin, requsetProfile } from '../../../api/base'
+import Storage from '../../../utils/Storage'
 
 const { Item } = Form
 
@@ -44,7 +44,7 @@ class LoginModal extends Component {
   getProfile = async userId => {
     try {
       const { nickname } = await requsetProfile(userId)
-      this.props.changeNickname(nickname)
+      this.props.setNickname(nickname)
     } catch (err) {
       message.error(err)
     }
@@ -109,7 +109,7 @@ class LoginModal extends Component {
 
 LoginModal.propTypes = {
   showRegisterModal: PropTypes.func,
-  changeNickname: PropTypes.func
+  setNickname: PropTypes.func
 }
 
 export default LoginModal

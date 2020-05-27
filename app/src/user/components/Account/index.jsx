@@ -16,10 +16,10 @@ class Account extends Component {
   showRegisterModal = () => this.registerModal.current.changeVisible()
 
   render () {
-    const { changeNickname } = this.props
+    const { setNickname } = this.props
     return (
       <Fragment>
-        <LoginModal ref={this.loginModal} showRegisterModal={this.showRegisterModal} changeNickname={changeNickname} />
+        <LoginModal ref={this.loginModal} showRegisterModal={this.showRegisterModal} setNickname={setNickname} />
         <RegisterModal ref={this.registerModal} showLoginModal={this.showLoginModal} />
       </Fragment>
     )
@@ -27,7 +27,7 @@ class Account extends Component {
 }
 
 Account.propTypes = {
-  changeNickname: PropTypes.func
+  setNickname: PropTypes.func
 }
 
 export default Account

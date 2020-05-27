@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 import { UserOutlined, LogoutOutlined, ControlOutlined } from '@ant-design/icons'
 import menuConfig from './menuConfig'
 import Storage from '../../../utils/Storage'
-// import Account from '../Account'
+import Account from '../Account'
 import './index.css'
 
 const { Item } = Menu
 
 class Header extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.menu = this.getMenuItem()
     this.accountModal = React.createRef()
@@ -30,12 +30,12 @@ class Header extends Component {
 
   logout = () => {
     Storage.deleteMany(['userId', 'roleId', 'roken'])
-    this.props.changeNickname('')
+    this.props.setNickname('')
     this.props.history.push('/')
   }
 
-  render() {
-    const { nickname, changeNickname } = this.props
+  render () {
+    const { nickname, setNickname } = this.props
     const menu = (
       <Menu>
         <Item
@@ -78,7 +78,7 @@ class Header extends Component {
               )
               : <Button type='link' onClick={this.showLoginModal}>登录</Button>
           }
-          {/* <Account ref={this.accountModal} changeNickname={changeNickname} /> */}
+          <Account ref={this.accountModal} setNickname={setNickname} />
         </Col>
       </Row>
     )
@@ -87,7 +87,7 @@ class Header extends Component {
 
 Header.propTypes = {
   nickname: PropTypes.string,
-  changeNickname: PropTypes.func,
+  setNickname: PropTypes.func,
   history: PropTypes.object
 }
 

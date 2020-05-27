@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, InputNumber, Button, Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
-import { testSendCode, requestRegister } from '../../api/base'
+import { testSendCode, requestRegister } from '../../../api/base'
 
 const { Item } = Form
 
