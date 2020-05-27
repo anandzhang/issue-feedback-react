@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
-import SiderMenu from '../../components/Sider'
+import SiderMenu from '../components/Sider'
 import Header from '../../components/AdminHeader'
 import Dashboard from '../Dashboard'
 import Feedback from '../AdminFeedback'

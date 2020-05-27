@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, Button, message, Table, Form, Select } from 'antd'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import { requestProductList, requestFeedbackList } from '../../api/base'
+import { requestProductList, requestFeedbackList } from '../../../api/base'
 
 const { Item } = Form
 const { Option } = Select

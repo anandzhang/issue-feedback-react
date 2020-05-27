@@ -3,7 +3,7 @@ import { Card, Button, message, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import { requestProductList } from '../../api/base'
+import { requestProductList } from '../../../api/base'
 import AddModal from './AddModal'
 
 const columns = [
