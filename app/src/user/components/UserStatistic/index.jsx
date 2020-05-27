@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Row, Col, Statistic } from 'antd'
 import './index.css'
 
@@ -21,6 +22,11 @@ const UserStatistic = ({ like, feedback }) => {
       </Col>
     </Row>
   )
+}
+
+UserStatistic.propTypes = {
+  like: PropTypes.number,
+  feedback: PropTypes.number
 }
 
 export default UserStatistic

@@ -9,7 +9,7 @@ import { requestFeedbackList, requestProductList } from '../../../api/base'
 import './index.css'
 
 class Home extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.addModal = React.createRef()
     this.state = {
@@ -71,11 +71,11 @@ class Home extends Component {
     this.addModal.current.changeVisible()
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.getProducts()
   }
 
-  render() {
+  render () {
     const { products, feedback, fixed } = this.state
     return (
       <Fragment>
