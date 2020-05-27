@@ -1,14 +1,17 @@
 import React from 'react'
 import { Layout } from 'antd'
-import route from '../routes/user'
 import { Route } from 'react-router-dom'
+import route from '../routes/user'
+import Header from './components/Header'
+import './index.css'
 
 const { Content } = Layout
 
 const User = () => {
   return (
-    <Layout>
-      <Content>
+    <Layout className='container'>
+      <Header />
+      <Content className='content'>
         {route.map(value => <Route key={value.path} {...value} />)}
       </Content>
     </Layout>

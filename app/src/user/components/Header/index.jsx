@@ -4,14 +4,14 @@ import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { UserOutlined, LogoutOutlined, ControlOutlined } from '@ant-design/icons'
 import menuConfig from './menuConfig'
-import Storage from '../../utils/Storage'
-import Account from '../Account'
+import Storage from '../../../utils/Storage'
+// import Account from '../Account'
 import './index.css'
 
 const { Item } = Menu
 
 class Header extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.menu = this.getMenuItem()
     this.accountModal = React.createRef()
@@ -34,7 +34,7 @@ class Header extends Component {
     this.props.history.push('/')
   }
 
-  render () {
+  render() {
     const { nickname, changeNickname } = this.props
     const menu = (
       <Menu>
@@ -78,7 +78,7 @@ class Header extends Component {
               )
               : <Button type='link' onClick={this.showLoginModal}>登录</Button>
           }
-          <Account ref={this.accountModal} changeNickname={changeNickname} />
+          {/* <Account ref={this.accountModal} changeNickname={changeNickname} /> */}
         </Col>
       </Row>
     )

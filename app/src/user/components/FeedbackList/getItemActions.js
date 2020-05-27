@@ -1,7 +1,7 @@
 import React from 'react'
 import { Space, message } from 'antd'
 import { LikeOutlined, DislikeOutlined } from '@ant-design/icons'
-import { requestVoteFeedback } from '../../api/base'
+import { requestVoteFeedback } from '../../../api/base'
 
 const getItemActions = id => {
   const likeIcon = React.createRef()
