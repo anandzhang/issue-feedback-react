@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
-import { requsetProfile } from '../../api/base'
+import { requsetProfile } from '../../../api/base'
 import Header from '../../components/Header'
 import Feedback from '../Feedback'
 import Profile from '../Profile'
 import './index.css'
-import Storage from '../../utils/Storage'
+import Storage from '../../../utils/Storage'
 
 const { Content } = Layout
 

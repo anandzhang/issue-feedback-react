@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import User from './User'
 import Manager from './Manager'
 import Developer from './Developer'
-import Storage from '../../utils/Storage'
+import Storage from '../../../utils/Storage'
 import { message } from 'antd'
 
 class Profile extends Component {
