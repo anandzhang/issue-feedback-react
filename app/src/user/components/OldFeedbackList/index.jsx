@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Card, Row, Col, Button, List, Statistic, message } from 'antd'
 import PropTypes from 'prop-types'
 import './index.css'
-// import { requestFeedbackList, requestProductList } from '../../api/base'
+import { requestFeedbackList, requestProductList } from '../../api/base'
 import AddModal from './AddModal'
+import FeedbackList2 from '../FeedbackList2'
 
-class FeedbackList22 extends Component {
+class FeedbackList extends Component {
   constructor (props) {
     super(props)
     this.addModal = React.createRef()
@@ -107,8 +108,8 @@ class FeedbackList22 extends Component {
   }
 }
 
-FeedbackList22.propTypes = {
+FeedbackList.propTypes = {
   nickname: PropTypes.string
 }
 
-export default FeedbackList22
+export default FeedbackList
