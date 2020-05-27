@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
-import { Card, Button, message, Table } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { Card, Button, message, Table, Form, Select } from 'antd'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import { requestProductList, requestFeedbackList } from '../../api/base'
+
+const { Item } = Form
+const { Option } = Select
+
+const STATUS = {
+  opening: '未解决',
+  closed: '已解决'
+}
 
 const columns = [
   {
@@ -12,7 +19,8 @@ const columns = [
   },
   {
     title: '状态',
-    dataIndex: 'status'
+    dataIndex: 'status',
+    render: status => STATUS[status]
   },
   {
     title: '描述',
@@ -38,10 +46,6 @@ class Feedback extends Component {
   state = {
     products: [],
     feedback: []
-  }
-
-  showAddModal = () => {
-
   }
 
   getProducts = async () => {
@@ -71,23 +75,47 @@ class Feedback extends Component {
     }
   }
 
+  searchFeedback = values => {
+    // TODO: 暂无后端接口
+    message.success(JSON.stringify(values))
+  }
+
   componentDidMount () {
     this.getProducts()
   }
 
   render () {
-    const { feedback } = this.state
+    const { products, feedback } = this.state
     return (
       <Card
-        title='反馈管理'
-        extra={
-          <Button
-            type='primary'
-            icon={<PlusOutlined />}
-            onClick={this.showAddModal}
-          >
-            添加反馈
-          </Button>
+        title={
+          <div>
+            反馈管理
+            <Form
+              onFinish={this.searchFeedback}
+              style={{ display: 'inline-block', marginLeft: 20 }}
+            >
+              <Item name='product_id' noStyle>
+                <Select placeholder='选择产品' style={{ width: 160 }}>
+                  {
+                    products.map(value => (
+                      <Option key={value.product_id} value={value.product_id}>{value.name}</Option>
+                    ))
+                  }
+                </Select>
+              </Item>
+              <Item name='status' noStyle>
+                <Select placeholder='选择产品状态' style={{ marginLeft: 5 }}>
+                  {
+                    Object.keys(STATUS).map(objKey => (
+                      <Option key={objKey} value={objKey}>{STATUS[objKey]}</Option>
+                    ))
+                  }
+                </Select>
+              </Item>
+              <Button type='ghost' htmlType='submit' style={{ marginLeft: 5 }}>搜索</Button>
+            </Form>
+          </div>
         }
       >
         <Table
