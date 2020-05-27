@@ -45,12 +45,6 @@ export const requestFeedbackList = data => {
 
 // service API 暂用于测试
 axios.interceptors.response.use(response => response.data)
-export const testFeedbackList = () => {
-  return axios.get('/feedback.json')
-}
-export const testFixedList = data => {
-  return axios.get('/fixed.json')
-}
 export const testSendCode = data => {
   return axios.post('/api/service/v1/account/send_code', data)
 }
