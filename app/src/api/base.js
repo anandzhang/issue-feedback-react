@@ -20,26 +20,33 @@ export const requsetProfile = userId => {
   return Api.request(...config)
 }
 export const requestUpdateProfile = async data => {
-  const userId = Storage.get('userId')
-  return Api.request(...PROFILE.UPDATE, { user_id: userId, ...data })
+  data.user_id = Storage.get('userId')
+  return Api.request(...PROFILE.UPDATE, data)
 }
 
 // Product Request
 export const requestCreateProduct = data => {
-  const userId = Storage.get('userId')
-  return Api.request(...PRODUCT.CREATE, { manager_id: userId, ...data })
+  data.manager_id = Storage.get('userId')
+  return Api.request(...PRODUCT.CREATE, data)
 }
 export const requestProductList = () => Api.request(...PRODUCT.LIST)
 
 // Feedback Request
 export const requestCreateFeedback = data => {
-  const userId = Storage.get('userId')
-  return Api.request(...FEEDBACK.CREATE, { owner_id: userId, ...data })
+  data.owner_id = Storage.get('userId')
+  return Api.request(...FEEDBACK.CREATE, data)
 }
 export const requestFeedbackList = data => {
   const config = FEEDBACK.LIST
   config[0] = config[0].replace('<product_id>', data.product_id)
   delete data.product_id
+  return Api.request(...config, data)
+}
+export const requestVoteFeedback = data => {
+  const config = FEEDBACK.VOTE
+  config[0] = config[0].replace('<issue_id>', data.issue_id)
+  delete data.issue_id
+  data.user_id = Storage.get('userId')
   return Api.request(...config, data)
 }
 
