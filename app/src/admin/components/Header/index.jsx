@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Avatar, Row, Col, Dropdown, Menu } from 'antd'
-import Storage from '../../utils/Storage'
+import Storage from '../../../utils/Storage'
 
 const { Item } = Menu
 
-class AdminHeader extends Component {
+class Header extends Component {
   logout = () => {
     Storage.deleteMany(['userId', 'roleId', 'roken'])
     this.props.history.push('/')
@@ -46,8 +46,8 @@ class AdminHeader extends Component {
   }
 }
 
-AdminHeader.propTypes = {
+Header.propTypes = {
   history: PropTypes.object
 }
 
-export default withRouter(AdminHeader)
+export default withRouter(Header)

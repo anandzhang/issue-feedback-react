@@ -6,7 +6,7 @@ import menuConfig from './menuConfig'
 
 const { Item, SubMenu } = Menu
 
-class Sider extends Component {
+class SideNav extends Component {
   constructor (props) {
     super(props)
     this.menu = this.getMenu()
@@ -66,8 +66,8 @@ class Sider extends Component {
   }
 }
 
-Sider.propTypes = {
+SideNav.propTypes = {
   location: PropTypes.object
 }
 
-export default withRouter(Sider)
+export default withRouter(SideNav)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Row, Col, Statistic } from 'antd'
 
-class Dashboard extends Component {
+class Home extends Component {
   render () {
     return (
       <Card>
@@ -21,4 +21,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard
+export default Home
