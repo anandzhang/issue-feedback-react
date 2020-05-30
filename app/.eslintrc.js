@@ -4,8 +4,9 @@ module.exports = {
     es6: true
   },
   extends: [
+    'standard',
     'plugin:react/recommended',
-    'standard'
+    "plugin:react-hooks/recommended"
   ],
   globals: {
     Atomics: 'readonly',
@@ -32,6 +33,8 @@ module.exports = {
   ],
   rules: {
     'no-console': 'error',
-    'no-alert': 'error'
+    'no-alert': 'error',
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

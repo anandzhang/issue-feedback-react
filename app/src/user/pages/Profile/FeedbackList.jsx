@@ -4,7 +4,7 @@ import { List } from 'antd'
 
 const { Item } = List
 
-function FeedbackList (props) {
+const FeedbackList = props => {
   const { dataSource } = props
   return (
     <List

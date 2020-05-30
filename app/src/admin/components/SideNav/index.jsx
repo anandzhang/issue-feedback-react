@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu } from 'antd'
@@ -6,13 +6,8 @@ import menuConfig from './menuConfig'
 
 const { Item, SubMenu } = Menu
 
-class SideNav extends Component {
-  constructor (props) {
-    super(props)
-    this.menu = this.getMenu()
-  }
-
-  getMenu = () => {
+const SideNav = props => {
+  const getMenu = () => {
     return menuConfig.map(value => {
       const { children } = value
       if (children) {
@@ -26,15 +21,15 @@ class SideNav extends Component {
               </span>
             }
           >
-            {children.map(value => this.getMenuItem(value))}
+            {children.map(value => getMenuItem(value))}
           </SubMenu>
         )
       }
-      return this.getMenuItem(value)
+      return getMenuItem(value)
     })
   }
 
-  getMenuItem = value => {
+  const getMenuItem = value => {
     const { title, icon, route } = value
     return (
       <Item key={route} icon={icon}>
@@ -43,27 +38,26 @@ class SideNav extends Component {
     )
   }
 
-  getParentPath = pathname => {
+  const getParentPath = pathname => {
     pathname = pathname.split('/')
     pathname.pop()
     return pathname.join('/')
   }
 
-  render () {
-    const { pathname } = this.props.location
-    const parentPath = this.getParentPath(pathname)
-    return (
-      <div>
-        <Menu
-          mode='inline'
-          defaultSelectedKeys={[pathname]}
-          defaultOpenKeys={[parentPath]}
-        >
-          {this.getMenu()}
-        </Menu>
-      </div>
-    )
-  }
+  const menu = getMenu()
+  const { pathname } = props.location
+  const parentPath = getParentPath(pathname)
+  return (
+    <div>
+      <Menu
+        mode='inline'
+        defaultSelectedKeys={[pathname]}
+        defaultOpenKeys={[parentPath]}
+      >
+        {menu}
+      </Menu>
+    </div>
+  )
 }
 
 SideNav.propTypes = {

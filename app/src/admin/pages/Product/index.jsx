@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button, message, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import moment from 'moment'
@@ -26,54 +26,47 @@ const columns = [
   }
 ]
 
-class Product extends Component {
-  constructor (props) {
-    super(props)
-    this.addModal = React.createRef()
-    this.state = {
-      products: []
-    }
-  }
+const Product = () => {
+  const addModal = React.useRef(null)
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    getProducts()
+  }, [])
 
-  getProducts = async () => {
+  const getProducts = async () => {
     try {
       const { products } = await requestProductList()
-      this.setState({ products })
+      setProducts(products)
     } catch (err) {
       message.error(err)
     }
   }
 
-  showAddModal = () => this.addModal.current.changeVisible()
-
-  componentDidMount () {
-    this.getProducts()
+  const showAddModal = () => {
+    addModal.current.changeVisible()
   }
 
-  render () {
-    const { products } = this.state
-    return (
-      <Card
-        title='产品管理'
-        extra={
-          <Button
-            type='primary'
-            icon={<PlusOutlined />}
-            onClick={this.showAddModal}
-          >
-            添加产品
-          </Button>
-        }
-      >
-        <Table
-          dataSource={products}
-          columns={columns}
-          rowKey='product_id'
-        />
-        <AddModal ref={this.addModal} getProducts={this.getProducts} />
-      </Card>
-    )
-  }
+  return (
+    <Card
+      title='产品管理'
+      extra={
+        <Button
+          type='primary'
+          icon={<PlusOutlined />}
+          onClick={showAddModal}
+        >
+          添加产品
+        </Button>
+      }
+    >
+      <Table
+        dataSource={products}
+        columns={columns}
+        rowKey='product_id'
+      />
+      <AddModal ref={addModal} getProducts={getProducts} />
+    </Card>
+  )
 }
 
 export default Product
