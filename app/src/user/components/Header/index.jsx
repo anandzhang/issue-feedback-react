@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Menu, Button, Row, Col, Dropdown } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -10,14 +10,11 @@ import './index.css'
 
 const { Item } = Menu
 
-class Header extends Component {
-  constructor (props) {
-    super(props)
-    this.menu = this.getMenuItem()
-    this.accountModal = React.createRef()
-  }
+const Header = props => {
+  const { nickname, setNickname } = props
+  const accountModal = React.createRef()
 
-  getMenuItem = () => menuConfig.map(value => {
+  const getMenuItem = () => menuConfig.map(value => {
     const { title, route } = value
     return (
       <Item key={route}>
@@ -26,63 +23,64 @@ class Header extends Component {
     )
   })
 
-  showLoginModal = () => this.accountModal.current.showLoginModal()
+  const menu = getMenuItem()
 
-  logout = () => {
+  const showLoginModal = () => {
+    accountModal.current.showLoginModal()
+  }
+
+  const logout = () => {
     Storage.deleteMany(['userId', 'roleId', 'token'])
-    this.props.setNickname('')
-    this.props.history.push('/')
+    props.setNickname('')
+    props.history.push('/')
   }
 
-  render () {
-    const { nickname, setNickname } = this.props
-    const menu = (
-      <Menu>
-        <Item
-          key='profile'
-          icon={<UserOutlined />}
-          onClick={() => this.props.history.push('/profile')}
-        >
-          个人中心
-        </Item>
-        <Item
-          key='admin'
-          icon={<ControlOutlined />}
-          onClick={() => this.props.history.push('/admin')}
-        >
-          后台管理
-        </Item>
-        <Item
-          key='logout'
-          icon={<LogoutOutlined />}
-          onClick={this.logout}
-        >
-          退出登录
-        </Item>
-      </Menu>
-    )
-    return (
-      <Row className='header'>
-        <Col span={6}>
-          <Menu mode='horizontal' className='menu'>
-            {this.menu}
-          </Menu>
-        </Col>
-        <Col className='login' span={2} offset={16}>
-          {
-            nickname
-              ? (
-                <Dropdown overlay={menu} trigger={['click']}>
-                  <Button type='link'>{nickname}</Button>
-                </Dropdown>
-              )
-              : <Button type='link' onClick={this.showLoginModal}>登录</Button>
-          }
-          <Account ref={this.accountModal} setNickname={setNickname} />
-        </Col>
-      </Row>
-    )
-  }
+  const userMenu = (
+    <Menu>
+      <Item
+        key='profile'
+        icon={<UserOutlined />}
+        onClick={() => props.history.push('/profile')}
+      >
+        个人中心
+      </Item>
+      <Item
+        key='admin'
+        icon={<ControlOutlined />}
+        onClick={() => props.history.push('/admin')}
+      >
+        后台管理
+      </Item>
+      <Item
+        key='logout'
+        icon={<LogoutOutlined />}
+        onClick={logout}
+      >
+        退出登录
+      </Item>
+    </Menu>
+  )
+  return (
+    <Row className='header'>
+      <Col span={6}>
+        <Menu mode='horizontal' className='menu'>
+          {menu}
+        </Menu>
+      </Col>
+      <Col className='login' span={2} offset={16}>
+        {
+          nickname
+            ? (
+              <Dropdown overlay={userMenu} trigger={['click']}>
+                <Button type='link'>{nickname}</Button>
+              </Dropdown>
+            )
+            : <Button type='link' onClick={showLoginModal}>登录</Button>
+        }
+        <Account ref={accountModal} setNickname={setNickname} />
+      </Col>
+    </Row>
+  )
 }
 
 Header.propTypes = {

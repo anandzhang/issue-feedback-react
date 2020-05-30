@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Layout from './Layout'
 import FeedbackList from './FeedbackList'
 
@@ -19,32 +19,28 @@ const replySource = [
   { title: '回复3', time: '5.12' }
 ]
 
-class Developer extends Component {
-  tabList = [
-    {
-      key: 'feedback',
-      tab: '处理中的反馈'
-    },
-    {
-      key: 'reply',
-      tab: '已解决的反馈'
-    }
-  ]
-
-  contentList = {
-    feedback: <FeedbackList dataSource={feedbackSource} />,
-    reply: <FeedbackList dataSource={replySource} />
+const tabList = [
+  {
+    key: 'feedback',
+    tab: '处理中的反馈'
+  },
+  {
+    key: 'reply',
+    tab: '已解决的反馈'
   }
+]
 
-  render () {
-    return (
-      <Layout
-        profile={profile}
-        tabList={this.tabList}
-        contentList={this.contentList}
-      />
-    )
-  }
+const contentList = {
+  feedback: <FeedbackList dataSource={feedbackSource} />,
+  reply: <FeedbackList dataSource={replySource} />
 }
+
+const Developer = () => (
+  <Layout
+    profile={profile}
+    tabList={tabList}
+    contentList={contentList}
+  />
+)
 
 export default Developer

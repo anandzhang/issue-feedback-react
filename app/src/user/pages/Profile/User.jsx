@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Layout from './Layout'
 import FeedbackList from './FeedbackList'
 
@@ -19,32 +19,28 @@ const replySource = [
   { title: '回复3', time: '5.12' }
 ]
 
-class User extends Component {
-  tabList = [
-    {
-      key: 'feedback',
-      tab: '提出的反馈'
-    },
-    {
-      key: 'reply',
-      tab: '收到的回复'
-    }
-  ]
-
-  contentList = {
-    feedback: <FeedbackList dataSource={feedbackSource} />,
-    reply: <FeedbackList dataSource={replySource} />
+const tabList = [
+  {
+    key: 'feedback',
+    tab: '提出的反馈'
+  },
+  {
+    key: 'reply',
+    tab: '收到的回复'
   }
+]
 
-  render () {
-    return (
-      <Layout
-        profile={profile}
-        tabList={this.tabList}
-        contentList={this.contentList}
-      />
-    )
-  }
+const contentList = {
+  feedback: <FeedbackList dataSource={feedbackSource} />,
+  reply: <FeedbackList dataSource={replySource} />
 }
+
+const User = () => (
+  <Layout
+    profile={profile}
+    tabList={tabList}
+    contentList={contentList}
+  />
+)
 
 export default User
