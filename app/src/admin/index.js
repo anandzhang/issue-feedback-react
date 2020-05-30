@@ -7,18 +7,16 @@ import Header from './components/Header'
 
 const { Sider, Content } = Layout
 
-const Admin = () => {
-  return (
-    <Layout style={{ height: '100vh' }}>
-      <Sider theme='light'><SideNav /></Sider>
-      <Layout>
-        <Header />
-        <Content style={{ padding: 20 }}>
-          {route.map(value => <Route key={value.path} {...value} />)}
-        </Content>
-      </Layout>
+const Admin = () => (
+  <Layout style={{ height: '100vh' }}>
+    <Sider theme='light'><SideNav /></Sider>
+    <Layout>
+      <Header />
+      <Content style={{ padding: 20 }}>
+        {route.map(value => <Route key={value.path} {...value} />)}
+      </Content>
     </Layout>
-  )
-}
+  </Layout>
+)
 
 export default Admin

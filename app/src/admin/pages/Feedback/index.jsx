@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button, message, Table, Form, Select } from 'antd'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -42,90 +42,82 @@ const columns = [
   }
 ]
 
-class Feedback extends Component {
-  state = {
-    products: [],
-    feedback: []
-  }
+const Feedback = () => {
+  const [products, setProducts] = useState([])
+  const [feedback, setFeedback] = useState([])
+  useEffect(() => {
+    getProducts()
+  }, [])
+  useEffect(() => {
+    if (products.length !== 0) getFeedback()
+  }, [products])
 
-  getProducts = async () => {
+  const getProducts = async () => {
     try {
       const { products } = await requestProductList()
-      this.setState({ products }, () => this.getFeedback())
+      setProducts(products)
     } catch (err) {
       message.error(err)
     }
   }
 
-  getFeedback = async () => {
-    const { products } = this.state
-    if (products.length !== 0) {
-      try {
-        const { issues } = await requestFeedbackList({
-          // TODO: 暂取第一个产品进行反馈数据渲染
-          product_id: products[0].product_id,
-          status: 'opening'
-        })
-        this.setState({ feedback: issues })
-      } catch (err) {
-        message.error(err)
-      }
-    } else {
-      message.error('没有任何产品')
+  const getFeedback = async () => {
+    try {
+      const { issues } = await requestFeedbackList({
+        // TODO: 暂取第一个产品进行反馈数据渲染
+        product_id: products[0].product_id,
+        status: 'opening'
+      })
+      setFeedback(issues)
+    } catch (err) {
+      message.error(err)
     }
   }
 
-  searchFeedback = values => {
+  const searchFeedback = values => {
     // TODO: 暂无后端接口
     message.success(JSON.stringify(values))
   }
 
-  componentDidMount () {
-    this.getProducts()
-  }
-
-  render () {
-    const { products, feedback } = this.state
-    return (
-      <Card
-        title={
-          <div>
-            反馈管理
-            <Form
-              onFinish={this.searchFeedback}
-              style={{ display: 'inline-block', marginLeft: 20 }}
-            >
-              <Item name='product_id' noStyle>
-                <Select placeholder='选择产品' style={{ width: 160 }}>
-                  {
-                    products.map(value => (
-                      <Option key={value.product_id} value={value.product_id}>{value.name}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
-              <Item name='status' noStyle>
-                <Select placeholder='选择产品状态' style={{ marginLeft: 5 }}>
-                  {
-                    Object.keys(STATUS).map(objKey => (
-                      <Option key={objKey} value={objKey}>{STATUS[objKey]}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
-              <Button type='ghost' htmlType='submit' style={{ marginLeft: 5 }}>搜索</Button>
-            </Form>
-          </div>
-        }
-      >
-        <Table
-          dataSource={feedback}
-          columns={columns}
-          rowKey='issue_id'
-        />
-      </Card>
-    )
-  }
+  return (
+    <Card
+      title={
+        <div>
+          反馈管理
+          <Form
+            onFinish={searchFeedback}
+            style={{ display: 'inline-block', marginLeft: 20 }}
+          >
+            <Item name='product_id' noStyle>
+              <Select placeholder='选择产品' style={{ width: 160 }}>
+                {
+                  products.map(value => (
+                    <Option key={value.product_id} value={value.product_id}>{value.name}</Option>
+                  ))
+                }
+              </Select>
+            </Item>
+            <Item name='status' noStyle>
+              <Select placeholder='选择产品状态' style={{ marginLeft: 5 }}>
+                {
+                  Object.keys(STATUS).map(objKey => (
+                    <Option key={objKey} value={objKey}>{STATUS[objKey]}</Option>
+                  ))
+                }
+              </Select>
+            </Item>
+            <Button type='ghost' htmlType='submit' style={{ marginLeft: 5 }}>搜索</Button>
+          </Form>
+        </div>
+      }
+    >
+      <Table
+        dataSource={feedback}
+        columns={columns}
+        rowKey='issue_id'
+      />
+    </Card>
+  )
 }
 
 export default Feedback

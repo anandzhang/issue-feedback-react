@@ -13,7 +13,7 @@ const RegisterModal = (props, ref) => {
   const changeVisible = () => setVisible(!visible)
 
   const showLoginModal = () => {
-    this.changeVisible()
+    changeVisible()
     props.showLoginModal()
   }
 

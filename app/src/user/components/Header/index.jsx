@@ -12,7 +12,7 @@ const { Item } = Menu
 
 const Header = props => {
   const { nickname, setNickname } = props
-  const accountModal = React.createRef()
+  const accountModal = React.useRef()
 
   const getMenuItem = () => menuConfig.map(value => {
     const { title, route } = value

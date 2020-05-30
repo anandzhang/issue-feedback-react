@@ -1,13 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useRef, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 import './index.css'
 
-const Account = props => {
+const Account = (props, ref) => {
   const { setNickname } = props
   const loginModal = useRef(null)
   const registerModal = useRef(null)
+  useImperativeHandle(ref, () => ({ showLoginModal }))
 
   const showLoginModal = () => {
     loginModal.current.changeVisible()
@@ -36,4 +37,4 @@ Account.propTypes = {
   setNickname: PropTypes.func
 }
 
-export default Account
+export default forwardRef(Account)
