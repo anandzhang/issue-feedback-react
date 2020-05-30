@@ -5,7 +5,7 @@ import { requestCreateProduct } from '../../../api/base'
 
 const { Item } = Form
 
-const AddModal = (props, ref) => {
+const AddModal = forwardRef(function Component (props, ref) {
   const form = React.createRef()
   const [visible, setVisible] = useState(false)
   useImperativeHandle(ref, () => ({ changeVisible }))
@@ -58,10 +58,10 @@ const AddModal = (props, ref) => {
       </Form>
     </Modal>
   )
-}
+})
 
 AddModal.propTypes = {
   getProducts: PropTypes.func
 }
 
-export default forwardRef(AddModal)
+export default AddModal

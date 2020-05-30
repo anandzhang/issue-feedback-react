@@ -4,7 +4,7 @@ import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 import './index.css'
 
-const Account = (props, ref) => {
+const Account = forwardRef(function Component (props, ref) {
   const { setNickname } = props
   const loginModal = useRef(null)
   const registerModal = useRef(null)
@@ -31,10 +31,10 @@ const Account = (props, ref) => {
       />
     </>
   )
-}
+})
 
 Account.propTypes = {
   setNickname: PropTypes.func
 }
 
-export default forwardRef(Account)
+export default Account

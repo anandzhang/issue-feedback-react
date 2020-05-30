@@ -5,7 +5,7 @@ import { testSendCode, requestRegister } from '../../../api/base'
 
 const { Item } = Form
 
-const RegisterModal = (props, ref) => {
+const RegisterModal = forwardRef(function Component (props, ref) {
   const form = React.createRef()
   const [visible, setVisible] = useState(false)
   useImperativeHandle(ref, () => ({ changeVisible }))
@@ -114,10 +114,10 @@ const RegisterModal = (props, ref) => {
       </Form>
     </Modal>
   )
-}
+})
 
 RegisterModal.propTypes = {
   showLoginModal: PropTypes.func
 }
 
-export default forwardRef(RegisterModal)
+export default RegisterModal

@@ -6,7 +6,7 @@ import Storage from '../../../utils/Storage'
 
 const { Item } = Form
 
-const LoginModal = (props, ref) => {
+const LoginModal = forwardRef(function Component (props, ref) {
   const form = React.createRef()
   const [visible, setVisible] = useState(false)
   useImperativeHandle(ref, () => ({ changeVisible }))
@@ -93,11 +93,11 @@ const LoginModal = (props, ref) => {
       </Form>
     </Modal>
   )
-}
+})
 
 LoginModal.propTypes = {
   showRegisterModal: PropTypes.func,
   setNickname: PropTypes.func
 }
 
-export default forwardRef(LoginModal)
+export default LoginModal

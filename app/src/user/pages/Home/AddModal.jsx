@@ -6,7 +6,7 @@ import { requestCreateFeedback } from '../../../api/base'
 const { Item } = Form
 const { Option } = Select
 
-const AddModal = (props, ref) => {
+const AddModal = forwardRef(function Component (props, ref) {
   const { products, getFeedback } = props
   const form = React.createRef()
   const [visible, setVisible] = useState(false)
@@ -62,11 +62,11 @@ const AddModal = (props, ref) => {
       </Form>
     </Modal>
   )
-}
+})
 
 AddModal.propTypes = {
   products: PropTypes.array,
   getFeedback: PropTypes.func
 }
 
-export default forwardRef(AddModal)
+export default AddModal
