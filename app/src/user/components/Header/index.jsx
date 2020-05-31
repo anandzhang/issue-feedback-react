@@ -1,9 +1,16 @@
-import React from 'react'
-import { Menu, Button, Row, Col, Dropdown } from 'antd'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { updateProfile } from '../../../actions'
+import { Menu, Button, Row, Col, Dropdown, message } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { UserOutlined, LogoutOutlined, ControlOutlined } from '@ant-design/icons'
+import {
+  UserOutlined,
+  LogoutOutlined,
+  ControlOutlined
+} from '@ant-design/icons'
 import menuConfig from './menuConfig'
+import { requsetProfile } from '../../../api/base'
 import Storage from '../../../utils/Storage'
 import Account from '../Account'
 import './index.css'
@@ -11,8 +18,24 @@ import './index.css'
 const { Item } = Menu
 
 const Header = props => {
-  const { nickname, setNickname } = props
+  const { nickname, updateProfile } = props
   const accountModal = React.useRef()
+  useEffect(() => {
+    getNickname()
+  }, [])
+
+  const getNickname = async () => {
+    const userId = Storage.get('userId')
+    if (userId) {
+      try {
+        const result = await requsetProfile(userId)
+        const { nickname } = result
+        updateProfile({ nickname })
+      } catch (err) {
+        message.error(err)
+      }
+    }
+  }
 
   const getMenuItem = () => menuConfig.map(value => {
     const { title, route } = value
@@ -31,7 +54,7 @@ const Header = props => {
 
   const logout = () => {
     Storage.deleteMany(['userId', 'roleId', 'token'])
-    props.setNickname('')
+    updateProfile({ nickname: '' })
     props.history.push('/')
   }
 
@@ -77,7 +100,7 @@ const Header = props => {
             )
             : <Button type='link' onClick={showLoginModal}>登录</Button>
         }
-        <Account ref={accountModal} setNickname={setNickname} />
+        <Account ref={accountModal} />
       </Col>
     </Row>
   )
@@ -85,8 +108,11 @@ const Header = props => {
 
 Header.propTypes = {
   nickname: PropTypes.string,
-  setNickname: PropTypes.func,
+  updateProfile: PropTypes.func,
   history: PropTypes.object
 }
 
-export default withRouter(Header)
+export default connect(
+  ({ profile }) => ({ nickname: profile.nickname }),
+  { updateProfile }
+)(withRouter(Header))
