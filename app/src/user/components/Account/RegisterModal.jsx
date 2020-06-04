@@ -23,7 +23,7 @@ const RegisterModal = forwardRef(function Component (props, ref) {
       // TODO: 使用了测试API
       const data = await testSendCode(value)
       const { result } = data
-      this.form.current.setFieldsValue(result)
+      form.current.setFieldsValue(result)
     } catch (err) {
       message.error(err)
     }
@@ -34,7 +34,7 @@ const RegisterModal = forwardRef(function Component (props, ref) {
       const values = await form.current.validateFields()
       await requestRegister(values)
       message.success('注册成功')
-      this.changeVisible()
+      changeVisible()
     } catch (err) {
       message.error(err)
     }

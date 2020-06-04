@@ -1,5 +1,7 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { updateProfile } from '../../../actions'
 import { Modal, Form, Input, Button, message } from 'antd'
 import { requestLogin, requsetProfile } from '../../../api/base'
 import Storage from '../../../utils/Storage'
@@ -23,7 +25,8 @@ const LoginModal = forwardRef(function Component (props, ref) {
       const values = await form.current.validateFields()
       const result = await requestLogin(values)
       const { user_id: userId, role_id: roleId, token } = result
-      Storage.saveMany({ userId, roleId, token })
+      Storage.saveMany({ userId, token })
+      props.updateProfile({ roleId })
       message.success('登录成功')
       getProfile(userId)
       changeVisible()
@@ -35,7 +38,7 @@ const LoginModal = forwardRef(function Component (props, ref) {
   const getProfile = async userId => {
     try {
       const { nickname } = await requsetProfile(userId)
-      props.setNickname(nickname)
+      props.updateProfile({ nickname })
     } catch (err) {
       message.error(err)
     }
@@ -97,7 +100,12 @@ const LoginModal = forwardRef(function Component (props, ref) {
 
 LoginModal.propTypes = {
   showRegisterModal: PropTypes.func,
-  setNickname: PropTypes.func
+  updateProfile: PropTypes.func
 }
 
-export default LoginModal
+export default connect(
+  null,
+  { updateProfile },
+  null,
+  { forwardRef: true }
+)(LoginModal)

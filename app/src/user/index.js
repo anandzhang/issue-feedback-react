@@ -12,8 +12,7 @@ const User = () => (
     <Header />
     <Content className='content'>
       {route.map(value => (
-        <Route key={value.path} {...value} />
-      ))}
+        <Route key={value.path} {...value} />))}
     </Content>
   </Layout>
 )
