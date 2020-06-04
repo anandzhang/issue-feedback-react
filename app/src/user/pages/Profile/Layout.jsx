@@ -6,7 +6,7 @@ const avatar = (
   <Avatar
     size={64}
     shape='square'
-    src='https://anand-app.oss-cn-beijing.aliyuncs.com/avatar/2.jpg'
+    src='/images/avatar.jpg'
     alt='avatar'
   />
 )

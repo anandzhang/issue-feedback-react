@@ -19,7 +19,7 @@ const FeedbackList = props => {
           size='large'
           shape='square'
           // TODO: 后端暂无头像字段
-          src='https://anand-app.oss-cn-beijing.aliyuncs.com/avatar/1.jpg'
+          src='/images/avatar.jpg'
           alt='avatar'
         />
       )
