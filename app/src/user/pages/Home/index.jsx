@@ -78,7 +78,7 @@ const Home = props => {
           <FixedFeedbackList dataSource={feedback.closed} />
         </Col>
       </Row>
-      <AddModal ref={addModal} products={products} getFeedback={getFeedback} />
+      <AddModal ref={addModal} getFeedback={getFeedback} />
     </>
   )
 }

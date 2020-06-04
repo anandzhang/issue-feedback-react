@@ -1,4 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal, Form, Input, Select, message } from 'antd'
 import { requestCreateFeedback } from '../../../api/base'
@@ -69,4 +70,8 @@ AddModal.propTypes = {
   getFeedback: PropTypes.func
 }
 
-export default AddModal
+export default connect(
+  ({ products }) => ({ products }),
+  null, null,
+  { forwardRef: true }
+)(AddModal)
