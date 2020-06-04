@@ -5,7 +5,6 @@ import { saveProducts, saveFeedback } from '../../../actions'
 import { Row, Col, Button, Card, message } from 'antd'
 import Banner from '../../components/Banner'
 import FeedbackList from '../../components/FeedbackList'
-import FixedFeedbackList from '../../components/FixedFeedbackList'
 import UserStatistic from '../../components/UserStatistic'
 import AddModal from './AddModal'
 import { requestFeedbackList, requestProductList } from '../../../api/base'
@@ -68,14 +67,16 @@ const Home = props => {
       <div className='feedback-title'>最近反馈</div>
       <Row gutter={12}>
         <Col span={18}>
-          <FeedbackList dataSource={feedback.opening} />
+          <FeedbackList status='opening' dataSource={feedback.opening} />
         </Col>
         <Col span={6}>
           <Card className='margin-10'>
             <UserStatistic like={10} feedback={20} />
             <Button type='primary' className='feedback-btn' onClick={showAddModal}>反馈一下</Button>
           </Card>
-          <FixedFeedbackList dataSource={feedback.closed} />
+          <Card title='最新动态'>
+            <FeedbackList status='closed' dataSource={feedback.closed} />
+          </Card>
         </Col>
       </Row>
       <AddModal ref={addModal} getFeedback={getFeedback} />
