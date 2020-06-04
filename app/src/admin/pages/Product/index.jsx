@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { saveProducts } from '../../../actions'
 import { Card, Button, message, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import moment from 'moment'
@@ -26,9 +29,9 @@ const columns = [
   }
 ]
 
-const Product = () => {
+const Product = props => {
+  const { products, saveProducts } = props
   const addModal = React.useRef(null)
-  const [products, setProducts] = useState([])
   useEffect(() => {
     getProducts()
   }, [])
@@ -36,7 +39,7 @@ const Product = () => {
   const getProducts = async () => {
     try {
       const { products } = await requestProductList()
-      setProducts(products)
+      saveProducts(products)
     } catch (err) {
       message.error(err)
     }
@@ -69,4 +72,12 @@ const Product = () => {
   )
 }
 
-export default Product
+Product.propTypes = {
+  products: PropTypes.array,
+  saveProducts: PropTypes.func
+}
+
+export default connect(
+  ({ products }) => ({ products }),
+  { saveProducts }
+)(Product)

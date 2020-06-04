@@ -1,11 +1,9 @@
 import React, { useRef, useImperativeHandle, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 import './index.css'
 
 const Account = forwardRef(function Component (props, ref) {
-  const { setNickname } = props
   const loginModal = useRef(null)
   const registerModal = useRef(null)
   useImperativeHandle(ref, () => ({ showLoginModal }))
@@ -23,7 +21,6 @@ const Account = forwardRef(function Component (props, ref) {
       <LoginModal
         ref={loginModal}
         showRegisterModal={showRegisterModal}
-        setNickname={setNickname}
       />
       <RegisterModal
         ref={registerModal}
@@ -32,9 +29,5 @@ const Account = forwardRef(function Component (props, ref) {
     </>
   )
 })
-
-Account.propTypes = {
-  setNickname: PropTypes.func
-}
 
 export default Account

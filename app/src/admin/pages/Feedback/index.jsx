@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { saveProducts, saveFeedback } from '../../../actions'
 import { Card, Button, message, Table, Form, Select } from 'antd'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -42,9 +45,8 @@ const columns = [
   }
 ]
 
-const Feedback = () => {
-  const [products, setProducts] = useState([])
-  const [feedback, setFeedback] = useState([])
+const Feedback = props => {
+  const { products, feedback, saveProducts, saveFeedback } = props
   useEffect(() => {
     getProducts()
   }, [])
@@ -55,7 +57,7 @@ const Feedback = () => {
   const getProducts = async () => {
     try {
       const { products } = await requestProductList()
-      setProducts(products)
+      saveProducts(products)
     } catch (err) {
       message.error(err)
     }
@@ -68,7 +70,7 @@ const Feedback = () => {
         product_id: products[0].product_id,
         status: 'opening'
       })
-      setFeedback(issues)
+      saveFeedback({ status: 'opening', data: issues })
     } catch (err) {
       message.error(err)
     }
@@ -112,7 +114,7 @@ const Feedback = () => {
       }
     >
       <Table
-        dataSource={feedback}
+        dataSource={feedback.opening}
         columns={columns}
         rowKey='issue_id'
       />
@@ -120,4 +122,14 @@ const Feedback = () => {
   )
 }
 
-export default Feedback
+Feedback.propTypes = {
+  products: PropTypes.array,
+  feedback: PropTypes.object,
+  saveProducts: PropTypes.func,
+  saveFeedback: PropTypes.func
+}
+
+export default connect(
+  ({ products, feedback }) => ({ products, feedback }),
+  { saveProducts, saveFeedback }
+)(Feedback)
