@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Card, Avatar } from 'antd'
 
 const Detail = props => {
   const {
     title,
     description,
-    status,
+    // status,
     created_at: createTime,
     // updated_at: updateTime,
     owner
@@ -28,6 +29,15 @@ const Detail = props => {
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
   )
+}
+
+Detail.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    created_at: PropTypes.string,
+    owner: PropTypes.object
+  })
 }
 
 export default Detail

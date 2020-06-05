@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, List, Avatar, Form, Input, Button, message } from 'antd'
+import PropTypes from 'prop-types'
+import { List, Avatar, message } from 'antd'
 import { requestCommentList } from '../../../api/base'
 
 const { Item } = List
@@ -45,6 +46,10 @@ const CommentList = ({ id }) => {
       renderItem={renderItem}
     />
   )
+}
+
+CommentList.propTypes = {
+  id: PropTypes.string
 }
 
 export default CommentList

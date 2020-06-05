@@ -20,6 +20,7 @@ export default [
     // 反馈详情
     path: '/feedback/:id',
     exact: false,
+    /* eslint-disable react/display-name */
     children: props => <Feedback {...props} />
   }
 ]
