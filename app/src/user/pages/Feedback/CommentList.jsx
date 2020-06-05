@@ -1,26 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Avatar, message } from 'antd'
-import { requestCommentList } from '../../../api/base'
+import { List, Avatar } from 'antd'
 
 const { Item } = List
 const { Meta } = Item
 
-const CommentList = ({ id }) => {
-  const [comments, setComments] = useState([])
-  useEffect(() => {
-    if (id) getCommentList(id)
-  }, [id])
-
-  const getCommentList = async id => {
-    try {
-      const { comments } = await requestCommentList(id)
-      setComments(comments)
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
+const CommentList = ({ comments }) => {
   const renderItem = item => {
     const { content, created_at: createTime, owner } = item
     const { nickname } = owner
@@ -49,7 +34,7 @@ const CommentList = ({ id }) => {
 }
 
 CommentList.propTypes = {
-  id: PropTypes.string
+  comments: PropTypes.array
 }
 
 export default CommentList

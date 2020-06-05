@@ -57,6 +57,10 @@ export const requestFeedbackDetail = id => {
 }
 
 // Comment Request
+export const requestCreateComment = data => {
+  data.user_id = Storage.get('userId')
+  return Api.request(...COMMENT.CREATE, data)
+}
 export const requestCommentList = id => {
   const config = COMMENT.LIST
   config[0] = config[0].replace('<issue_id>', id)

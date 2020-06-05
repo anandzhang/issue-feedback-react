@@ -5,18 +5,20 @@ import { Row, Col, Card, Avatar, List, message } from 'antd'
 import Detail from './Detail'
 import CommentList from './CommentList'
 import CommentForm from './CommentForm'
-import { requestFeedbackDetail } from '../../../api/base'
+import { requestFeedbackDetail, requestCommentList } from '../../../api/base'
 
 const Feedback = props => {
   const { match, history, openingFeedback } = props
   const [id, setId] = useState('')
   const [detail, setDetail] = useState({})
+  const [comments, setComments] = useState([])
   useEffect(() => {
     if (!match) history.push('/')
     else {
       const { id } = match.params
       setId(id)
       getFeedbackDetail(id)
+      getCommentList(id)
     }
   }, [])
 
@@ -24,6 +26,15 @@ const Feedback = props => {
     try {
       const result = await requestFeedbackDetail(id)
       setDetail(result)
+    } catch (err) {
+      message.error(err)
+    }
+  }
+
+  const getCommentList = async id => {
+    try {
+      const { comments } = await requestCommentList(id)
+      setComments(comments)
     } catch (err) {
       message.error(err)
     }
@@ -38,7 +49,7 @@ const Feedback = props => {
           style={{ marginTop: 12 }}
           headStyle={{ border: 'none' }}
         >
-          <CommentList id={id} />
+          <CommentList comments={comments} />
           <Card.Meta
             avatar={
               <Avatar
@@ -47,7 +58,7 @@ const Feedback = props => {
                 src='/images/avatar.jpg'
               />
             }
-            title={<CommentForm />}
+            title={<CommentForm id={id} getCommentList={getCommentList} />}
             style={{ marginTop: 20 }}
           />
         </Card>

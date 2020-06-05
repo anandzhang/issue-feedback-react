@@ -27,5 +27,6 @@ export const FEEDBACK = {
 }
 
 export const COMMENT = {
+  CREATE: config('/comment', 'POST'),
   LIST: config('/comments/<issue_id>')
 }
