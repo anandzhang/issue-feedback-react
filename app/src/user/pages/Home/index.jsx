@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { saveProducts, saveFeedback } from '../../../actions'
 import { Row, Col, Button, Card, message } from 'antd'
+import { LikeOutlined, MessageOutlined } from '@ant-design/icons'
 import Banner from '../../components/Banner'
 import UserStatistic from '../../components/UserStatistic'
 import AddModal from './AddModal'
@@ -10,7 +11,6 @@ import { requestFeedbackList, requestProductList } from '../../../api/base'
 import './index.css'
 import SimpleList from '../../../comon/SimpleList'
 import MetaList from '../../../comon/MetaList'
-import getItemActions from './getItemActions'
 import styles from './stylesheet.module.css'
 
 const Home = props => {
@@ -73,7 +73,11 @@ const Home = props => {
           <MetaList
             dataSource={feedback.opening}
             itemClassName={styles['feedback-list-item']}
-            actions={getItemActions()}
+            actions={[
+              { icon: <LikeOutlined />, textIndex: 'likes' },
+              // TODO: 后端暂无评论总数
+              { icon: <MessageOutlined />, textIndex: 'comments' }
+            ]}
             titleHref={['/feedback', 'issue_id']}
           />
         </Col>

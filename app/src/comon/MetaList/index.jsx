@@ -1,10 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
+import { List, Avatar, Space } from 'antd'
 
 const { Item } = List
 const { Meta } = Item
+
+const getItemActions = (actions, item) => (
+  actions.map(({ icon, textIndex }) => (
+    <Space key={textIndex}>{icon}{item[textIndex]}</Space>
+  ))
+)
 
 const MetaList = props => {
   const {
@@ -21,7 +27,7 @@ const MetaList = props => {
 
   const renderItem = item => (
     <Item
-      actions={actions}
+      actions={actions && getItemActions(actions, item)}
       style={itemStyle}
       className={itemClassName}
     >
@@ -58,11 +64,22 @@ const MetaList = props => {
 
 MetaList.propTypes = {
   dataSource: PropTypes.array.isRequired,
+  // List 列表每一项的样式
   itemStyle: PropTypes.object,
   itemClassName: PropTypes.string,
+  // Meta 组件中头像的尺寸
   avatarSize: PropTypes.string,
-  actions: PropTypes.array,
+  // List 列表每一项的 actions 配置
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.element.isRequired,
+      textIndex: PropTypes.string.isRequired
+    })
+  ),
+  // 标题使用的链接
   titleHref: PropTypes.array,
+  // Meta 组件中
+  // 使用到的 title avatar(src) description 数据的键
   avatarIndex: PropTypes.string,
   titleIndex: PropTypes.string,
   descriptionIndex: PropTypes.string
