@@ -16,7 +16,7 @@ const FeedbackList = props => {
   const renderItem = item => {
     if (status === 'opening') {
       const {
-        // issue_id: id,
+        issue_id: id,
         title,
         created_at: time,
         owner,
@@ -40,7 +40,7 @@ const FeedbackList = props => {
         >
           <Meta
             avatar={avatar}
-            title={title}
+            title={<a href={`/feedback/${id}`}>{title}</a>}
             description={
               `${nickname} 发表于 ${moment(time).locale('zh-cn').fromNow()}`
             }

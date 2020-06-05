@@ -18,8 +18,8 @@ export default [
   },
   {
     // 反馈详情
-    path: '/feedback',
+    path: '/feedback/:id',
     exact: false,
-    children: <Feedback />
+    children: props => <Feedback {...props} />
   }
 ]

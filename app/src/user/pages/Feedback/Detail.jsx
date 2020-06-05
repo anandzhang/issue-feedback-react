@@ -1,7 +1,17 @@
 import React from 'react'
 import { Card, Avatar } from 'antd'
 
-const Detail = () => {
+const Detail = props => {
+  const {
+    title,
+    description,
+    status,
+    created_at: createTime,
+    // updated_at: updateTime,
+    owner
+  } = props.data
+  const { nickname } = owner || {}
+
   return (
     <Card>
       <Card.Meta
@@ -12,10 +22,10 @@ const Detail = () => {
             src='/images/avatar.jpg'
           />
         }
-        title='dasda'
-        description='dsads'
+        title={title}
+        description={`${nickname} 发布于 ${createTime}`}
       />
-      <p style={{ marginTop: 20 }}>dsajldajslkdjklajd</p>
+      <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
   )
 }

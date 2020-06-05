@@ -1,5 +1,5 @@
-import React from 'react'
-import { Row, Col, Card, Avatar, List } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Row, Col, Card, Avatar, List, message } from 'antd'
 import {
   LikeOutlined,
   MessageOutlined,
@@ -8,12 +8,33 @@ import {
 import Detail from './Detail'
 import CommentList from './CommentList'
 import CommentForm from './CommentForm'
+import { requestFeedbackDetail } from '../../../api/base'
 
-const Feedback = () => {
+const Feedback = props => {
+  const { match, history } = props
+  const [detail, setDetail] = useState({})
+  useEffect(() => {
+    if (!match) history.push('/')
+    else {
+      const { id } = match.params
+      getFeedbackDetail(id)
+    }
+  }, [])
+
+  const getFeedbackDetail = async id => {
+    try {
+      const result = await requestFeedbackDetail(id)
+      setDetail(result)
+      console.log(result)
+    } catch (err) {
+      message.error(err)
+    }
+  }
+
   return (
     <Row gutter={12} style={{ marginTop: 20 }}>
       <Col span={18}>
-        <Detail />
+        <Detail data={detail} />
         <Card
           title='评论'
           style={{ marginTop: 12 }}

@@ -49,6 +49,11 @@ export const requestVoteFeedback = data => {
   data.user_id = Storage.get('userId')
   return Api.request(...config, data)
 }
+export const requestFeedbackDetail = id => {
+  const config = FEEDBACK.DETAIL
+  config[0] = config[0].replace('<issue_id>', id)
+  return Api.request(...config)
+}
 
 // service API 暂用于测试
 axios.interceptors.response.use(response => response.data)
