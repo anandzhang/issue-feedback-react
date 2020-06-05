@@ -25,3 +25,7 @@ export const FEEDBACK = {
   LIST: config('/issue/product/<product_id>'),
   DETAIL: config('/issue/<issue_id>')
 }
+
+export const COMMENT = {
+  LIST: config('/comments/<issue_id>')
+}

@@ -12,11 +12,13 @@ import { requestFeedbackDetail } from '../../../api/base'
 
 const Feedback = props => {
   const { match, history } = props
+  const [id, setId] = useState('')
   const [detail, setDetail] = useState({})
   useEffect(() => {
     if (!match) history.push('/')
     else {
       const { id } = match.params
+      setId(id)
       getFeedbackDetail(id)
     }
   }, [])
@@ -25,7 +27,6 @@ const Feedback = props => {
     try {
       const result = await requestFeedbackDetail(id)
       setDetail(result)
-      console.log(result)
     } catch (err) {
       message.error(err)
     }
@@ -40,7 +41,7 @@ const Feedback = props => {
           style={{ marginTop: 12 }}
           headStyle={{ border: 'none' }}
         >
-          <CommentList />
+          <CommentList id={id} />
           <Card.Meta
             avatar={
               <Avatar

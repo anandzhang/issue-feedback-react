@@ -3,7 +3,8 @@ import {
   ACCOUNT,
   PROFILE,
   PRODUCT,
-  FEEDBACK
+  FEEDBACK,
+  COMMENT
 } from './config'
 import Storage from '../utils/Storage'
 import axios from 'axios'
@@ -51,6 +52,13 @@ export const requestVoteFeedback = data => {
 }
 export const requestFeedbackDetail = id => {
   const config = FEEDBACK.DETAIL
+  config[0] = config[0].replace('<issue_id>', id)
+  return Api.request(...config)
+}
+
+// Comment Request
+export const requestCommentList = id => {
+  const config = COMMENT.LIST
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config)
 }
