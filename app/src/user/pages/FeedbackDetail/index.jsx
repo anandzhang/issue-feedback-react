@@ -7,7 +7,7 @@ import CommentList from './CommentList'
 import CommentForm from './CommentForm'
 import { requestFeedbackDetail, requestCommentList } from '../../../api/base'
 
-const Feedback = props => {
+const FeedbackDetail = props => {
   const { match, history, openingFeedback } = props
   const [id, setId] = useState('')
   const [detail, setDetail] = useState({})
@@ -75,7 +75,7 @@ const Feedback = props => {
   )
 }
 
-Feedback.propTypes = {
+FeedbackDetail.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   openingFeedback: PropTypes.array
@@ -83,4 +83,4 @@ Feedback.propTypes = {
 
 export default connect(
   ({ feedback }) => ({ openingFeedback: feedback.opening })
-)(Feedback)
+)(FeedbackDetail)

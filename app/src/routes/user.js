@@ -1,6 +1,6 @@
 import Home from '../user/pages/Home'
 import Profile from '../user/pages/Profile'
-import Feedback from '../user/pages/Feedback'
+import FeedbackDetail from '../user/pages/FeedbackDetail'
 
 export default [
   {
@@ -19,6 +19,6 @@ export default [
     // 反馈详情
     path: '/feedback/:id',
     exact: false,
-    component: Feedback
+    component: FeedbackDetail
   }
 ]
