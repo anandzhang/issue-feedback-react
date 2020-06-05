@@ -34,7 +34,7 @@ const Header = props => {
         <Dropdown overlay={menu} trigger={['click']}>
           <Avatar
             size='large'
-            src='https://anand-app.oss-cn-beijing.aliyuncs.com/avatar/2.jpg'
+            src='/images/avatar.jpg'
             alt='avatar'
             style={{ cursor: 'pointer' }}
           />

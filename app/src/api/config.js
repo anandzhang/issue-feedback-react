@@ -22,5 +22,11 @@ export const PRODUCT = {
 export const FEEDBACK = {
   CREATE: config('/issue', 'POST'),
   VOTE: config('/issue/<issue_id>/vote', 'PUT'),
-  LIST: config('/issue/product/<product_id>')
+  LIST: config('/issue/product/<product_id>'),
+  DETAIL: config('/issue/<issue_id>')
+}
+
+export const COMMENT = {
+  CREATE: config('/comment', 'POST'),
+  LIST: config('/comments/<issue_id>')
 }

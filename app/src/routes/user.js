@@ -1,6 +1,7 @@
 import React from 'react'
 import Home from '../user/pages/Home'
 import Profile from '../user/pages/Profile'
+import Feedback from '../user/pages/Feedback'
 
 export default [
   {
@@ -14,5 +15,12 @@ export default [
     path: '/profile',
     exact: false,
     children: <Profile />
+  },
+  {
+    // 反馈详情
+    path: '/feedback/:id',
+    exact: false,
+    /* eslint-disable react/display-name */
+    children: props => <Feedback {...props} />
   }
 ]
