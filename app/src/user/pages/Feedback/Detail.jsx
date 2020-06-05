@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Avatar } from 'antd'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 
 const Detail = props => {
   const {
@@ -24,7 +26,7 @@ const Detail = props => {
           />
         }
         title={title}
-        description={`${nickname} 发布于 ${createTime}`}
+        description={`${nickname} 发布于 ${moment(createTime).locale('zh-cn').fromNow()}`}
       />
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
