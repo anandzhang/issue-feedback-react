@@ -4,11 +4,14 @@ import { connect } from 'react-redux'
 import { saveProducts, saveFeedback } from '../../../actions'
 import { Row, Col, Button, Card, message } from 'antd'
 import Banner from '../../components/Banner'
-import FeedbackList from '../../components/FeedbackList'
 import UserStatistic from '../../components/UserStatistic'
 import AddModal from './AddModal'
 import { requestFeedbackList, requestProductList } from '../../../api/base'
 import './index.css'
+import SimpleList from '../../../comon/SimpleList'
+import MetaList from '../../../comon/MetaList'
+import getItemActions from './getItemActions'
+import styles from './stylesheet.module.css'
 
 const Home = props => {
   const { products, feedback, saveProducts, saveFeedback } = props
@@ -67,7 +70,12 @@ const Home = props => {
       <div className='feedback-title'>最近反馈</div>
       <Row gutter={12}>
         <Col span={18}>
-          <FeedbackList status='opening' dataSource={feedback.opening} />
+          <MetaList
+            dataSource={feedback.opening}
+            itemClassName={styles['feedback-list-item']}
+            actions={getItemActions()}
+            titleHref={['/feedback', 'issue_id']}
+          />
         </Col>
         <Col span={6}>
           <Card className='margin-10'>
@@ -75,7 +83,7 @@ const Home = props => {
             <Button type='primary' className='feedback-btn' onClick={showAddModal}>反馈一下</Button>
           </Card>
           <Card title='最新动态'>
-            <FeedbackList status='closed' dataSource={feedback.closed} />
+            <SimpleList dataSource={feedback.closed} itemName='title' />
           </Card>
         </Col>
       </Row>
