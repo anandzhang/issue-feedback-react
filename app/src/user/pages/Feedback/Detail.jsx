@@ -15,7 +15,7 @@ const Detail = () => {
         title='dasda'
         description='dsads'
       />
-      <p style={{marginTop:20}}>dsajldajslkdjklajd</p>
+      <p style={{ marginTop: 20 }}>dsajldajslkdjklajd</p>
     </Card>
   )
 }

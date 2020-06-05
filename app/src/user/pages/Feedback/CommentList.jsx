@@ -16,11 +16,10 @@ const dataSource = [
   {
     name: 'dadasd',
     content: 'dads'
-  },
+  }
 ]
 
 const CommentList = () => {
-
   const renderItem = ({ content }) => (
     <Item>
       <Meta

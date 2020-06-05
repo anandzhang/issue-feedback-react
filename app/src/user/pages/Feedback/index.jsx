@@ -41,7 +41,7 @@ const Feedback = () => {
               { content: 'dasds' },
               { content: 'dasds' },
               { content: 'dasds' },
-              { content: 'dasds' },
+              { content: 'dasds' }
             ]}
             renderItem={item => <List.Item>{item.content}</List.Item>}
           />
