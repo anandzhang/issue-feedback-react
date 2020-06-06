@@ -16,7 +16,7 @@ export const requestLogin = data => Api.request(...ACCOUNT.LOGIN, data)
 
 // Profile Request
 export const requsetProfile = userId => {
-  const config = PROFILE.GET
+  const config = [...PROFILE.GET]
   config[0] = config[0].replace('<user_id>', userId)
   return Api.request(...config)
 }
@@ -38,20 +38,20 @@ export const requestCreateFeedback = data => {
   return Api.request(...FEEDBACK.CREATE, data)
 }
 export const requestFeedbackList = data => {
-  const config = FEEDBACK.LIST
+  const config = [...FEEDBACK.LIST]
   config[0] = config[0].replace('<product_id>', data.product_id)
   delete data.product_id
   return Api.request(...config, data)
 }
 export const requestVoteFeedback = data => {
-  const config = FEEDBACK.VOTE
+  const config = [...FEEDBACK.VOTE]
   config[0] = config[0].replace('<issue_id>', data.issue_id)
   delete data.issue_id
   data.user_id = Storage.get('userId')
   return Api.request(...config, data)
 }
 export const requestFeedbackDetail = id => {
-  const config = FEEDBACK.DETAIL
+  const config = [...FEEDBACK.DETAIL]
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config)
 }
@@ -62,7 +62,7 @@ export const requestCreateComment = data => {
   return Api.request(...COMMENT.CREATE, data)
 }
 export const requestCommentList = id => {
-  const config = COMMENT.LIST
+  const config = [...COMMENT.LIST]
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config)
 }
