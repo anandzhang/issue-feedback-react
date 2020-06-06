@@ -1,5 +1,9 @@
 import * as Types from '../constants/ActionTypes'
-import { requestFeedbackList, requestProductList } from '../api/base'
+import {
+  requestFeedbackList,
+  requestProductList,
+  requestCommentList
+} from '../api/base'
 
 // Profile Actions
 export const updateProfile = data => ({
@@ -42,3 +46,24 @@ export const getFeedback = (productId, status) => async dispatch => {
     return Promise.reject(errMsg)
   }
 }
+
+// Comment Actions
+export const saveComments = data => ({
+  type: Types.SAVE_COMMENTS,
+  data
+})
+
+export const getComments = feedbackId => async dispatch => {
+  try {
+    const { comments } = await requestCommentList(feedbackId)
+    dispatch(saveComments(comments))
+  } catch {
+    const errMsg = '获取评论列表失败'
+    return Promise.reject(errMsg)
+  }
+}
+
+export const addComment = data => ({
+  type: Types.ADD_COMMENT,
+  data
+})

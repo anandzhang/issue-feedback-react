@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-
 import { Card, Avatar, message } from 'antd'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-import { requestFeedbackDetail, requestCommentList } from '../../../api/base'
+import { requestFeedbackDetail } from '../../../api/base'
+import chinaDate from '../../../utils/chinaDate'
+
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
   useEffect(() => {
@@ -41,7 +40,7 @@ const Detail = ({ id }) => {
           />
         }
         title={title}
-        description={`${nickname} 发布于 ${moment(createTime).locale('zh-cn').fromNow()}`}
+        description={`${nickname} 发布于 ${chinaDate(createTime).fromNow()}`}
       />
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>

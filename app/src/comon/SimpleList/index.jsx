@@ -7,7 +7,6 @@ const { Item } = List
 const SimpleList = ({ dataSource, itemName }) => {
   return (
     <List
-      header='其他反馈'
       dataSource={dataSource}
       renderItem={item => <Item>{item[itemName]}</Item>}
     />
