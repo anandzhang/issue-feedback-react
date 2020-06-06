@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Card, Avatar } from 'antd'
+import { Card, Avatar, message } from 'antd'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+import { requestFeedbackDetail, requestCommentList } from '../../../api/base'
+const Detail = ({ id }) => {
+  const [detail, setDetail] = useState({})
+  useEffect(() => {
+    getDetail()
+  }, [])
 
-const Detail = props => {
+  const getDetail = async () => {
+    try {
+      const result = await requestFeedbackDetail(id)
+      setDetail(result)
+    } catch (err) {
+      message.error(err)
+    }
+  }
+
   const {
     title,
     description,
@@ -12,7 +26,7 @@ const Detail = props => {
     created_at: createTime,
     // updated_at: updateTime,
     owner
-  } = props.data
+  } = detail
   const { nickname } = owner || {}
 
   return (
