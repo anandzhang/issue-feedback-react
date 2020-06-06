@@ -1,59 +1,24 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { saveProducts, saveFeedback } from '../../../actions'
-import { Row, message } from 'antd'
-import { requestFeedbackList, requestProductList } from '../../../api/base'
+import { getProducts, getFeedback } from '../../../actions'
+import { Row } from 'antd'
 import Banner from '../../components/Banner'
 import LeftPart from './LeftPart'
 import RightPart from './RightPart'
 
 const Home = props => {
-  const { products, saveProducts, saveFeedback } = props
-
+  const { products, getProducts, getFeedback } = props
   useEffect(() => {
     getProducts()
   }, [])
   useEffect(() => {
     if (products.length !== 0) {
       const { product_id: productId } = products[0]
-      getFeedback(productId)
-      getFixed(productId)
+      getFeedback(productId, 'opening')
+      getFeedback(productId, 'closed')
     }
   }, [products])
-
-  const getProducts = async () => {
-    try {
-      const { products } = await requestProductList()
-      saveProducts(products)
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
-  const getFeedback = async productId => {
-    try {
-      const { issues } = await requestFeedbackList({
-        product_id: productId,
-        status: 'opening'
-      })
-      saveFeedback({ status: 'opening', data: issues })
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
-  const getFixed = async productId => {
-    try {
-      const { issues } = await requestFeedbackList({
-        product_id: productId,
-        status: 'closed'
-      })
-      saveFeedback({ status: 'closed', data: issues })
-    } catch (err) {
-      message.error(err)
-    }
-  }
 
   return (
     <>
@@ -68,11 +33,11 @@ const Home = props => {
 
 Home.propTypes = {
   products: PropTypes.array,
-  saveProducts: PropTypes.func,
-  saveFeedback: PropTypes.func
+  getProducts: PropTypes.func,
+  getFeedback: PropTypes.func
 }
 
 export default connect(
   ({ products }) => ({ products }),
-  { saveProducts, saveFeedback }
+  { getProducts, getFeedback }
 )(Home)

@@ -53,7 +53,7 @@ const stylesheet = {
 
 RightPart.propTypes = {
   feedback: PropTypes.array,
-  nickname: PropTypes.array
+  nickname: PropTypes.string
 }
 
 export default connect(
