@@ -5,7 +5,8 @@ const config = (url, method = 'GET') => [url, method]
 export const ACCOUNT = {
   SEND_CODE: config('/account/send_code', 'POST'),
   REGISTER: config('/account', 'POST'),
-  LOGIN: config('/login', 'POST')
+  LOGIN: config('/login', 'POST'),
+  ROLE: config('/account/<user_id>/role')
 }
 
 export const PROFILE = {

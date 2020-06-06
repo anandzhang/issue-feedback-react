@@ -2,13 +2,34 @@ import * as Types from '../constants/ActionTypes'
 import {
   requestFeedbackList,
   requestProductList,
-  requestCommentList
+  requestCommentList,
+  requsetProfile,
+  requestUserRole
 } from '../api/base'
 
 // Profile Actions
 export const updateProfile = data => ({
   type: Types.UPDATE_PROFILE,
   data
+})
+
+export const getProfile = userId => async dispatch => {
+  try {
+    const [profile, role] = await Promise.all([
+      requsetProfile(userId),
+      requestUserRole(userId)
+    ])
+    delete profile.user_id
+    const { role_id: roleId } = role
+    dispatch(updateProfile({ ...profile, roleId }))
+  } catch {
+    const errMsg = '获取产品列表失败'
+    return Promise.reject(errMsg)
+  }
+}
+
+export const resetProfile = () => ({
+  type: Types.RESET_PROFILE
 })
 
 // Product Actions

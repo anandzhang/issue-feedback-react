@@ -13,6 +13,11 @@ import axios from 'axios'
 export const requestSendCode = data => Api.request(...ACCOUNT.SEND_CODE, data)
 export const requestRegister = data => Api.request(...ACCOUNT.REGISTER, data)
 export const requestLogin = data => Api.request(...ACCOUNT.LOGIN, data)
+export const requestUserRole = userId => {
+  const config = [...ACCOUNT.ROLE]
+  config[0] = config[0].replace('<user_id>', userId)
+  return Api.request(...config)
+}
 
 // Profile Request
 export const requsetProfile = userId => {

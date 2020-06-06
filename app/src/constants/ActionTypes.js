@@ -1,5 +1,6 @@
 // Profile Actions
 export const UPDATE_PROFILE = 'update profile'
+export const RESET_PROFILE = 'reset profile'
 
 // Product Actions
 export const SAVE_PRODUCTS = 'save products'
