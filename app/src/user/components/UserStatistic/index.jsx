@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Row, Col, Statistic } from 'antd'
 import './index.css'
 
-const UserStatistic = ({ like, feedback }) => {
+const UserStatistic = ({ like, feedback, style }) => {
   return (
-    <Row gutter={16}>
+    <Row gutter={16} style={style}>
       <Col span={12}>
         <Statistic
           title='被赞同'
@@ -26,7 +26,8 @@ const UserStatistic = ({ like, feedback }) => {
 
 UserStatistic.propTypes = {
   like: PropTypes.number,
-  feedback: PropTypes.number
+  feedback: PropTypes.number,
+  style: PropTypes.object
 }
 
 export default UserStatistic

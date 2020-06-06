@@ -16,7 +16,6 @@ const MetaList = props => {
   const {
     dataSource,
     itemStyle,
-    itemClassName,
     avatarSize = 'large',
     actions,
     titleHref,
@@ -29,7 +28,6 @@ const MetaList = props => {
     <Item
       actions={actions && getItemActions(actions, item)}
       style={itemStyle}
-      className={itemClassName}
     >
       <Meta
         avatar={
@@ -66,7 +64,6 @@ MetaList.propTypes = {
   dataSource: PropTypes.array.isRequired,
   // List 列表每一项的样式
   itemStyle: PropTypes.object,
-  itemClassName: PropTypes.string,
   // Meta 组件中头像的尺寸
   avatarSize: PropTypes.string,
   // List 列表每一项的 actions 配置
