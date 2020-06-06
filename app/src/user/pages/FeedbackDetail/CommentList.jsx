@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { List, Avatar, message } from 'antd'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
+import { Col, Card, Avatar, message } from 'antd'
+import Detail from './Detail'
+import CommentForm from './CommentForm'
+import MetaList from '../../../comon/MetaList'
 import { requestFeedbackDetail, requestCommentList } from '../../../api/base'
-const { Item } = List
-const { Meta } = Item
+import moment from '../../../utils/moment'
 
 const CommentList = ({ id }) => {
   const [comments, setComments] = useState([])
   useEffect(() => {
     getCommentList()
-  })
+  }, [])
 
   const getCommentList = async () => {
     try {
@@ -22,35 +21,22 @@ const CommentList = ({ id }) => {
     }
   }
 
-  const renderItem = item => {
-    const { content, created_at: createTime, owner } = item
-    const { nickname } = owner
-    return (
-      <Item>
-        <Meta
-          avatar={
-            <Avatar
-              size='large'
-              shape='square'
-              src='/images/avatar.jpg'
-            />
-          }
-          title={content}
-          description={`${nickname} 发表于 ${moment(createTime).locale('zh-cn').fromNow()}`}
-        />
-      </Item>
-    )
-  }
   return (
-    <List
-      dataSource={comments}
-      renderItem={renderItem}
-    />
-  )
-}
+    <Card
+      title='评论'
+      style={{ marginTop: 12 }}
+      headStyle={{ border: 'none' }}
+    >
+      <MetaList
+        dataSource={comments}
+        titleIndex='content'
+        descriptionRender={({ created_at: time, owner }) => (
+          `${owner.nickname} 发表于 ${moment(time).fromNow()}`
+        )}
+      />
 
-CommentList.propTypes = {
-  comments: PropTypes.array
+    </Card>
+  )
 }
 
 export default CommentList

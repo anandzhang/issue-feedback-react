@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+
 import { Card, Avatar, message } from 'antd'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -7,8 +8,8 @@ import { requestFeedbackDetail, requestCommentList } from '../../../api/base'
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
   useEffect(() => {
-    getDetail()
-  }, [])
+    if (id) getDetail()
+  }, [id])
 
   const getDetail = async () => {
     try {
@@ -48,12 +49,7 @@ const Detail = ({ id }) => {
 }
 
 Detail.propTypes = {
-  data: PropTypes.shape({
-    title: PropTypes.string,
-    description: PropTypes.string,
-    created_at: PropTypes.string,
-    owner: PropTypes.object
-  })
+  id: PropTypes.string
 }
 
 export default Detail

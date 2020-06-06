@@ -1,31 +1,19 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import { Col, Card, Avatar } from 'antd'
 import Detail from './Detail'
 import CommentList from './CommentList'
 import CommentForm from './CommentForm'
+import AddComment from './AddComment'
 
-const LeftPart = ({ id }) => {
+const LeftPart = () => {
+  const { id } = useParams()
+
   return (
     <Col span={18}>
       <Detail id={id} />
-      <Card
-        title='评论'
-        style={{ marginTop: 12 }}
-        headStyle={{ border: 'none' }}
-      >
-        <CommentList id={id} />
-        <Card.Meta
-          avatar={
-            <Avatar
-              size='large'
-              shape='square'
-              src='/images/avatar.jpg'
-            />
-          }
-          title={<CommentForm id={id} />}
-          style={{ marginTop: 20 }}
-        />
-      </Card>
+      <CommentList id={id} />
+      <AddComment id={id} />
     </Col>
   )
 }

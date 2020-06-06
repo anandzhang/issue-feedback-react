@@ -21,7 +21,8 @@ const MetaList = props => {
     titleHref,
     avatarIndex = 'avatar',
     titleIndex = 'title',
-    descriptionIndex = 'description'
+    descriptionIndex = 'description',
+    descriptionRender
   } = props
 
   const renderItem = item => (
@@ -39,15 +40,21 @@ const MetaList = props => {
           />
         }
         title={
-          <Link
-            to={titleHref.length === 2
-              ? `${titleHref[0]}/${item[titleHref[1]]}`
-              : titleHref}
-          >
-            {item[titleIndex]}
-          </Link>
+          titleHref
+            ? <Link
+              to={titleHref.length === 2
+                ? `${titleHref[0]}/${item[titleHref[1]]}`
+                : item[titleHref[0]]}
+            >
+              {item[titleIndex]}
+            </Link>
+            : item[titleIndex]
         }
-        description={item[descriptionIndex]}
+        description={
+          descriptionRender
+            ? descriptionRender(item)
+            : item[descriptionIndex]
+        }
       />
     </Item>
   )
@@ -73,13 +80,16 @@ MetaList.propTypes = {
       textIndex: PropTypes.string.isRequired
     })
   ),
-  // 标题使用的链接
+  // 标题使用的链接 ['/home'?, 'href']
+  // href 为列表每项中存链接的属性名
   titleHref: PropTypes.array,
   // Meta 组件中
-  // 使用到的 title avatar(src) description 数据的键
+  // 使用到的 title avatar(src) description 数据的属性名
   avatarIndex: PropTypes.string,
   titleIndex: PropTypes.string,
-  descriptionIndex: PropTypes.string
+  descriptionIndex: PropTypes.string,
+  // 传入方法进行自定义渲染
+  descriptionRender: PropTypes.func
 }
 
 export default MetaList
