@@ -1,3 +1,4 @@
+import React from 'react'
 import Home from '../admin/pages/Home'
 import Feedback from '../admin/pages/Feedback'
 import Product from '../admin/pages/Product'
@@ -8,24 +9,24 @@ export default [
     // 主页
     path: '/admin',
     exact: true,
-    component: Home
+    children: <Home />
   },
   {
     // 反馈管理
     path: '/admin/manage/feedback',
     exact: false,
-    component: Feedback
+    children: <Feedback />
   },
   {
     // 产品管理
     path: '/admin/manage/product',
     exact: false,
-    component: Product
+    children: <Product />
   },
   {
     // 后台成员
     path: '/admin/role',
     exact: false,
-    component: Role
+    children: <Role />
   }
 ]
