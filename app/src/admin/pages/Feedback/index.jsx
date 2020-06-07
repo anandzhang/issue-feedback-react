@@ -1,120 +1,30 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { saveProducts, saveFeedback } from '../../../actions'
-import { Card, Button, message, Table, Form, Select } from 'antd'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-import { requestProductList, requestFeedbackList } from '../../../api/base'
-
-const { Item } = Form
-const { Option } = Select
-
-const STATUS = {
-  opening: '未解决',
-  closed: '已解决'
-}
-
-const columns = [
-  {
-    title: '标题',
-    dataIndex: 'title'
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    render: status => STATUS[status]
-  },
-  {
-    title: '描述',
-    dataIndex: 'description'
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'updated_at',
-    render: date => moment(date).locale('zh-cn').fromNow()
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'created_at',
-    render: date => moment(date).locale('zh-cn').format('lll')
-  },
-  {
-    title: '创建人',
-    dataIndex: 'owner_id'
-  }
-]
+import { getProducts, getFeedback } from '../../../actions'
+import { Card, Table } from 'antd'
+import CardTitle from './CardTitle'
+import columns from './columns'
 
 const Feedback = props => {
-  const { products, feedback, saveProducts, saveFeedback } = props
+  const { products, feedback, getProducts, getFeedback } = props
   useEffect(() => {
     getProducts()
   }, [])
   useEffect(() => {
-    if (products.length !== 0) getFeedback()
+    if (products.length !== 0) {
+      const productId = products[0].product_id
+      getFeedback(productId, 'opening')
+      getFeedback(productId, 'closed')
+    }
   }, [products])
-
-  const getProducts = async () => {
-    try {
-      const { products } = await requestProductList()
-      saveProducts(products)
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
-  const getFeedback = async () => {
-    try {
-      const { issues } = await requestFeedbackList({
-        // TODO: 暂取第一个产品进行反馈数据渲染
-        product_id: products[0].product_id,
-        status: 'opening'
-      })
-      saveFeedback({ status: 'opening', data: issues })
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
-  const searchFeedback = values => {
-    // TODO: 暂无后端接口
-    message.success(JSON.stringify(values))
-  }
 
   return (
     <Card
-      title={
-        <div>
-          反馈管理
-          <Form
-            onFinish={searchFeedback}
-            style={{ display: 'inline-block', marginLeft: 20 }}
-          >
-            <Item name='product_id' noStyle>
-              <Select placeholder='选择产品' style={{ width: 160 }}>
-                {
-                  products.map(value => (
-                    <Option key={value.product_id} value={value.product_id}>{value.name}</Option>
-                  ))
-                }
-              </Select>
-            </Item>
-            <Item name='status' noStyle>
-              <Select placeholder='选择产品状态' style={{ marginLeft: 5 }}>
-                {
-                  Object.keys(STATUS).map(objKey => (
-                    <Option key={objKey} value={objKey}>{STATUS[objKey]}</Option>
-                  ))
-                }
-              </Select>
-            </Item>
-            <Button type='ghost' htmlType='submit' style={{ marginLeft: 5 }}>搜索</Button>
-          </Form>
-        </div>
-      }
+      title={<CardTitle products={products} />}
     >
       <Table
-        dataSource={feedback.opening}
+        dataSource={feedback}
         columns={columns}
         rowKey='issue_id'
       />
@@ -124,12 +34,15 @@ const Feedback = props => {
 
 Feedback.propTypes = {
   products: PropTypes.array,
-  feedback: PropTypes.object,
-  saveProducts: PropTypes.func,
-  saveFeedback: PropTypes.func
+  feedback: PropTypes.array,
+  getProducts: PropTypes.func,
+  getFeedback: PropTypes.func
 }
 
 export default connect(
-  ({ products, feedback }) => ({ products, feedback }),
-  { saveProducts, saveFeedback }
+  ({ products, feedback }) => ({
+    products,
+    feedback: [...feedback.opening, ...feedback.closed]
+  }),
+  { getProducts, getFeedback }
 )(Feedback)
