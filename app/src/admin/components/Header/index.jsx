@@ -1,51 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
-import { Avatar, Row, Col, Dropdown, Menu } from 'antd'
-import Storage from '../../../utils/Storage'
+import { Row, Col } from 'antd'
+import DropdownMenu from './DropdownMenu'
 
-const { Item } = Menu
-
-const Header = props => {
-  const logout = () => {
-    Storage.deleteMany(['userId', 'roleId', 'token'])
-    props.history.push('/')
-  }
-
-  const menu = (
-    <Menu>
-      <Item
-        key='profile'
-        onClick={() => props.history.push('/')}
-      >
-        用户页面
-      </Item>
-      <Item
-        key='logout'
-        onClick={logout}
-      >
-        退出登录
-      </Item>
-    </Menu>
-  )
+const Header = () => {
   return (
-    <Row justify='end' style={{ backgroundColor: '#fff', padding: '8px 20px' }}>
-      <Col>
-        <Dropdown overlay={menu} trigger={['click']}>
-          <Avatar
-            size='large'
-            src='/images/avatar.jpg'
-            alt='avatar'
-            style={{ cursor: 'pointer' }}
-          />
-        </Dropdown>
-      </Col>
+    <Row justify='end' style={stylesheet.header}>
+      <Col><DropdownMenu /></Col>
     </Row>
   )
 }
 
-Header.propTypes = {
-  history: PropTypes.object
+const stylesheet = {
+  header: {
+    backgroundColor: '#fff',
+    padding: '8px 20px'
+  }
 }
 
-export default withRouter(Header)
+export default Header

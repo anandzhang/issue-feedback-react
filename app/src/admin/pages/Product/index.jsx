@@ -1,49 +1,18 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { saveProducts } from '../../../actions'
-import { Card, Button, message, Table } from 'antd'
+import { getProducts } from '../../../actions'
+import { Card, Button, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-import { requestProductList } from '../../../api/base'
 import AddModal from './AddModal'
-
-const columns = [
-  {
-    title: '名称',
-    dataIndex: 'name'
-  },
-  {
-    title: '描述',
-    dataIndex: 'description'
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'created_at',
-    render: date => moment(date).locale('zh-cn').fromNow()
-  },
-  {
-    title: '创建人',
-    dataIndex: 'manager_id'
-  }
-]
+import columns from './columns'
 
 const Product = props => {
-  const { products, saveProducts } = props
+  const { products, getProducts } = props
   const addModal = React.useRef(null)
   useEffect(() => {
     getProducts()
   }, [])
-
-  const getProducts = async () => {
-    try {
-      const { products } = await requestProductList()
-      saveProducts(products)
-    } catch (err) {
-      message.error(err)
-    }
-  }
 
   const showAddModal = () => {
     addModal.current.changeVisible()
@@ -74,10 +43,10 @@ const Product = props => {
 
 Product.propTypes = {
   products: PropTypes.array,
-  saveProducts: PropTypes.func
+  getProducts: PropTypes.func
 }
 
 export default connect(
   ({ products }) => ({ products }),
-  { saveProducts }
+  { getProducts }
 )(Product)
