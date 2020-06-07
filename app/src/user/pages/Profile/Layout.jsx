@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Card, Avatar, Statistic } from 'antd'
+import { Row, Col, Card, Avatar } from 'antd'
+import CenterStatistic from '../../../comon/CenterStatistic'
 
 const avatar = (
   <Avatar
@@ -10,6 +11,18 @@ const avatar = (
     alt='avatar'
   />
 )
+
+// TODO: 后端无接口
+const statisticDataSource = [
+  {
+    title: '反馈',
+    value: 3
+  },
+  {
+    title: '已解决',
+    value: 6
+  }
+]
 
 const Layout = props => {
   const { profile, tabList, contentList } = props
@@ -29,14 +42,7 @@ const Layout = props => {
           />
         </Card>
         <Card style={{ marginTop: 12 }}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Statistic title="反馈" value={3} style={{ textAlign: 'center' }} />
-            </Col>
-            <Col span={12}>
-              <Statistic title="已解决" value={2} style={{ textAlign: 'center' }} />
-            </Col>
-          </Row>
+          <CenterStatistic dataSource={statisticDataSource} />
         </Card>
       </Col>
       <Col span={17}>

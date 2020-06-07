@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { getComments } from '../../../actions'
 import { Form, Input, Button, message } from 'antd'
 import { requestCreateComment } from '../../../api/base'
 
 const { Item } = Form
 const { TextArea } = Input
 
-const CommentForm = ({ id, getCommentList }) => {
+const CommentForm = ({ id, getComments }) => {
   const form = React.createRef()
 
   const postComment = async ({ content }) => {
@@ -15,7 +17,7 @@ const CommentForm = ({ id, getCommentList }) => {
         issue_id: id,
         content
       })
-      getCommentList(id)
+      getComments(id)
       form.current.resetFields()
     } catch (err) {
       message.error(err)
@@ -27,11 +29,11 @@ const CommentForm = ({ id, getCommentList }) => {
       <Item
         name='content'
         rules={[{ required: true, message: '请输入内容' }]}
-        style={{ marginBottom: 10 }}
+        style={stylesheet.formItem}
       >
         <TextArea
           placeholder='来说几句吧......'
-          style={{ height: 70 }}
+          style={stylesheet.textArea}
         />
       </Item>
       <Button type='primary' htmlType='submit'>评论</Button>
@@ -39,9 +41,21 @@ const CommentForm = ({ id, getCommentList }) => {
   )
 }
 
-CommentForm.propTypes = {
-  id: PropTypes.string,
-  getCommentList: PropTypes.func
+const stylesheet = {
+  formItem: {
+    marginBottom: 10
+  },
+  textArea: {
+    height: 70
+  }
 }
 
-export default CommentForm
+CommentForm.propTypes = {
+  id: PropTypes.string,
+  getComments: PropTypes.func
+}
+
+export default connect(
+  null,
+  { getComments }
+)(CommentForm)

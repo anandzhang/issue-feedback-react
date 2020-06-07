@@ -1,6 +1,7 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { getFeedback } from '../../../actions'
 import { Modal, Form, Input, Select, message } from 'antd'
 import { requestCreateFeedback } from '../../../api/base'
 
@@ -22,7 +23,7 @@ const AddModal = forwardRef(function Component (props, ref) {
       const values = await validateFields()
       await requestCreateFeedback(values)
       message.success('反馈成功')
-      getFeedback(products[0].product_id)
+      getFeedback(products[0].product_id, 'opening')
       resetFields()
       changeVisible()
     } catch (err) {
@@ -72,6 +73,7 @@ AddModal.propTypes = {
 
 export default connect(
   ({ products }) => ({ products }),
-  null, null,
+  { getFeedback },
+  null,
   { forwardRef: true }
 )(AddModal)
