@@ -4,6 +4,7 @@ import { Card, Avatar, message } from 'antd'
 import { requestFeedbackDetail } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
 import StatusTag from './StatusTag'
+import TagList from './TagList'
 
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
@@ -26,7 +27,8 @@ const Detail = ({ id }) => {
     status,
     created_at: createTime,
     // updated_at: updateTime,
-    owner
+    owner,
+    tags = []
   } = detail
   const { nickname } = owner || {}
 
@@ -45,7 +47,7 @@ const Detail = ({ id }) => {
         )}
         description={`${nickname} 发布于 ${chinaDate(createTime).fromNow()}`}
       />
-      ahdkasdhjk
+      <TagList tags={tags} />
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
   )
