@@ -7,7 +7,7 @@ const Item = ({ data, onChange }) => {
   const [checked, setChecked] = useState(initChecked)
 
   const changeChecked = e => {
-    onChange(e.target.dataset.value, !checked)
+    onChange(e.target.dataset.value)
     setChecked(!checked)
   }
 

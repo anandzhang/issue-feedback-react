@@ -47,7 +47,7 @@ const Detail = ({ id }) => {
         )}
         description={`${nickname} 发布于 ${chinaDate(createTime).fromNow()}`}
       />
-      <TagList tags={tags} />
+      <TagList id={id} tags={tags} getDetail={getDetail} />
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
   )
