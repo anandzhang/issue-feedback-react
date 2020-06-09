@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import { CheckOutlined } from '@ant-design/icons'
 
 const Item = ({ data, onChange }) => {
-  const { name, description, color = '#eee' } = data
-  const [checked, setChecked] = useState(true)
+  const { name, description, color = '#eee', checked: initChecked } = data
+  const [checked, setChecked] = useState(initChecked)
 
   const changeChecked = e => {
+    onChange(e.target.dataset.value, !checked)
     setChecked(!checked)
-    onChange(e.target.dataset.name)
   }
 
   return (
     <div
-      data-name={name}
+      data-value={name}
       onClick={changeChecked}
       className='hover-bg clearfix'
       style={stylesheet.item}
@@ -71,7 +71,8 @@ Item.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.string,
-    color: PropTypes.string
+    color: PropTypes.string,
+    checked: PropTypes.bool
   }),
   onChange: PropTypes.func
 }

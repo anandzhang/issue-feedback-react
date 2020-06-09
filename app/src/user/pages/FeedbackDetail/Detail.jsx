@@ -28,7 +28,7 @@ const Detail = ({ id }) => {
     created_at: createTime,
     // updated_at: updateTime,
     owner,
-    tags = []
+    tags
   } = detail
   const { nickname } = owner || {}
 

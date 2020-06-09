@@ -12,8 +12,10 @@ code {
 /* Ant Design Style
 -------------------- */
 
-.ant-popover-inner-content {
+.tag-list .ant-popover-inner-content {
   padding: 0;
+  height: 240px;
+  overflow: auto;
 }
 
 /* Common
