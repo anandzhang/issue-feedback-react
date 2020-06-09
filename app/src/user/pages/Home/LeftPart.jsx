@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Col } from 'antd'
 import { LikeOutlined, MessageOutlined } from '@ant-design/icons'
 import MetaList from '../../../comon/MetaList'
+import TopSelect from './TopSelect'
 
 const actions = [
   { icon: <LikeOutlined />, textIndex: 'likes' },
@@ -14,6 +15,7 @@ const actions = [
 const LeftPart = ({ feedback }) => (
   <Col span={18}>
     <MetaList
+      header={<TopSelect />}
       dataSource={feedback}
       itemStyle={stylesheet.listItem}
       actions={actions}
