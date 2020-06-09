@@ -4,7 +4,7 @@ import { Card, Avatar, message } from 'antd'
 import { requestFeedbackDetail } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
 import StatusTag from './StatusTag'
-import TagList from './TagList'
+import TagList from '../../components/TagList'
 
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
