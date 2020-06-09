@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Card, Avatar, message } from 'antd'
 import { requestFeedbackDetail } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
+import StatusTag from './StatusTag'
 
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
@@ -22,7 +23,7 @@ const Detail = ({ id }) => {
   const {
     title,
     description,
-    // status,
+    status,
     created_at: createTime,
     // updated_at: updateTime,
     owner
@@ -39,12 +40,21 @@ const Detail = ({ id }) => {
             src='/images/avatar.jpg'
           />
         }
-        title={title}
+        title={(
+          <>{title}<StatusTag type={status} style={stylesheet.status} /></>
+        )}
         description={`${nickname} 发布于 ${chinaDate(createTime).fromNow()}`}
       />
+      ahdkasdhjk
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
   )
+}
+
+const stylesheet = {
+  status: {
+    marginLeft: 8
+  }
 }
 
 Detail.propTypes = {
