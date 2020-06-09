@@ -16,6 +16,7 @@ const MetaList = props => {
   const {
     dataSource,
     itemStyle,
+    header,
     avatarSize = 'large',
     actions,
     titleHref,
@@ -61,6 +62,7 @@ const MetaList = props => {
 
   return (
     <List
+      header={header}
       dataSource={dataSource}
       renderItem={renderItem}
     />
@@ -71,6 +73,11 @@ MetaList.propTypes = {
   dataSource: PropTypes.array.isRequired,
   // List 列表每一项的样式
   itemStyle: PropTypes.object,
+  // List header
+  header: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   // Meta 组件中头像的尺寸
   avatarSize: PropTypes.string,
   // List 列表每一项的 actions 配置
