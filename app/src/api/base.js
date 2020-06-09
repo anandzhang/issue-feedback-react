@@ -60,6 +60,11 @@ export const requestFeedbackDetail = id => {
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config)
 }
+export const requestUpdateTags = (id, tags) => {
+  const config = [...FEEDBACK.TAG]
+  config[0] = config[0].replace('<issue_id>', id)
+  return Api.request(...config, { tags_name: tags })
+}
 
 // Comment Request
 export const requestCreateComment = data => {
