@@ -33,5 +33,10 @@ export default [
     title: '创建人',
     dataIndex: 'owner',
     render: ({ nickname }) => nickname
+  },
+  {
+    title: '开发人员',
+    dataIndex: 'developer_ids',
+    render: ids => ids.map(id => id)
   }
 ]

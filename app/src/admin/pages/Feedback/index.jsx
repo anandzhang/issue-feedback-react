@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProducts, getFeedback } from '../../../actions'
-import { Card, Table } from 'antd'
+import { Card, Table, Button, message } from 'antd'
 import CardTitle from './CardTitle'
 import columns from './columns'
 
@@ -18,6 +18,14 @@ const Feedback = props => {
       getFeedback(productId, 'closed')
     }
   }, [products])
+
+  columns.push({
+    title: '操作',
+    /* eslint-disable react/display-name, react/prop-types */
+    render: ({ issue_id: id }) => (
+      <Button type='link' onClick={() => message.success(id)}>分配</Button>
+    )
+  })
 
   return (
     <Card
