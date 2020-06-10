@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProducts, getFeedback } from '../../../actions'
-import { Card, Table } from 'antd'
+import { Card, Table, Button } from 'antd'
 import CardTitle from './CardTitle'
 import columns from './columns'
+import AssignModal from './AssignModal'
 
 const Feedback = props => {
+  const assignModal = useRef(null)
   const { products, feedback, getProducts, getFeedback } = props
   useEffect(() => {
     getProducts()
@@ -18,6 +20,33 @@ const Feedback = props => {
       getFeedback(productId, 'closed')
     }
   }, [products])
+
+  columns.push({
+    title: '操作',
+    /* eslint-disable react/display-name, react/prop-types */
+    render: feedback => {
+      const {
+        issue_id: feedbackId,
+        developer_ids: assignedDevelopers
+      } = feedback
+      return (
+        <>
+          <Button
+            type='link'
+            onClick={() => assignModal.current.changeVisible()}
+          >
+            分配
+          </Button>
+          <AssignModal
+            ref={assignModal}
+            feedbackId={feedbackId}
+            assignedDevelopers={assignedDevelopers}
+          />
+        </>
+      )
+    },
+    width: 100
+  })
 
   return (
     <Card
