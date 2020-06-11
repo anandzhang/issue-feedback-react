@@ -21,7 +21,9 @@ const Feedback = props => {
     }
   }, [products])
 
-  columns.push({
+  // 添加自定义操作列
+  const newColumns = [...columns]
+  newColumns.push({
     title: '操作',
     /* eslint-disable react/display-name, react/prop-types */
     render: feedback => {
@@ -54,7 +56,7 @@ const Feedback = props => {
     >
       <Table
         dataSource={feedback}
-        columns={columns}
+        columns={newColumns}
         rowKey='issue_id'
       />
     </Card>
