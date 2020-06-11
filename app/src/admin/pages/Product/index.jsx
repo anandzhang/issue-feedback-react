@@ -6,6 +6,8 @@ import { Card, Button, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import AddModal from './AddModal'
 import columns from './columns'
+// import EditableTable from './EditableTable'
+import Edit from './Edit'
 
 const Product = props => {
   const { products, getProducts } = props
@@ -36,6 +38,7 @@ const Product = props => {
         columns={columns}
         rowKey='product_id'
       />
+      <Edit />
       <AddModal ref={addModal} getProducts={getProducts} />
     </Card>
   )
