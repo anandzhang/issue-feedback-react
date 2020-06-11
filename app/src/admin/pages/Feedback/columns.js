@@ -37,6 +37,6 @@ export default [
   {
     title: '开发人员',
     dataIndex: 'developers',
-    render: ids => ids.map(id => id)
+    render: developers => developers.map(({ nickname }) => nickname)
   }
 ]

@@ -23,6 +23,7 @@ const AssignModal = forwardRef(function Component (props, ref) {
     formatDevelopers()
   }, [notAssignedDevelopers])
   useImperativeHandle(ref, () => ({ changeVisible }))
+  const changedDevelopers = []
 
   const changeVisible = () => setVisible(!visible)
 
@@ -34,8 +35,8 @@ const AssignModal = forwardRef(function Component (props, ref) {
   const formatDevelopers = () => {
     const checked = assignedDevelopers.reduce((pre, cur) => {
       pre.push({
-        nickname: cur,
-        user_id: cur,
+        nickname: cur.nickname,
+        user_id: cur.user_id,
         checked: true
       })
       return pre
@@ -43,11 +44,18 @@ const AssignModal = forwardRef(function Component (props, ref) {
     setDevelopers(checked.concat(notAssignedDevelopers))
   }
 
-  const assignFeedback = async e => {
+  const onChange = e => {
     const { id } = e.target
+    const index = changedDevelopers.findIndex(item => item === id)
+    if (index > -1) changedDevelopers.splice(index, 1)
+    else changedDevelopers.push(id)
+  }
+
+  const assignFeedback = async () => {
     try {
-      await requestAssignFeedback(feedbackId, id)
+      await requestAssignFeedback(feedbackId, changedDevelopers)
       message.success('修改成功')
+      changeVisible()
     } catch (err) {
       message.error(err)
     }
@@ -57,8 +65,7 @@ const AssignModal = forwardRef(function Component (props, ref) {
     <Modal
       title='分配反馈'
       visible={visible}
-      footer={null}
-      // onOk={assignFeedback}
+      onOk={assignFeedback}
       okText='确定'
       onCancel={changeVisible}
       cancelText='取消'
@@ -68,7 +75,7 @@ const AssignModal = forwardRef(function Component (props, ref) {
           developers.map(({ nickname, user_id: id, checked }) => (
             <Col span={12} key={id}>
               <Checkbox
-                onChange={assignFeedback}
+                onChange={onChange}
                 id={id}
                 defaultChecked={checked}
               >

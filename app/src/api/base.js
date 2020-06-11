@@ -81,10 +81,10 @@ export const requestDeveloperList = feedbackId => {
   config[0] = config[0].replace('<issue_id>', feedbackId)
   return Api.request(...config)
 }
-export const requestAssignFeedback = (feedbackId, developerId) => {
+export const requestAssignFeedback = (feedbackId, developers) => {
   const config = [...FEEDBACK.ASSIGN]
   config[0] = config[0].replace('<issue_id>', feedbackId)
-  return Api.request(...config, { developer_id: developerId })
+  return Api.request(...config, { developer_ids: developers })
 }
 
 // Comment Request
