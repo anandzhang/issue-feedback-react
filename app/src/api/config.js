@@ -17,7 +17,9 @@ export const PROFILE = {
 export const PRODUCT = {
   CREATE: config('/product', 'POST'),
   LIST: config('/products'),
-  LIST_BY_MANAGER: config('/product/manager/<manager_id>')
+  LIST_BY_MANAGER: config('/product/manager/<manager_id>'),
+  UPDATE: config('/product/<product_id>', 'PUT'),
+  DELETE: config('/product/<product_id>', 'DELETE')
 }
 
 export const FEEDBACK = {

@@ -3,11 +3,13 @@ import chinaDate from '../../../utils/chinaDate'
 export default [
   {
     title: '名称',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    editable: true
   },
   {
     title: '描述',
-    dataIndex: 'description'
+    dataIndex: 'description',
+    editable: true
   },
   {
     title: '创建时间',
