@@ -36,6 +36,12 @@ export const requestCreateProduct = data => {
   return Api.request(...PRODUCT.CREATE, data)
 }
 export const requestProductList = () => Api.request(...PRODUCT.LIST)
+export const requestUpdateProduct = (productId, data) => {
+  const config = [...PRODUCT.UPDATE]
+  config[0] = config[0].replace('<product_id>', productId)
+  data.manager_id = Storage.get('userId')
+  return Api.request(...config, data)
+}
 
 // Feedback Request
 export const requestCreateFeedback = data => {

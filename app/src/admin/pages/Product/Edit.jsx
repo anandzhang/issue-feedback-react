@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from 'react'
 import { Table, Form, Input, message } from 'antd'
 import data from './data'
 import columns from './columns'
+import { requestUpdateProduct } from '../../../api/base'
 
 const EditableContext = React.createContext()
 
@@ -43,7 +44,8 @@ const EditableCell = (props, e) => {
   const save = async () => {
     try {
       const values = await form.validateFields()
-      console.log(values, record.product_id)
+      const result = await requestUpdateProduct(record.product_id, values)
+      console.log(result)
       toggleEdit()
     } catch (err) {
       message.error(err)
@@ -77,7 +79,6 @@ const Edit = () => {
 
   const newColumns = columns.map(col => {
     if (!col.editable) return col
-
     return {
       ...col,
       onCell: record => {
