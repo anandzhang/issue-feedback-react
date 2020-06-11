@@ -1,4 +1,7 @@
+import React from 'react'
+import { Button } from 'antd'
 import chinaDate from '../../../utils/chinaDate'
+import { requestDeleteProduct } from '../../../api/base'
 
 export default [
   {
@@ -19,5 +22,11 @@ export default [
   {
     title: '创建人',
     dataIndex: 'manager_id'
+  },
+  {
+    title: '操作',
+    render: ({ product_id: id }) => (
+      <Button type='link' onClick={() => requestDeleteProduct(id)}>删除</Button>
+    )
   }
 ]

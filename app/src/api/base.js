@@ -42,6 +42,11 @@ export const requestUpdateProduct = (productId, data) => {
   data.manager_id = Storage.get('userId')
   return Api.request(...config, data)
 }
+export const requestDeleteProduct = productId => {
+  const config = [...PRODUCT.DELETE]
+  config[0] = config[0].replace('<product_id>', productId)
+  return Api.request(...config, { manager_id: Storage.get('userId') })
+}
 
 // Feedback Request
 export const requestCreateFeedback = data => {
