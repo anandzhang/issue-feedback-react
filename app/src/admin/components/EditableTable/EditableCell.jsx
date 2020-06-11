@@ -45,23 +45,43 @@ const EditableCell = props => {
   }
 
   let childNode = children
-
   if (editable) {
     childNode = editing
       ? (
         <Item
           name={dataIndex}
           rules={[{ required: true, message: `请输入${title}` }]}
+          noStyle
         >
-          <Input ref={input} onPressEnter={save} onBlur={save} />
+          <Input
+            ref={input}
+            onPressEnter={save}
+            onBlur={save}
+            style={stylesheet.input}
+          />
         </Item>
       )
       : (
-        <div style={{ display: 'inline' }} onClick={toggleEdit}>{children}</div>
+        <div
+          onClick={toggleEdit}
+          style={stylesheet.normalText}
+        >
+          {children}
+        </div>
       )
   }
 
   return <td {...restProps}>{childNode}</td>
+}
+
+const stylesheet = {
+  input: {
+    width: 'inherit'
+  },
+  normalText: {
+    width: '100%',
+    cursor: 'text'
+  }
 }
 
 export default EditableCell
