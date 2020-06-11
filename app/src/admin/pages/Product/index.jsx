@@ -48,6 +48,7 @@ const Product = props => {
   const newColumns = [...columns]
   newColumns.push({
     title: '操作',
+    /* eslint-disable react/display-name */
     render: record => (
       <Button type='link' onClick={() => handleDelete(record)}>删除</Button>
     )

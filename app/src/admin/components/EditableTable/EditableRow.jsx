@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'antd'
 
 const { useForm } = Form
@@ -12,6 +13,10 @@ const EditableRow = ({ EditableContext, ...restProps }) => {
       </EditableContext.Provider>
     </Form>
   )
+}
+
+EditableRow.propTypes = {
+  EditableContext: PropTypes.elementType
 }
 
 export default EditableRow

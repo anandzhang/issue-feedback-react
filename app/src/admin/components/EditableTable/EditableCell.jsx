@@ -4,6 +4,7 @@ import React, {
   useContext,
   useRef
 } from 'react'
+import PropTypes from 'prop-types'
 import { Form, Input, message } from 'antd'
 
 const { Item } = Form
@@ -82,6 +83,16 @@ const stylesheet = {
     width: '100%',
     cursor: 'text'
   }
+}
+
+EditableCell.propTypes = {
+  EditableContext: PropTypes.elementType,
+  title: PropTypes.string,
+  dataIndex: PropTypes.string,
+  editable: PropTypes.bool,
+  children: PropTypes.array,
+  record: PropTypes.object,
+  handleSave: PropTypes.func
 }
 
 export default EditableCell

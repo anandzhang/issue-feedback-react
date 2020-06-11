@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Table } from 'antd'
 import EditableRow from './EditableRow'
 import EditableCell from './EditableCell'
@@ -24,6 +25,7 @@ const EditableTable = props => {
   })
   const components = {
     body: {
+      /* eslint-disable react/display-name */
       row: props => (
         <EditableRow
           {...props}
@@ -46,6 +48,13 @@ const EditableTable = props => {
       rowKey={rowKey}
     />
   )
+}
+
+EditableTable.propTypes = {
+  dataSource: PropTypes.array,
+  columns: PropTypes.array,
+  rowKey: PropTypes.string,
+  handleSave: PropTypes.func
 }
 
 export default EditableTable
