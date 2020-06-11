@@ -29,7 +29,7 @@ const Feedback = props => {
     render: feedback => {
       const {
         issue_id: feedbackId,
-        developer_ids: assignedDevelopers
+        developers: assignedDevelopers
       } = feedback
       return (
         <>

@@ -9,7 +9,7 @@ const TagList = ({ id, tags = [], getDetail }) => {
   const changedTags = []
 
   const onChange = value => {
-    const index = changedTags.find(item => item === value)
+    const index = changedTags.findIndex(item => item === value)
     if (index > -1) changedTags.splice(index, 1)
     else changedTags.push(value)
   }
