@@ -1,17 +1,22 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef
+} from 'react'
 import { Form, Input, message } from 'antd'
-import { requestUpdateProduct } from '../../../api/base'
 
 const { Item } = Form
 
 const EditableCell = props => {
-  let {
+  const {
     EditableContext,
     title,
     dataIndex,
     editable,
     children,
-    record, // 这是 dataSource 中的数据项
+    record, // 这是 dataSource 中的数据项,
+    handleSave,
     ...restProps
   } = props
   const [editing, setEditing] = useState(false)
@@ -31,11 +36,12 @@ const EditableCell = props => {
   const save = async () => {
     try {
       const values = await form.validateFields()
-      const result = await requestUpdateProduct(record.product_id, values)
-      console.log(result)
-      record = {}
+      handleSave(values, record)
       toggleEdit()
-    } catch { }
+    } catch ({ errorFields }) {
+      const allErrorMsg = errorFields.map(({ errors }) => errors)
+      allErrorMsg.forEach(msg => message.error(msg))
+    }
   }
 
   let childNode = children
@@ -43,7 +49,10 @@ const EditableCell = props => {
   if (editable) {
     childNode = editing
       ? (
-        <Item name={dataIndex} rules={[{ required: true, message: `请输入${title}` }]}>
+        <Item
+          name={dataIndex}
+          rules={[{ required: true, message: `请输入${title}` }]}
+        >
           <Input ref={input} onPressEnter={save} onBlur={save} />
         </Item>
       )
