@@ -36,7 +36,7 @@ export default [
   },
   {
     title: '开发人员',
-    dataIndex: 'developer_ids',
+    dataIndex: 'developers',
     render: ids => ids.map(id => id)
   }
 ]
