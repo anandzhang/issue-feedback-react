@@ -35,8 +35,7 @@ const AssignModal = forwardRef(function Component (props, ref) {
   const formatDevelopers = () => {
     const checked = assignedDevelopers.reduce((pre, cur) => {
       pre.push({
-        nickname: cur.nickname,
-        user_id: cur.user_id,
+        ...cur,
         checked: true
       })
       return pre
