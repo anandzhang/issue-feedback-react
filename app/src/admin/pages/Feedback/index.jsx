@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProducts, getFeedback } from '../../../actions'
-import { Card, Table, Button } from 'antd'
+import { Card, Table, Button, message } from 'antd'
 import CardTitle from './CardTitle'
-import columns from './columns'
 import AssignModal from './AssignModal'
+import columns from './columns'
+import STATUS from '../../../constants/Status'
+import { requestUpdateFeedbackStatus } from '../../../api/base'
 
 const Feedback = props => {
   const assignModal = useRef(null)
@@ -21,21 +23,42 @@ const Feedback = props => {
     }
   }, [products])
 
+  const showAssignModal = () => assignModal.current.changeVisible()
+
+  const modifyFeedbackStatus = async (id, status) => {
+    let msg = ''
+    if (status === STATUS.OPENING) {
+      status = STATUS.CLOSED
+      msg = '关闭'
+    } else {
+      status = STATUS.OPENING
+      msg = '开启'
+    }
+    try {
+      await requestUpdateFeedbackStatus(id, status)
+      message.success(`${msg}成功`)
+    } catch {
+      message.error(`${msg}失败`)
+    }
+  }
+
   // 添加自定义操作列
   const newColumns = [...columns]
   newColumns.push({
     title: '操作',
+    width: 160,
     /* eslint-disable react/display-name, react/prop-types */
     render: feedback => {
       const {
         issue_id: feedbackId,
+        status,
         developers: assignedDevelopers
       } = feedback
       return (
         <>
           <Button
             type='link'
-            onClick={() => assignModal.current.changeVisible()}
+            onClick={showAssignModal}
           >
             分配
           </Button>
@@ -44,10 +67,15 @@ const Feedback = props => {
             feedbackId={feedbackId}
             assignedDevelopers={assignedDevelopers}
           />
+          <Button
+            type='link'
+            onClick={() => modifyFeedbackStatus(feedbackId, status)}
+          >
+            {status === STATUS.OPENING ? '关闭' : '开启'}
+          </Button>
         </>
       )
-    },
-    width: 100
+    }
   })
 
   return (

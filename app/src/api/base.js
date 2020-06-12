@@ -86,6 +86,12 @@ export const requestAssignFeedback = (feedbackId, developers) => {
   config[0] = config[0].replace('<issue_id>', feedbackId)
   return Api.request(...config, { developer_ids: developers })
 }
+export const requestUpdateFeedbackStatus = (feedbackId, status) => {
+  const config = [...FEEDBACK.UPDATE_STATUS]
+  config[0] = config[0].replace('<issue_id>', feedbackId)
+  const userId = Storage.get('userId')
+  return Api.request(...config, { user_id: userId, status })
+}
 
 // Comment Request
 export const requestCreateComment = data => {

@@ -29,7 +29,8 @@ export const FEEDBACK = {
   DETAIL: config('/issue/<issue_id>'),
   TAG: config('/issue/<issue_id>/tag', 'PUT'),
   DEVELOPER_LIST: config('/issue/<issue_id>/developers'),
-  ASSIGN: config('/issue/<issue_id>/assign', 'PUT')
+  ASSIGN: config('/issue/<issue_id>/assign', 'PUT'),
+  UPDATE_STATUS: config('/issue/<issue_id>/status', 'PUT')
 }
 
 export const COMMENT = {
