@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getProducts, getFeedback } from '../../../actions'
 import { Card, Table, Button, message } from 'antd'
 import CardTitle from './CardTitle'
 import AssignModal from './AssignModal'
@@ -11,17 +10,8 @@ import { requestUpdateFeedbackStatus } from '../../../api/base'
 
 const Feedback = props => {
   const assignModal = useRef(null)
-  const { products, feedback, getProducts, getFeedback } = props
-  useEffect(() => {
-    getProducts()
-  }, [])
-  useEffect(() => {
-    if (products.length !== 0) {
-      const productId = products[0].product_id
-      getFeedback(productId, 'opening')
-      getFeedback(productId, 'closed')
-    }
-  }, [products])
+  const { feedback } = props
+  const [status, setStatus] = useState(STATUS.OPENING)
 
   const showAssignModal = () => assignModal.current.changeVisible()
 
@@ -80,10 +70,10 @@ const Feedback = props => {
 
   return (
     <Card
-      title={<CardTitle products={products} />}
+      title={<CardTitle status={status} setStatus={setStatus} />}
     >
       <Table
-        dataSource={feedback}
+        dataSource={feedback[status]}
         columns={newColumns}
         rowKey='issue_id'
       />
@@ -92,16 +82,7 @@ const Feedback = props => {
 }
 
 Feedback.propTypes = {
-  products: PropTypes.array,
-  feedback: PropTypes.array,
-  getProducts: PropTypes.func,
-  getFeedback: PropTypes.func
+  feedback: PropTypes.object
 }
 
-export default connect(
-  ({ products, feedback }) => ({
-    products,
-    feedback: [...feedback.opening, ...feedback.closed]
-  }),
-  { getProducts, getFeedback }
-)(Feedback)
+export default connect(({ feedback }) => ({ feedback }))(Feedback)
