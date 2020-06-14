@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Card, Table, Button, message } from 'antd'
 import CardTitle from './CardTitle'
@@ -12,6 +13,7 @@ const Feedback = props => {
   const assignModal = useRef(null)
   const { feedback } = props
   const [status, setStatus] = useState(STATUS.OPENING)
+  const history = useHistory()
 
   const showAssignModal = () => assignModal.current.changeVisible()
 
@@ -36,7 +38,6 @@ const Feedback = props => {
   const newColumns = [...columns]
   newColumns.push({
     title: '操作',
-    width: 160,
     /* eslint-disable react/display-name, react/prop-types */
     render: feedback => {
       const {
@@ -62,6 +63,12 @@ const Feedback = props => {
             onClick={() => modifyFeedbackStatus(feedbackId, status)}
           >
             {status === STATUS.OPENING ? '关闭' : '开启'}
+          </Button>
+          <Button
+            type='link'
+            onClick={() => history.push('/admin/manage/feedback/detail', { feedback })}
+          >
+            详情
           </Button>
         </>
       )

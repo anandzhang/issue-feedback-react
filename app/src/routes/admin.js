@@ -1,6 +1,7 @@
 import React from 'react'
 import Home from '../admin/pages/Home'
 import Feedback from '../admin/pages/Feedback'
+import FeedbackDetail from '../admin/pages/FeedbackDetail'
 import Product from '../admin/pages/Product'
 import Role from '../admin/pages/Role'
 
@@ -14,8 +15,14 @@ export default [
   {
     // 反馈管理
     path: '/admin/manage/feedback',
-    exact: false,
+    exact: true,
     children: <Feedback />
+  },
+  {
+    // 反馈管理
+    path: '/admin/manage/feedback/detail',
+    exact: false,
+    children: <FeedbackDetail />
   },
   {
     // 产品管理

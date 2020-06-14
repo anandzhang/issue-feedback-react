@@ -16,27 +16,13 @@ export default [
     render: status => STATUS[status]
   },
   {
-    title: '描述',
-    dataIndex: 'description'
-  },
-  {
     title: '更新时间',
     dataIndex: 'updated_at',
     render: date => chinaDate(date).fromNow()
   },
   {
-    title: '创建时间',
-    dataIndex: 'created_at',
-    render: date => chinaDate(date).format('lll')
-  },
-  {
     title: '创建人',
     dataIndex: 'owner',
     render: ({ nickname }) => nickname
-  },
-  {
-    title: '开发人员',
-    dataIndex: 'developers',
-    render: developers => developers.map(({ nickname }) => nickname)
   }
 ]
