@@ -38,3 +38,9 @@ export const COMMENT = {
   CREATE: config('/comment', 'POST'),
   LIST: config('/comments/<issue_id>')
 }
+
+export const STATISTICS = {
+  USER: config('/statistics/user/<user_id>'),
+  MANAGER: config('/statistics/manager/<manager_id>'),
+  DEVELOPER: config('/statistics/developer/<developer_id>')
+}
