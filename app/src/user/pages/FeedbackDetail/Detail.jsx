@@ -4,7 +4,7 @@ import { Card, Avatar, message } from 'antd'
 import { requestFeedbackDetail } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
 import StatusTag from './StatusTag'
-import TagList from '../../components/TagList'
+import TagList from '../../../comon/TagList'
 
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
@@ -47,7 +47,13 @@ const Detail = ({ id }) => {
         )}
         description={`${nickname} 发布于 ${chinaDate(createTime).fromNow()}`}
       />
-      <TagList id={id} tags={tags} getDetail={getDetail} />
+      <TagList
+        title='标签'
+        id={id}
+        tags={tags}
+        style={stylesheet.tagsList}
+        onFinish={getDetail}
+      />
       <p style={{ marginTop: 20 }}>{description}</p>
     </Card>
   )
@@ -56,6 +62,9 @@ const Detail = ({ id }) => {
 const stylesheet = {
   status: {
     marginLeft: 8
+  },
+  tagsList: {
+    margin: '12px 0'
   }
 }
 

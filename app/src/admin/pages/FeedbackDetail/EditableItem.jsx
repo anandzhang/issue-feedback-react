@@ -25,17 +25,15 @@ const EditableItem = ({ label, name, value, handleSave, mode }) => {
     ? (
       <Form form={form} onFinish={save}>
         <Item name={name} rules={[{ required: true, message: `请输入${label}` }]} noStyle>
-          {
-            mode === 'TextArea'
-              ? <Input.TextArea
-                ref={item}
-                rows={6}
-                cols={80}
-                onBlur={() => form.submit()}
-                style={{ verticalAlign: 'top' }}
-              />
-              : <Input ref={item} onBlur={() => form.submit()} />
-          }
+          {mode === 'TextArea'
+            ? <Input.TextArea
+              ref={item}
+              rows={6}
+              cols={80}
+              onBlur={() => form.submit()}
+              style={{ verticalAlign: 'top' }}
+            />
+            : <Input ref={item} onBlur={() => form.submit()} />}
         </Item>
       </Form>
     )

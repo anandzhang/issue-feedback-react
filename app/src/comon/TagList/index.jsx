@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Tag, Popover, message } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import Item from './Item'
-import { requestUpdateTags } from '../../../api/base'
+import { requestUpdateTags } from '../../api/base'
 
-const TagList = ({ id, tags = [], getDetail }) => {
+const TagList = ({ title, id, tags = [], style, onFinish }) => {
   const changedTags = []
 
   const onChange = value => {
@@ -19,7 +19,7 @@ const TagList = ({ id, tags = [], getDetail }) => {
       try {
         await requestUpdateTags(id, changedTags)
         message.success('修改成功')
-        getDetail()
+        if (onFinish) onFinish()
       } catch (err) {
         message.error(err)
       }
@@ -31,10 +31,10 @@ const TagList = ({ id, tags = [], getDetail }) => {
   ))
 
   return (
-    <div style={stylesheet.tagsList}>
-      标签：
-      {tags.map(({ name, checked }) => {
-        if (checked) return <Tag key={name} color='success'>{name}</Tag>
+    <div style={style}>
+      {title ? `${title}：` : ''}
+      {tags.map(({ name, color, checked }) => {
+        if (checked) return <Tag key={name} color={color}>{name}</Tag>
       })}
       <Popover
         placement='rightBottom'
@@ -48,12 +48,6 @@ const TagList = ({ id, tags = [], getDetail }) => {
       </Popover>
     </div>
   )
-}
-
-const stylesheet = {
-  tagsList: {
-    margin: '12px 0'
-  }
 }
 
 TagList.propTypes = {
