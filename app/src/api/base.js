@@ -113,17 +113,17 @@ export const requestCommentList = id => {
 }
 
 // statistics Request
-export const requestUserStatistics = () => {
+export const requestUserStatistic = () => {
   const config = [...STATISTICS.USER]
   config[0] = config[0].replace('<user_id>', Storage.get('userId'))
   return Api.request(...config)
 }
-export const requestManagerStatistics = () => {
+export const requestManagerStatistic = () => {
   const config = [...STATISTICS.MANAGER]
   config[0] = config[0].replace('<manager_id>', Storage.get('userId'))
   return Api.request(...config)
 }
-export const requestDeveloperStatistics = () => {
+export const requestDeveloperStatistic = () => {
   const config = [...STATISTICS.DEVELOPER]
   config[0] = config[0].replace('<developer_id>', Storage.get('userId'))
   return Api.request(...config)

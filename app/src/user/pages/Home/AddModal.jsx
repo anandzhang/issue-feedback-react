@@ -9,7 +9,7 @@ const { Item } = Form
 const { Option } = Select
 
 const AddModal = forwardRef(function Component (props, ref) {
-  const { products, getFeedback } = props
+  const { products, getFeedback, getStatistic } = props
   const form = React.createRef()
   const [visible, setVisible] = useState(false)
 
@@ -25,6 +25,7 @@ const AddModal = forwardRef(function Component (props, ref) {
       message.success('反馈成功')
       getFeedback(products[0].product_id, 'opening')
       resetFields()
+      getStatistic()
       changeVisible()
     } catch (err) {
       message.error(err)
@@ -68,7 +69,8 @@ const AddModal = forwardRef(function Component (props, ref) {
 
 AddModal.propTypes = {
   products: PropTypes.array,
-  getFeedback: PropTypes.func
+  getFeedback: PropTypes.func,
+  getStatistic: PropTypes.func
 }
 
 export default connect(
