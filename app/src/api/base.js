@@ -4,7 +4,8 @@ import {
   PROFILE,
   PRODUCT,
   FEEDBACK,
-  COMMENT
+  COMMENT,
+  STATISTICS
 } from './config'
 import Storage from '../utils/Storage'
 import axios from 'axios'
@@ -109,6 +110,23 @@ export const requestCommentList = id => {
   const config = [...COMMENT.LIST]
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config)
+}
+
+// statistics Request
+export const requestUserStatistic = () => {
+  const config = [...STATISTICS.USER]
+  config[0] = config[0].replace('<user_id>', Storage.get('userId'))
+  return Api.request(...config, null, true)
+}
+export const requestManagerStatistic = () => {
+  const config = [...STATISTICS.MANAGER]
+  config[0] = config[0].replace('<manager_id>', Storage.get('userId'))
+  return Api.request(...config, null, true)
+}
+export const requestDeveloperStatistic = () => {
+  const config = [...STATISTICS.DEVELOPER]
+  config[0] = config[0].replace('<developer_id>', Storage.get('userId'))
+  return Api.request(...config, null, true)
 }
 
 // service API 暂用于测试

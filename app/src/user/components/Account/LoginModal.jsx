@@ -1,9 +1,9 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { updateProfile } from '../../../actions'
+import { getProfile } from '../../../actions'
 import { Modal, Form, Input, Button, message } from 'antd'
-import { requestLogin, requsetProfile } from '../../../api/base'
+import { requestLogin } from '../../../api/base'
 import Storage from '../../../utils/Storage'
 
 const { Item } = Form
@@ -24,21 +24,11 @@ const LoginModal = forwardRef(function Component (props, ref) {
     try {
       const values = await form.current.validateFields()
       const result = await requestLogin(values)
-      const { user_id: userId, role_id: roleId, token } = result
+      const { user_id: userId, token } = result
       Storage.saveMany({ userId, token })
-      props.updateProfile({ roleId })
       message.success('登录成功')
-      getProfile(userId)
+      props.getProfile(userId)
       changeVisible()
-    } catch (err) {
-      message.error(err)
-    }
-  }
-
-  const getProfile = async userId => {
-    try {
-      const { nickname } = await requsetProfile(userId)
-      props.updateProfile({ nickname })
     } catch (err) {
       message.error(err)
     }
@@ -100,12 +90,12 @@ const LoginModal = forwardRef(function Component (props, ref) {
 
 LoginModal.propTypes = {
   showRegisterModal: PropTypes.func,
-  updateProfile: PropTypes.func
+  getProfile: PropTypes.func
 }
 
 export default connect(
   null,
-  { updateProfile },
+  { getProfile },
   null,
   { forwardRef: true }
 )(LoginModal)
