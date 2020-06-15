@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Card, Breadcrumb, Descriptions, Tag, Space } from 'antd'
+import { Card, Breadcrumb, Descriptions, Tag, Space, message } from 'antd'
 import { LikeOutlined, DislikeOutlined, EditOutlined } from '@ant-design/icons'
 import chinaDate from '../../../utils/chinaDate'
 import STATUS from '../../../constants/Status'
 import EditableItem from './EditableItem'
+import { requestUpdateFeedback } from '../../../api/base'
 
 const { Item } = Descriptions
 
@@ -21,8 +22,16 @@ const FeedbackDetail = () => {
   const location = useLocation()
   const { feedback } = location.state
 
-  const handleSave = value => {
-    console.log(value)
+  const handleSave = async value => {
+    try {
+      await requestUpdateFeedback({
+        issue_id: feedback.issue_id,
+        ...value
+      })
+      message.success('修改成功')
+    } catch {
+      message.error('修改失败')
+    }
   }
 
   const {
@@ -75,6 +84,7 @@ const FeedbackDetail = () => {
             name='description'
             value={description}
             handleSave={handleSave}
+            mode='TextArea'
           />
         </Item>
       </Descriptions>

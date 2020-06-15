@@ -71,6 +71,13 @@ export const requestFeedbackDetail = id => {
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config)
 }
+export const requestUpdateFeedback = data => {
+  const config = [...FEEDBACK.UPDATE]
+  config[0] = config[0].replace('<issue_id>', data.issue_id)
+  delete data.issue_id
+  data.owner_id = Storage.get('userId')
+  return Api.request(...config, data)
+}
 export const requestUpdateTags = (id, tags) => {
   const config = [...FEEDBACK.TAG]
   config[0] = config[0].replace('<issue_id>', id)

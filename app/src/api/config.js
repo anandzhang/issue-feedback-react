@@ -27,6 +27,7 @@ export const FEEDBACK = {
   VOTE: config('/issue/<issue_id>/vote', 'PUT'),
   LIST: config('/issue/product/<product_id>'),
   DETAIL: config('/issue/<issue_id>'),
+  UPDATE: config('/issue/<issue_id>', 'PUT'),
   TAG: config('/issue/<issue_id>/tag', 'PUT'),
   DEVELOPER_LIST: config('/issue/<issue_id>/developers'),
   ASSIGN: config('/issue/<issue_id>/assign', 'PUT'),
