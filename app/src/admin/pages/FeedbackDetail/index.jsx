@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import { Card, Breadcrumb, Descriptions, Tag, Space, message, Popover } from 'antd'
 import { LikeOutlined, DislikeOutlined, EditOutlined, SolutionOutlined } from '@ant-design/icons'
 import chinaDate from '../../../utils/chinaDate'
@@ -22,6 +22,7 @@ const breadcrumb = (
 
 const FeedbackDetail = () => {
   const location = useLocation()
+  const history = useHistory()
   const { feedback } = location.state
   const {
     issue_id: id,
@@ -32,10 +33,10 @@ const FeedbackDetail = () => {
     updated_at,
     likes,
     dislikes,
-    tags,
     developers,
     description
   } = feedback
+  const { tags } = feedback
 
   const handleSave = async value => {
     try {
@@ -44,9 +45,31 @@ const FeedbackDetail = () => {
         ...value
       })
       message.success('修改成功')
+      history.push(location.pathname, { feedback: { ...feedback, ...value } })
     } catch {
       message.error('修改失败')
     }
+  }
+
+  const updateStateTags = changedTags => {
+    tags.forEach(tag => {
+      const { name } = tag
+      const index = changedTags.findIndex(item => item === name)
+      if (index !== -1) {
+        tag.checked = !tag.checked
+      }
+    })
+    history.push(location.pathname, { feedback: { ...feedback, tags } })
+  }
+
+  const updateStateDevelopers = changedDevelopers => {
+    changedDevelopers.reduce((pre, cur) => {
+      const index = pre.findIndex(({ user_id }) => user_id === cur.user_id)
+      if (index !== -1) pre.splice(index, 1)
+      else pre.push(cur)
+      return pre
+    }, developers)
+    history.push(location.pathname, { feedback: { ...feedback, developers } })
   }
 
   return (
@@ -71,12 +94,12 @@ const FeedbackDetail = () => {
           </Space>
         </Item>
         <Item label='标签' span={3}>
-          <TagList id={id} tags={tags} />
+          <TagList id={id} tags={tags} onFinish={updateStateTags} />
         </Item>
         <Item label='开发人员' span={3}>
           <Space>
             {developers.map(({ nickname }) => nickname)}
-            <AssignPopover id={id} assignedDevelopers={developers} />
+            <AssignPopover id={id} assignedDevelopers={developers} onFinish={updateStateDevelopers} />
           </Space>
         </Item>
         <Item label='描述'>

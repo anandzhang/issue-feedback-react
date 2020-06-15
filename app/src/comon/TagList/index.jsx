@@ -19,7 +19,7 @@ const TagList = ({ title, id, tags = [], style, onFinish }) => {
       try {
         await requestUpdateTags(id, changedTags)
         message.success('修改成功')
-        if (onFinish) onFinish()
+        if (onFinish) onFinish(changedTags)
       } catch (err) {
         message.error(err)
       }

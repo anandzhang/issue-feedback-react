@@ -6,7 +6,7 @@ import {
   requestAssignFeedback
 } from '../../../api/base'
 
-const AssignPopover = ({ id, assignedDevelopers }) => {
+const AssignPopover = ({ id, assignedDevelopers, onFinish }) => {
   const [developers, setDevelopers] = useState([])
   useEffect(() => {
     getDevelopers()
@@ -37,6 +37,7 @@ const AssignPopover = ({ id, assignedDevelopers }) => {
       try {
         await requestAssignFeedback(id, changedDevelopers)
         message.success('修改成功')
+        onFinish(developers.filter(({ user_id: id }) => changedDevelopers.find(changedId => id === changedId)))
       } catch (err) {
         message.error(err)
       }
