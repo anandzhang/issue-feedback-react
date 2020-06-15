@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
-import { Card, Breadcrumb, Descriptions, Tag, Space, message, Popover } from 'antd'
-import { LikeOutlined, DislikeOutlined, EditOutlined, SolutionOutlined } from '@ant-design/icons'
+import { Card, Breadcrumb, Descriptions, Space, message } from 'antd'
+import { LikeOutlined, DislikeOutlined } from '@ant-design/icons'
 import chinaDate from '../../../utils/chinaDate'
 import STATUS from '../../../constants/Status'
 import EditableItem from './EditableItem'
@@ -29,8 +29,8 @@ const FeedbackDetail = () => {
     title,
     status,
     owner,
-    created_at,
-    updated_at,
+    created_at: createTime,
+    updated_at: updateTime,
     likes,
     dislikes,
     developers,
@@ -64,7 +64,7 @@ const FeedbackDetail = () => {
 
   const updateStateDevelopers = changedDevelopers => {
     changedDevelopers.reduce((pre, cur) => {
-      const index = pre.findIndex(({ user_id }) => user_id === cur.user_id)
+      const index = pre.findIndex(item => item.user_id === cur.user_id)
       if (index !== -1) pre.splice(index, 1)
       else pre.push(cur)
       return pre
@@ -85,8 +85,8 @@ const FeedbackDetail = () => {
         </Item>
         <Item label='状态'>{STATUS[status]}</Item>
         <Item label='创建人'>{owner.nickname}</Item>
-        <Item label='更新时间'>{chinaDate(created_at).fromNow()}</Item>
-        <Item label='创建时间'>{chinaDate(updated_at).format('lll')}</Item>
+        <Item label='更新时间'>{chinaDate(createTime).fromNow()}</Item>
+        <Item label='创建时间'>{chinaDate(updateTime).format('lll')}</Item>
         <Item label='收到的观点'>
           <Space>
             <LikeOutlined />{likes}
@@ -99,7 +99,11 @@ const FeedbackDetail = () => {
         <Item label='开发人员' span={3}>
           <Space>
             {developers.map(({ nickname }) => nickname)}
-            <AssignPopover id={id} assignedDevelopers={developers} onFinish={updateStateDevelopers} />
+            <AssignPopover
+              id={id}
+              assignedDevelopers={developers}
+              onFinish={updateStateDevelopers}
+            />
           </Space>
         </Item>
         <Item label='描述'>

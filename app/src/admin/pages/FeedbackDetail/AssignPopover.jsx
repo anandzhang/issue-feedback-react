@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Popover, Checkbox, Space, message } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import {
@@ -6,7 +7,8 @@ import {
   requestAssignFeedback
 } from '../../../api/base'
 
-const AssignPopover = ({ id, assignedDevelopers, onFinish }) => {
+const AssignPopover = props => {
+  const { id, assignedDevelopers, onFinish } = props
   const [developers, setDevelopers] = useState([])
   useEffect(() => {
     getDevelopers()
@@ -14,7 +16,9 @@ const AssignPopover = ({ id, assignedDevelopers, onFinish }) => {
   const changedDevelopers = []
 
   const getDevelopers = async () => {
-    const { developers: notAssignedDevelopers } = await requestNotAssignedDeveloperList(id)
+    const {
+      developers: notAssignedDevelopers
+    } = await requestNotAssignedDeveloperList(id)
     const checked = assignedDevelopers.reduce((pre, cur) => {
       pre.push({
         ...cur,
@@ -32,12 +36,18 @@ const AssignPopover = ({ id, assignedDevelopers, onFinish }) => {
     else changedDevelopers.push(id)
   }
 
+  const filterFinishResult = () => {
+    developers.filter(({ user_id: id }) => (
+      changedDevelopers.find(changedId => id === changedId)
+    ))
+  }
+
   const onVisibleChange = async visible => {
     if (!visible) {
       try {
         await requestAssignFeedback(id, changedDevelopers)
         message.success('修改成功')
-        onFinish(developers.filter(({ user_id: id }) => changedDevelopers.find(changedId => id === changedId)))
+        onFinish(filterFinishResult())
       } catch (err) {
         message.error(err)
       }
@@ -70,6 +80,12 @@ const AssignPopover = ({ id, assignedDevelopers, onFinish }) => {
       <EditOutlined />
     </Popover>
   )
+}
+
+AssignPopover.propTypes = {
+  id: PropTypes.string.isRequired,
+  assignedDevelopers: PropTypes.array.isRequired,
+  onFinish: PropTypes.func.isRequired
 }
 
 export default AssignPopover

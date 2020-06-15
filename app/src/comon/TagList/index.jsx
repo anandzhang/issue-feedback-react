@@ -51,13 +51,15 @@ const TagList = ({ title, id, tags = [], style, onFinish }) => {
 }
 
 TagList.propTypes = {
+  title: PropTypes.string,
   id: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.string,
     color: PropTypes.string
   })),
-  getDetail: PropTypes.func
+  style: PropTypes.object,
+  onFinish: PropTypes.func
 }
 
 export default TagList
