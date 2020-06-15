@@ -7,6 +7,7 @@ import STATUS from '../../../constants/Status'
 import EditableItem from './EditableItem'
 import { requestUpdateFeedback } from '../../../api/base'
 import TagList from '../../../comon/TagList'
+import AssignPopover from './AssignPopover'
 
 const { Item } = Descriptions
 
@@ -75,16 +76,7 @@ const FeedbackDetail = () => {
         <Item label='开发人员' span={3}>
           <Space>
             {developers.map(({ nickname }) => nickname)}
-            <Popover
-              placement='rightBottom'
-              title='设置标签'
-              content='s'
-              trigger='click'
-              // onVisibleChange={onVisibleChange}
-              overlayClassName='tag-list'
-            >
-              <EditOutlined />
-            </Popover>
+            <AssignPopover id={id} assignedDevelopers={developers} />
           </Space>
         </Item>
         <Item label='描述'>

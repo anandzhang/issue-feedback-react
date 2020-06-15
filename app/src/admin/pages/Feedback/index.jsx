@@ -1,21 +1,17 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Card, Table, Button, message } from 'antd'
 import CardTitle from './CardTitle'
-import AssignModal from './AssignModal'
 import columns from './columns'
 import STATUS from '../../../constants/Status'
 import { requestUpdateFeedbackStatus } from '../../../api/base'
 
 const Feedback = props => {
-  const assignModal = useRef(null)
   const { feedback } = props
   const [status, setStatus] = useState(STATUS.OPENING)
   const history = useHistory()
-
-  const showAssignModal = () => assignModal.current.changeVisible()
 
   const modifyFeedbackStatus = async (id, status) => {
     let msg = ''
@@ -42,22 +38,10 @@ const Feedback = props => {
     render: feedback => {
       const {
         issue_id: feedbackId,
-        status,
-        developers: assignedDevelopers
+        status
       } = feedback
       return (
         <>
-          <Button
-            type='link'
-            onClick={showAssignModal}
-          >
-            分配
-          </Button>
-          <AssignModal
-            ref={assignModal}
-            feedbackId={feedbackId}
-            assignedDevelopers={assignedDevelopers}
-          />
           <Button
             type='link'
             onClick={() => modifyFeedbackStatus(feedbackId, status)}

@@ -83,7 +83,7 @@ export const requestUpdateTags = (id, tags) => {
   config[0] = config[0].replace('<issue_id>', id)
   return Api.request(...config, { tags_name: tags })
 }
-export const requestDeveloperList = feedbackId => {
+export const requestNotAssignedDeveloperList = feedbackId => {
   const config = [...FEEDBACK.DEVELOPER_LIST]
   config[0] = config[0].replace('<issue_id>', feedbackId)
   return Api.request(...config)
