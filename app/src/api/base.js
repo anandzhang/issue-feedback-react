@@ -134,3 +134,6 @@ axios.interceptors.response.use(response => response.data)
 export const testSendCode = data => {
   return axios.post('/api/service/v1/account/send_code', data)
 }
+export const testRegister = data => {
+  return axios.post('/api/service/v1/account', data)
+}

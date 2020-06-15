@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { Modal, Form, Input, Row, Col, InputNumber, Button, message, Select } from 'antd'
-import { testSendCode, requestRegister } from '../../../api/base'
+import { testSendCode, testRegister } from '../../../api/base'
 
 const { Item, useForm } = Form
 const { Option } = Select
@@ -22,8 +22,14 @@ const AddModal = forwardRef(function Component (props, ref) {
     } catch { }
   }
 
-  const handleRegister = valules => {
-    console.log(valules)
+  const handleRegister = async valules => {
+    try {
+      const { ok } = await testRegister(valules)
+      if (ok) message.success('添加成功')
+      changeVisible()
+    } catch (err) {
+      message.error('' + err)
+    }
   }
 
   return (
