@@ -3,8 +3,7 @@ import {
   requestFeedbackList,
   requestProductList,
   requestCommentList,
-  requsetProfile,
-  requestUserRole
+  requsetProfile
 } from '../api/base'
 
 // Profile Actions
@@ -15,15 +14,10 @@ export const updateProfile = data => ({
 
 export const getProfile = userId => async dispatch => {
   try {
-    const [profile, role] = await Promise.all([
-      requsetProfile(userId),
-      requestUserRole(userId)
-    ])
-    delete profile.user_id
-    const { role_id: roleId } = role
-    dispatch(updateProfile({ ...profile, roleId }))
+    const { user_id: id, role_id: roleId, ...rest } = await requsetProfile(userId)
+    dispatch(updateProfile({ roleId, ...rest }))
   } catch {
-    const errMsg = '获取产品列表失败'
+    const errMsg = '获取用户信息失败'
     return Promise.reject(errMsg)
   }
 }

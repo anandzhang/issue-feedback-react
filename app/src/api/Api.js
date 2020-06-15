@@ -24,12 +24,13 @@ axios.interceptors.response.use(response => {
 })
 
 class Api {
-  static async request (url, method = 'GET', data = {}) {
+  static async request (url, method = 'GET', data = {}, forceRefreshAuth = false) {
     const config = { url, method, data }
     if (data && method.toUpperCase() === 'GET') {
       delete config.data
       config.params = data
     }
+    if (forceRefreshAuth) axios.defaults.headers.Authorization = Storage.get('token')
     return axios(config)
   }
 }
