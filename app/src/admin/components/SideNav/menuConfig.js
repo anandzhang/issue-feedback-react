@@ -4,6 +4,8 @@ import {
   AppstoreOutlined,
   MessageOutlined,
   InboxOutlined,
+  SettingOutlined,
+  QuestionOutlined,
   TeamOutlined
 } from '@ant-design/icons'
 
@@ -27,6 +29,18 @@ export default [
         title: '产品管理',
         icon: <InboxOutlined />,
         route: '/admin/manage/product'
+      }
+    ]
+  },
+  {
+    title: '设置',
+    icon: <SettingOutlined />,
+    route: '/admin/setting',
+    children: [
+      {
+        title: '常见问题',
+        icon: <QuestionOutlined />,
+        route: '/admin/setting/problem'
       }
     ]
   },
