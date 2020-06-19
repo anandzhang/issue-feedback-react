@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Avatar, message, Space } from 'antd'
 import { LikeOutlined, DislikeOutlined } from '@ant-design/icons'
-import { requestFeedbackDetail } from '../../../api/base'
+import { requestFeedbackDetail, requestUserOpinion, requestVoteFeedback } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
 import StatusTag from './StatusTag'
 import TagList from '../../../comon/TagList'
+import './Detail.css'
 
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
+  const [opinion, setOpinion] = useState('')
   useEffect(() => {
-    if (id) getDetail()
+    if (id) {
+      getDetail()
+      getFeedbackOpinion()
+    }
   }, [id])
 
   const getDetail = async () => {
@@ -19,6 +24,28 @@ const Detail = ({ id }) => {
       setDetail(result)
     } catch (err) {
       message.error(err)
+    }
+  }
+
+  const getFeedbackOpinion = async () => {
+    try {
+      const { opinion } = await requestUserOpinion(id)
+      setOpinion(opinion)
+    } catch (err) {
+      message.error(err)
+    }
+  }
+
+  const handleVote = async (currentTarget, opinion) => {
+    try {
+      await requestVoteFeedback({
+        issue_id: id,
+        opinion
+      })
+      currentTarget.classList.add('active')
+      message.success('投票成功')
+    } catch (err) {
+      message.error('' + err)
     }
   }
 
@@ -59,8 +86,8 @@ const Detail = ({ id }) => {
       />
       <p style={{ margin: '20px 0' }}>{description}</p>
       <Space>
-        <LikeOutlined />{likes}
-        <DislikeOutlined />{dislikes}
+        <Space className='opinion-like' onClick={({ currentTarget }) => handleVote(currentTarget, 'like')}><LikeOutlined />{likes}</Space>
+        <Space className='opinion-dislike' onClick={({ currentTarget }) => handleVote(currentTarget, 'dislike')}><DislikeOutlined />{dislikes}</Space>
       </Space>
     </Card>
   )
