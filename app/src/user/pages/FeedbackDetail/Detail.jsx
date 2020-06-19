@@ -5,6 +5,8 @@ import { requestFeedbackDetail } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
 import StatusTag from './StatusTag'
 import TagList from '../../../comon/TagList'
+import Vote from './Vote'
+import './Detail.css'
 
 const Detail = ({ id }) => {
   const [detail, setDetail] = useState({})
@@ -28,7 +30,9 @@ const Detail = ({ id }) => {
     created_at: createTime,
     // updated_at: updateTime,
     owner,
-    tags
+    tags,
+    likes,
+    dislikes
   } = detail
   const { nickname } = owner || {}
 
@@ -54,7 +58,8 @@ const Detail = ({ id }) => {
         style={stylesheet.tagsList}
         onFinish={getDetail}
       />
-      <p style={{ marginTop: 20 }}>{description}</p>
+      <p style={{ margin: '20px 0' }}>{description}</p>
+      <Vote id={id} likes={likes} dislikes={dislikes} />
     </Card>
   )
 }

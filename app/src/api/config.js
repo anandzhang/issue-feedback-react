@@ -32,7 +32,8 @@ export const FEEDBACK = {
   DEVELOPER_LIST: config('/issue/<issue_id>/developers'),
   ASSIGN: config('/issue/<issue_id>/assign', 'PUT'),
   UPDATE_STATUS: config('/issue/<issue_id>/status', 'PUT'),
-  USER_LIST: config('/issue/owner/<user_id>')
+  USER_LIST: config('/issue/owner/<user_id>'),
+  OPINION: config('/issue/<issue_id>/user/<user_id>/opinion')
 }
 
 export const COMMENT = {

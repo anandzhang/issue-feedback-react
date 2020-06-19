@@ -1,0 +1,11 @@
+.opinion-like, .opinion-dislike {
+  cursor: pointer;
+}
+
+.opinion-like:hover, .opinion-like.active {
+  color: #1890ff;
+}
+
+.opinion-dislike:hover, .opinion-dislike.active {
+  color: #eb2f96;
+}

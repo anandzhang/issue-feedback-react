@@ -105,6 +105,12 @@ export const requestUserFeedbackList = () => {
   config[0] = config[0].replace('<user_id>', Storage.get('userId'))
   return Api.request(...config)
 }
+export const requestUserOpinion = feedbackId => {
+  const config = [...FEEDBACK.OPINION]
+  config[0] = config[0].replace('<issue_id>', feedbackId)
+  config[0] = config[0].replace('<user_id>', Storage.get('userId'))
+  return Api.request(...config)
+}
 
 // Comment Request
 export const requestCreateComment = data => {
