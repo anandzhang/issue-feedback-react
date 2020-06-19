@@ -88,7 +88,7 @@ const RightPart = props => {
         </Button>
       </Card>
       <Card title='最新动态'>
-        <SimpleList dataSource={feedback} itemName='title' />
+        <SimpleList dataSource={feedback} itemName='title' linkIndex='issue_id' />
       </Card>
       <AddModal ref={addModal} getStatistic={getStatistic} />
     </Col>
