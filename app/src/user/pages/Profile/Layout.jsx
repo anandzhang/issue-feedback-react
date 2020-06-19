@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Card, Avatar } from 'antd'
 import CenterStatistic from '../../../comon/CenterStatistic'
+import { connect } from 'react-redux'
 
 const avatar = (
   <Avatar
@@ -26,7 +27,7 @@ const statisticDataSource = [
 
 const Layout = props => {
   const { profile, tabList, contentList } = props
-  const { username, role } = profile
+  const { nickname, roleId } = profile
   const [activeTabKey, setActiveTabKey] = useState(props.tabList[0].key)
 
   const onTabChange = key => setActiveTabKey(key)
@@ -37,8 +38,8 @@ const Layout = props => {
         <Card>
           <Card.Meta
             avatar={avatar}
-            title={username}
-            description={role}
+            title={nickname}
+            description={roleId}
           />
         </Card>
         <Card style={{ marginTop: 12 }}>
@@ -64,4 +65,6 @@ Layout.propTypes = {
   contentList: PropTypes.object
 }
 
-export default Layout
+export default connect(
+  ({ profile }) => ({ profile })
+)(Layout)

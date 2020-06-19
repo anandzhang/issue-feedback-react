@@ -37,7 +37,6 @@ const contentList = {
 
 const Manager = () => (
   <Layout
-    profile={profile}
     tabList={tabList}
     contentList={contentList}
   />

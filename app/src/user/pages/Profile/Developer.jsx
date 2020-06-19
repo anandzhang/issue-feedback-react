@@ -37,7 +37,6 @@ const contentList = {
 
 const Developer = () => (
   <Layout
-    profile={profile}
     tabList={tabList}
     contentList={contentList}
   />
