@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Col, Menu } from 'antd'
 import navMenuConfig from './navMenuConfig'
 
@@ -16,13 +16,22 @@ const getMenuItem = () => navMenuConfig.map(value => {
 
 const menu = getMenuItem()
 
-const LeftPart = () => (
-  <Col span={6}>
-    <Menu mode='horizontal' style={stylesheet.menu}>
-      {menu}
-    </Menu>
-  </Col>
-)
+const LeftPart = () => {
+  const location = useLocation()
+  const { pathname } = location
+
+  return (
+    <Col span={6}>
+      <Menu
+        mode='horizontal'
+        defaultSelectedKeys={[pathname]}
+        style={stylesheet.menu}
+      >
+        {menu}
+      </Menu>
+    </Col>
+  )
+}
 
 const stylesheet = {
   menu: {
