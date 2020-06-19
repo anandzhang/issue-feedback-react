@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Card, Avatar, message } from 'antd'
+import { Card, Avatar, message, Space } from 'antd'
+import { LikeOutlined, DislikeOutlined } from '@ant-design/icons'
 import { requestFeedbackDetail } from '../../../api/base'
 import chinaDate from '../../../utils/chinaDate'
 import StatusTag from './StatusTag'
@@ -28,7 +29,9 @@ const Detail = ({ id }) => {
     created_at: createTime,
     // updated_at: updateTime,
     owner,
-    tags
+    tags,
+    likes,
+    dislikes
   } = detail
   const { nickname } = owner || {}
 
@@ -54,7 +57,11 @@ const Detail = ({ id }) => {
         style={stylesheet.tagsList}
         onFinish={getDetail}
       />
-      <p style={{ marginTop: 20 }}>{description}</p>
+      <p style={{ margin: '20px 0' }}>{description}</p>
+      <Space>
+        <LikeOutlined />{likes}
+        <DislikeOutlined />{dislikes}
+      </Space>
     </Card>
   )
 }
