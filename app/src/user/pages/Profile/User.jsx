@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import FeedbackList from './FeedbackList'
-import { requestUserFeedbackList } from '../../../api/base'
+import { requestUserFeedbackList, requestUserStatistic } from '../../../api/base'
 import { message } from 'antd'
 import STATUS from '../../../constants/Status'
 
@@ -17,10 +17,30 @@ const tabList = [
 ]
 
 const User = () => {
+  const [statistic, setStatistic] = useState([])
   const [feedback, setFeedback] = useState([])
   useEffect(() => {
+    getUserStatistic()
     getUserSubmitFeedbackList()
   }, [])
+
+  const getUserStatistic = async () => {
+    try {
+      const result = await requestUserStatistic()
+      setStatistic([
+        {
+          title: '提出反馈',
+          value: result.total_count
+        },
+        {
+          title: '已解决',
+          value: result.solved_count
+        }
+      ])
+    } catch (err) {
+      message.error('' + err)
+    }
+  }
 
   const getUserSubmitFeedbackList = async () => {
     try {
@@ -42,6 +62,7 @@ const User = () => {
 
   return (
     <Layout
+      statisticDataSource={statistic}
       tabList={tabList}
       contentList={contentList}
     />

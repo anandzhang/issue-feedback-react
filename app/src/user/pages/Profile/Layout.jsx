@@ -13,20 +13,8 @@ const avatar = (
   />
 )
 
-// TODO: 后端无接口
-const statisticDataSource = [
-  {
-    title: '反馈',
-    value: 3
-  },
-  {
-    title: '已解决',
-    value: 6
-  }
-]
-
 const Layout = props => {
-  const { profile, tabList, contentList } = props
+  const { profile, statisticDataSource, tabList, contentList } = props
   const { nickname, roleId } = profile
   const [activeTabKey, setActiveTabKey] = useState(props.tabList[0].key)
 
@@ -61,6 +49,7 @@ const Layout = props => {
 
 Layout.propTypes = {
   profile: PropTypes.object,
+  statisticDataSource: PropTypes.array,
   tabList: PropTypes.array,
   contentList: PropTypes.object
 }
