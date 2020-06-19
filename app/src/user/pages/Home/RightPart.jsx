@@ -26,7 +26,7 @@ const RightPart = props => {
         result = await requestUserStatistic()
         setStatistic([
           {
-            title: '解决反馈',
+            title: '已解决',
             value: result.solved_count
           },
           {

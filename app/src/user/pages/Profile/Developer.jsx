@@ -1,46 +1,79 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import FeedbackList from './FeedbackList'
-
-const profile = {
-  username: '测试人',
-  role: 'USER'
-}
-
-const feedbackSource = [
-  { title: '程序总是闪退', time: '5.12' },
-  { title: '太卡了，根本没法耍', time: '5.12' },
-  { title: '总是掉线，为什么', time: '5.12' }
-]
-
-const replySource = [
-  { title: '回复1', time: '5.12' },
-  { title: '回复2', time: '5.12' },
-  { title: '回复3', time: '5.12' }
-]
+import { message } from 'antd'
+import { testDeveloperFeedbackList, requestDeveloperStatistic } from '../../../api/base'
+import STATUS from '../../../constants/Status'
 
 const tabList = [
   {
-    key: 'feedback',
-    tab: '处理中的反馈'
+    key: 'opening',
+    tab: '正在处理'
   },
   {
-    key: 'reply',
-    tab: '已解决的反馈'
+    key: 'closed',
+    tab: '已解决'
   }
 ]
 
-const contentList = {
-  feedback: <FeedbackList dataSource={feedbackSource} />,
-  reply: <FeedbackList dataSource={replySource} />
-}
+const Developer = () => {
+  const [statistic, setStatistic] = useState([])
+  const [feedback, setFeedback] = useState([])
+  useEffect(() => {
+    getDeveloperStatistic()
+    getDeveloperSubmitFeedbackList()
+  }, [])
 
-const Developer = () => (
-  <Layout
-    profile={profile}
-    tabList={tabList}
-    contentList={contentList}
-  />
-)
+  const getDeveloperStatistic = async () => {
+    try {
+      const result = await requestDeveloperStatistic()
+      setStatistic([
+        {
+          title: '提出反馈',
+          value: result.total_count
+        },
+        {
+          title: '已解决',
+          value: result.solved_count
+        }
+      ])
+    } catch (err) {
+      message.error('' + err)
+    }
+  }
+
+  const getDeveloperSubmitFeedbackList = async () => {
+    try {
+      const { ok, result } = await testDeveloperFeedbackList()
+      if (ok) {
+        const { issues } = result
+        setFeedback(issues)
+      } else message.error('获取失败')
+    } catch (err) {
+      message.error('' + err)
+    }
+  }
+
+  const contentList = {
+    opening: (
+      <FeedbackList
+        dataSource={feedback.filter(item => item.status === STATUS.OPENING)}
+      />
+    ),
+    closed: (
+      <FeedbackList
+        dataSource={feedback.filter(item => item.status === STATUS.CLOSED)}
+      />
+    )
+  }
+
+  return (
+    <Layout
+      statisticDataSource={statistic}
+      tabList={tabList}
+      contentList={contentList}
+    />
+  )
+}
 
 export default Developer

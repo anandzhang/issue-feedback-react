@@ -1,23 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import FeedbackList from './FeedbackList'
-
-const profile = {
-  username: '测试人',
-  role: 'USER'
-}
-
-const feedbackSource = [
-  { title: '程序总是闪退', time: '5.12' },
-  { title: '太卡了，根本没法耍', time: '5.12' },
-  { title: '总是掉线，为什么', time: '5.12' }
-]
-
-const replySource = [
-  { title: '回复1', time: '5.12' },
-  { title: '回复2', time: '5.12' },
-  { title: '回复3', time: '5.12' }
-]
+import { requestUserFeedbackList, requestUserStatistic } from '../../../api/base'
+import { message } from 'antd'
+import STATUS from '../../../constants/Status'
 
 const tabList = [
   {
@@ -26,21 +12,61 @@ const tabList = [
   },
   {
     key: 'reply',
-    tab: '收到的回复'
+    tab: '已解决'
   }
 ]
 
-const contentList = {
-  feedback: <FeedbackList dataSource={feedbackSource} />,
-  reply: <FeedbackList dataSource={replySource} />
-}
+const User = () => {
+  const [statistic, setStatistic] = useState([])
+  const [feedback, setFeedback] = useState([])
+  useEffect(() => {
+    getUserStatistic()
+    getUserSubmitFeedbackList()
+  }, [])
 
-const User = () => (
-  <Layout
-    profile={profile}
-    tabList={tabList}
-    contentList={contentList}
-  />
-)
+  const getUserStatistic = async () => {
+    try {
+      const result = await requestUserStatistic()
+      setStatistic([
+        {
+          title: '提出反馈',
+          value: result.total_count
+        },
+        {
+          title: '已解决',
+          value: result.solved_count
+        }
+      ])
+    } catch (err) {
+      message.error('' + err)
+    }
+  }
+
+  const getUserSubmitFeedbackList = async () => {
+    try {
+      const { issues } = await requestUserFeedbackList()
+      setFeedback(issues)
+    } catch (err) {
+      message.error('' + err)
+    }
+  }
+
+  const contentList = {
+    feedback: <FeedbackList dataSource={feedback} />,
+    reply: (
+      <FeedbackList
+        dataSource={feedback.filter(item => item.status === STATUS.CLOSED)}
+      />
+    )
+  }
+
+  return (
+    <Layout
+      statisticDataSource={statistic}
+      tabList={tabList}
+      contentList={contentList}
+    />
+  )
+}
 
 export default User

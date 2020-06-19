@@ -100,6 +100,11 @@ export const requestUpdateFeedbackStatus = (feedbackId, status) => {
   const userId = Storage.get('userId')
   return Api.request(...config, { user_id: userId, status })
 }
+export const requestUserFeedbackList = () => {
+  const config = [...FEEDBACK.USER_LIST]
+  config[0] = config[0].replace('<user_id>', Storage.get('userId'))
+  return Api.request(...config)
+}
 
 // Comment Request
 export const requestCreateComment = data => {
@@ -136,4 +141,8 @@ export const testSendCode = data => {
 }
 export const testRegister = data => {
   return axios.post('/api/service/v1/account', data)
+}
+export const testDeveloperFeedbackList = () => {
+  const userId = Storage.get('userId')
+  return axios.get(`/api/service/v1/issue/developer/${userId}`)
 }
