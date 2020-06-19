@@ -142,3 +142,7 @@ export const testSendCode = data => {
 export const testRegister = data => {
   return axios.post('/api/service/v1/account', data)
 }
+export const testDeveloperFeedbackList = () => {
+  const userId = Storage.get('userId')
+  return axios.get(`/api/service/v1/issue/developer/${userId}`)
+}
