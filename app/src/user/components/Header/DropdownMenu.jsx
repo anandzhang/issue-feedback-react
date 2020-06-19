@@ -4,12 +4,17 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { resetProfile } from '../../../actions'
 import { Menu, Dropdown, Button } from 'antd'
+import {
+  UserOutlined,
+  ControlOutlined,
+  LogoutOutlined
+} from '@ant-design/icons'
 import Storage from '../../../utils/Storage'
-import dropdownMenuConfig from './dropdownMenuConfig'
 
 const { Item } = Menu
 
-const DropdownMenu = ({ nickname, resetProfile }) => {
+const DropdownMenu = ({ profile, resetProfile }) => {
+  const { nickname, roleId } = profile
   const history = useHistory()
 
   const logout = () => {
@@ -18,23 +23,33 @@ const DropdownMenu = ({ nickname, resetProfile }) => {
     history.push('/')
   }
 
-  const getMenuItem = () => dropdownMenuConfig.map(value => {
-    let { icon, title, route, onClick } = value
-    if (!route) {
-      // 特殊情况：退出登录
-      route = 'logout'
-      onClick = logout
-    }
-    return (
-      <Item key={route} icon={icon}
-        onClick={onClick || (() => history.push(route))}
+  const overlay = (
+    <Menu>
+      {roleId === 'MANAGER'
+        ? (
+          <Item
+            icon={<ControlOutlined />}
+            onClick={() => history.push('/admin')}
+          >
+            后台管理
+          </Item>
+        )
+        : (
+          <Item
+            icon={<UserOutlined />}
+            onClick={() => history.push('/profile')}
+          >
+            个人中心
+          </Item>
+        )}
+      <Item
+        icon={<LogoutOutlined />}
+        onClick={logout}
       >
-        {title}
+        退出登录
       </Item>
-    )
-  })
-
-  const overlay = <Menu>{getMenuItem()}</Menu>
+    </Menu>
+  )
 
   return (
     <Dropdown overlay={overlay} trigger={['click']}>
@@ -44,8 +59,11 @@ const DropdownMenu = ({ nickname, resetProfile }) => {
 }
 
 DropdownMenu.propTypes = {
-  nickname: PropTypes.string.isRequired,
+  profile: PropTypes.object,
   resetProfile: PropTypes.func
 }
 
-export default connect(null, { resetProfile })(DropdownMenu)
+export default connect(
+  ({ profile }) => ({ profile }),
+  { resetProfile }
+)(DropdownMenu)

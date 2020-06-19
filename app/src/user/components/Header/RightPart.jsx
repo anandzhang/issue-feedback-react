@@ -16,7 +16,7 @@ const RightPart = ({ nickname }) => {
     <Col span={2} offset={16} style={stylesheet.login}>
       {
         nickname
-          ? <DropdownMenu nickname={nickname} />
+          ? <DropdownMenu />
           : <Button type='link' onClick={showLoginModal}>登录</Button>
       }
       <Account ref={accountModal} />
