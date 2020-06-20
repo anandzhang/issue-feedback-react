@@ -5,18 +5,9 @@ import CenterStatistic from '../../../comon/CenterStatistic'
 import { connect } from 'react-redux'
 import ModifyProfile from './ModifyProfile'
 
-const avatar = (
-  <Avatar
-    size={64}
-    shape='square'
-    src='/images/avatar.jpg'
-    alt='avatar'
-  />
-)
-
 const Layout = props => {
   const { profile, statisticDataSource, tabList, contentList } = props
-  const { nickname, roleId } = profile
+  const { nickname, roleId, avatar } = profile
   const modifyProfileModal = useRef(null)
   const [activeTabKey, setActiveTabKey] = useState(props.tabList[0].key)
 
@@ -27,7 +18,14 @@ const Layout = props => {
       <Col span={6}>
         <Card>
           <Card.Meta
-            avatar={avatar}
+            avatar={(
+              <Avatar
+                size={64}
+                shape='square'
+                src={avatar || '/images/avatar1.jpg'}
+                alt='avatar'
+              />
+            )}
             title={nickname}
             description={(
               <>

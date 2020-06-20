@@ -20,7 +20,7 @@ const AvatarSelect = props => {
             style={value === url ? stylesheet.active : null}
             data-value={url}
           >
-            <Avatar size={size} src={url} />
+            <Avatar size={size} src={url} alt='avatar' />
           </div>
         ))
       }

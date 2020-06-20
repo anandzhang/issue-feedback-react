@@ -34,7 +34,7 @@ const Detail = ({ id }) => {
     likes,
     dislikes
   } = detail
-  const { nickname } = owner || {}
+  const { nickname, avatar } = owner || {}
 
   return (
     <Card>
@@ -43,7 +43,7 @@ const Detail = ({ id }) => {
           <Avatar
             size={50}
             shape='square'
-            src='/images/avatar.jpg'
+            src={avatar || '/images/avatar1.jpg'}
           />
         }
         title={(
