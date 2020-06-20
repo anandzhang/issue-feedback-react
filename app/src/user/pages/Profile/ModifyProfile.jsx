@@ -17,7 +17,7 @@ const ModifyProfile = forwardRef(function Component (props, ref) {
   return (
     <Modal
       title='修改资料'
-      visible={visible}
+      visible={true}
       onOk={updateProfile}
       onCancel={changeVisible}
       okText='确认'

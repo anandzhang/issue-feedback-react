@@ -1,15 +1,23 @@
-import React, { Component } from 'react'
-import { Modal, Form, Input, Radio, Upload, Button, message } from 'antd'
-import { requestUpdateProfile } from '../../../api/base'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Form, Input, Radio } from 'antd'
+import AvatarSelect from '../AvatarSelect'
 
-const { Item, useForm } = Form
+const { Item } = Form
 
-const ProfileForm = ({ form }) => {
+const ProfileForm = ({ form, profile }) => {
+  const { nickname, gender, avatar } = profile
   return (
     <Form
       form={form}
       labelCol={{ span: 7 }}
       wrapperCol={{ span: 12, offset: 1 }}
+      initialValues={{
+        nickname,
+        gender,
+        avatar
+      }}
     >
       <Item
         name='nickname'
@@ -20,17 +28,28 @@ const ProfileForm = ({ form }) => {
       </Item>
       <Item name='gender' label='性别'>
         <Radio.Group>
-          <Radio value='0'>男</Radio>
-          <Radio value='1'>女</Radio>
+          <Radio value={0}>男</Radio>
+          <Radio value={1}>女</Radio>
         </Radio.Group>
       </Item>
-      <Item name='avatar' label='头像' valuePropName='fileList'>
-        <Upload>
-          <Button>点击上传</Button>
-        </Upload>
+      <Item name='avatar' label='头像'>
+        <AvatarSelect
+          size='large'
+          options={[
+            '/images/avatar1.jpg',
+            '/images/avatar2.jpg',
+            '/images/avatar3.jpg',
+            '/images/avatar4.jpg'
+          ]}
+        />
       </Item>
     </Form>
   )
 }
 
-export default ProfileForm
+ProfileForm.propTypes = {
+  form: PropTypes.object,
+  profile: PropTypes.object
+}
+
+export default connect(({ profile }) => ({ profile }))(ProfileForm)
