@@ -27,8 +27,9 @@ export const requsetProfile = userId => {
   return Api.request(...config)
 }
 export const requestUpdateProfile = async data => {
-  data.user_id = Storage.get('userId')
-  return Api.request(...PROFILE.UPDATE, data)
+  const config = [...PROFILE.UPDATE]
+  config[0] = config[0].replace('<user_id>', Storage.get('userId'))
+  return Api.request(...config, data)
 }
 
 // Product Request

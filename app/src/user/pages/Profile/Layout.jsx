@@ -1,21 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Card, Avatar } from 'antd'
+import { Row, Col, Card, Avatar, Button } from 'antd'
 import CenterStatistic from '../../../comon/CenterStatistic'
 import { connect } from 'react-redux'
-
-const avatar = (
-  <Avatar
-    size={64}
-    shape='square'
-    src='/images/avatar.jpg'
-    alt='avatar'
-  />
-)
+import ModifyProfile from './ModifyProfile'
 
 const Layout = props => {
   const { profile, statisticDataSource, tabList, contentList } = props
-  const { nickname, roleId } = profile
+  const { nickname, roleId, avatar } = profile
+  const modifyProfileModal = useRef(null)
   const [activeTabKey, setActiveTabKey] = useState(props.tabList[0].key)
 
   const onTabChange = key => setActiveTabKey(key)
@@ -25,9 +18,26 @@ const Layout = props => {
       <Col span={6}>
         <Card>
           <Card.Meta
-            avatar={avatar}
+            avatar={(
+              <Avatar
+                size={64}
+                shape='square'
+                src={avatar || '/images/avatar1.jpg'}
+                alt='avatar'
+              />
+            )}
             title={nickname}
-            description={roleId}
+            description={(
+              <>
+                {roleId}
+                <Button
+                  type='link'
+                  onClick={() => modifyProfileModal.current.changeVisible()}>
+                  修改资料
+                </Button>
+                <ModifyProfile ref={modifyProfileModal} />
+              </>
+            )}
           />
         </Card>
         <Card style={{ marginTop: 12 }}>

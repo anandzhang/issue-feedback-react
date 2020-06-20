@@ -36,7 +36,8 @@ const MetaList = props => {
           <Avatar
             size={avatarSize}
             shape='square'
-            src={item[avatarIndex] || '/images/avatar.jpg'}
+            // TODO: avatar field need fix
+            src={item.owner[avatarIndex] || '/images/avatar1.jpg'}
             alt='avatar'
           />
         }

@@ -2,20 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Avatar } from 'antd'
 import CommentForm from './CommentForm'
+import { connect } from 'react-redux'
 
 const { Meta } = Card
 
-const avatar = (
-  <Avatar
-    size='large'
-    shape='square'
-    src='/images/avatar.jpg'
-  />
-)
-
-const AddComment = ({ id }) => (
+const AddComment = ({ id, profile }) => (
   <Meta
-    avatar={avatar}
+    avatar={(
+      <Avatar
+        size='large'
+        shape='square'
+        src={profile.avatar || '/images/avatar1.jpg'}
+      />
+    )}
     title={<CommentForm id={id} />}
     style={stylesheet.addComment}
   />
@@ -28,7 +27,8 @@ const stylesheet = {
 }
 
 AddComment.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.string,
+  profile: PropTypes.object
 }
 
-export default AddComment
+export default connect(({ profile }) => ({ profile }))(AddComment)

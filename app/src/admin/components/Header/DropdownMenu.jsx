@@ -9,8 +9,9 @@ import dropdownMenuConfig from './dropdownMenuConfig'
 
 const { Item } = Menu
 
-const DropdownMenu = ({ resetProfile }) => {
+const DropdownMenu = ({ profile, resetProfile }) => {
   const history = useHistory()
+  const { avatar } = profile
 
   const logout = () => {
     Storage.deleteMany(['userId', 'token'])
@@ -39,7 +40,7 @@ const DropdownMenu = ({ resetProfile }) => {
     <Dropdown overlay={overlay} trigger={['click']}>
       <Avatar
         size='large'
-        src='/images/avatar.jpg'
+        src={avatar || '/images/avatar1.jpg'}
         alt='avatar'
         style={{ cursor: 'pointer' }}
       />
@@ -48,7 +49,11 @@ const DropdownMenu = ({ resetProfile }) => {
 }
 
 DropdownMenu.propTypes = {
+  profile: PropTypes.object,
   resetProfile: PropTypes.func
 }
 
-export default connect(null, { resetProfile })(DropdownMenu)
+export default connect(
+  ({ profile }) => ({ profile }),
+  { resetProfile }
+)(DropdownMenu)
