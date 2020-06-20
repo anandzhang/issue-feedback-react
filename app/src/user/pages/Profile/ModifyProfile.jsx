@@ -15,6 +15,7 @@ const ModifyProfile = forwardRef(function Component (props, ref) {
       const values = await form.validateFields()
       await requestUpdateProfile(values)
       changeVisible()
+      message.success('修改成功')
     } catch { message.error('修改失败') }
   }
 
