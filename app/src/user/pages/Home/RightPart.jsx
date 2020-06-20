@@ -47,7 +47,7 @@ const RightPart = props => {
             value: result.closed_count
           },
           {
-            title: '总反馈',
+            title: '今日反馈',
             value: result.total_count
           }
         ])
