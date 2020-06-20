@@ -1,6 +1,7 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
-import { Modal, Form } from 'antd'
+import { Modal, Form, message } from 'antd'
 import ProfileForm from '../../components/ProfileForm'
+import { requestUpdateProfile } from '../../../api/base'
 
 const ModifyProfile = forwardRef(function Component (props, ref) {
   const [form] = Form.useForm()
@@ -10,14 +11,17 @@ const ModifyProfile = forwardRef(function Component (props, ref) {
   const changeVisible = () => setVisible(!visible)
 
   const updateProfile = async () => {
-    const values = await form.validateFields()
-    console.log(values)
+    try {
+      const values = await form.validateFields()
+      await requestUpdateProfile(values)
+      changeVisible()
+    } catch { message.error('修改失败') }
   }
 
   return (
     <Modal
       title='修改资料'
-      visible={true}
+      visible={visible}
       onOk={updateProfile}
       onCancel={changeVisible}
       okText='确认'
