@@ -25,10 +25,7 @@ get_backend_server() {
 build_frontend_project() {
   generate_tips '2. 构建前端项目'
   git clone $FRONTEND_PROJECT_URL $OUTPUTDIR/frontend
-  cd frontend/app
-  npm install --production
-  npx react-app-rewired build
-  cd -
+  docker run --rm -v $(pwd)/frontend/app:/opt/app node:12.16 bash /opt/app/build.sh
 }
 
 deploy_use_nginx() {
