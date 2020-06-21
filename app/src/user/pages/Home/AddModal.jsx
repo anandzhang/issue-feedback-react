@@ -27,9 +27,7 @@ const AddModal = forwardRef(function Component (props, ref) {
       resetFields()
       getStatistic()
       changeVisible()
-    } catch (err) {
-      message.error(err)
-    }
+    } catch { }
   }
 
   return (
@@ -46,7 +44,9 @@ const AddModal = forwardRef(function Component (props, ref) {
         labelCol={{ offset: 2 }}
         wrapperCol={{ span: 16 }}
       >
-        <Item label='产品' name='product_id'>
+        <Item label='产品' name='product_id'
+          rules={[{ required: true, message: '请选择产品' }]}
+        >
           <Select>
             {
               products.map(value => {
@@ -56,10 +56,13 @@ const AddModal = forwardRef(function Component (props, ref) {
             }
           </Select>
         </Item>
-        <Item label='标题' name='title'>
+        <Item label='标题' name='title'
+          rules={[{ required: true, message: '请输入标题' }]}
+        >
           <Input />
         </Item>
-        <Item label='描述' name='description'>
+        <Item label='描述' name='description'
+          rules={[{ required: true, message: '请输入描述' }]}>
           <Input.TextArea />
         </Item>
       </Form>
