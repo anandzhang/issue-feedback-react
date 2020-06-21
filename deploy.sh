@@ -3,42 +3,52 @@
 # Author: Anand Zhang
 
 # 常量
-readonly OUTPUTDIR='~/feedback_web'
+readonly OUTPUTDIR=~/feedback_web
 readonly FRONTEND_PROJECT_URL='https://github.com/anandzhang/issue-feedback-react.git'
 readonly BACKEND_PROJECT_URL='https://github.com/wangsiqian/issue_feedback_sanic.git'
 
+generate_tips() { echo -e "\n#### $*\n"; }
+
 get_backend_server() {
-  cd $OUTPUTDIR
+  generate_tips '1. 获取后端服务'
   git clone $BACKEND_PROJECT_URL $OUTPUTDIR/backend
   # 启动后端服务
   cd backend/docker
+  docker-compose up -d
   docker-compose exec -d issue_feedback_sanic bash run_server.sh
+  cd -
 }
 
 build_frontend_project() {
-  cd $OUTPUTDIR
+  generate_tips '2. 构建前端项目'
   git clone $FRONTEND_PROJECT_URL $OUTPUTDIR/frontend
   cd frontend/app
   npm install --production
   npx react-app-rewired build
+  cd -
+}
+
+deploy_use_nginx() {
+  generate_tips '3. 使用 Nginx 部署'
+  cd frontend
+  docker run --name feedback_web \
+    -p 180:80 \
+    -v $(pwd)/app/build/:/opt/app/ \
+    -v $(pwd)/docker/deploy.conf:/etc/nginx/conf.d/default.conf \
+    --link issue_feedback_sanic:backend \
+    --network docker_default \
+    -d nginx:1.17
 }
 
 main() {
   if [ ! -d $OUTPUTDIR ]; then
     mkdir $OUTPUTDIR
   fi
-  echo -e '\n---------- 1. 获取后端服务 ----------\n'
+  cd $OUTPUTDIR
   get_backend_server
-  echo -e '\n---------- 2. 前端项目 build 构建 ----------\n'
   build_frontend_project
-  echo -e '\n---------- 3. 使用 Nginx 容器托管静态文件 ----------\n'
-  docker run --name feedback_web \
-    -p 80:80 \
-    -v $(pwd)/app/build:/opt/app \
-    -v $(pwd)/docker/deploy.conf:/etc/nginx/conf.d/default.conf \
-    --link issue_feedback_sanic:backend \
-    --network docker_default \
-    -d nginx:1.17
+  deploy_use_nginx
+  generate_tips "项目生成在 $OUTPUTDIR"
 }
 
 main
