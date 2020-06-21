@@ -3,7 +3,7 @@
 # Author: Anand Zhang
 
 # 常量
-readonly OUTPUTDIR='/usr/share/feedback_system'
+readonly OUTPUTDIR='~/feedback_web'
 readonly FRONTEND_PROJECT_URL='https://github.com/anandzhang/issue-feedback-react.git'
 readonly BACKEND_PROJECT_URL='https://github.com/wangsiqian/issue_feedback_sanic.git'
 
@@ -32,7 +32,7 @@ main() {
   echo -e '\n---------- 2. 前端项目 build 构建 ----------\n'
   build_frontend_project
   echo -e '\n---------- 3. 使用 Nginx 容器托管静态文件 ----------\n'
-  docker run --name feedback_web_system \
+  docker run --name feedback_web \
     -p 80:80 \
     -v $(pwd)/app/build:/opt/app \
     -v $(pwd)/docker/deploy.conf:/etc/nginx/conf.d/default.conf \
