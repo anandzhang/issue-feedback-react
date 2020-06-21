@@ -15,6 +15,9 @@ get_backend_server() {
   # 启动后端服务
   cd backend/docker
   docker-compose up -d
+  # 后端 cassandra 数据库启动延时
+  # 后端未检测数据库启动成功 这里暂时使用 sleep
+  sleep 30
   docker-compose exec -d issue_feedback_sanic bash run_server.sh
   cd -
 }
