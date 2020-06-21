@@ -32,7 +32,7 @@ deploy_use_nginx() {
   generate_tips '3. 使用 Nginx 部署'
   cd frontend
   docker run --name feedback_web \
-    -p 180:80 \
+    -p 80:80 \
     -v $(pwd)/app/build/:/opt/app/ \
     -v $(pwd)/docker/deploy.conf:/etc/nginx/conf.d/default.conf \
     --link issue_feedback_sanic:backend \
