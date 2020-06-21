@@ -24,7 +24,11 @@ const EditableItem = ({ label, name, value, handleSave, mode }) => {
   const children = editing
     ? (
       <Form form={form} onFinish={save}>
-        <Item name={name} rules={[{ required: true, message: `请输入${label}` }]} style={{ margin: 0 }}>
+        <Item
+          name={name}
+          rules={[{ required: true, message: `请输入${label}` }]}
+          style={{ margin: 0 }}
+        >
           {mode === 'TextArea'
             ? <Input.TextArea
               ref={item}

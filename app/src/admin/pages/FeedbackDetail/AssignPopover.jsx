@@ -8,7 +8,7 @@ import {
 } from '../../../api/base'
 
 const AssignPopover = props => {
-  const { id, assignedDevelopers, onFinish } = props
+  const { id, assignedDevelopers = [], onFinish } = props
   const [developers, setDevelopers] = useState([])
   useEffect(() => {
     getDevelopers()
@@ -36,11 +36,11 @@ const AssignPopover = props => {
     else changedDevelopers.push(id)
   }
 
-  const filterFinishResult = () => {
+  const filterFinishResult = () => (
     developers.filter(({ user_id: id }) => (
       changedDevelopers.find(changedId => id === changedId)
     ))
-  }
+  )
 
   const onVisibleChange = async visible => {
     if (!visible) {
