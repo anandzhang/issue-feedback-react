@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProfile } from '../../actions'
 import { Route, Redirect, useHistory } from 'react-router-dom'
@@ -22,6 +23,12 @@ const PrivateRoute = props => {
       else return <Redirect to='/' />
     }} />
   )
+}
+
+PrivateRoute.propTypes = {
+  profile: PropTypes.object,
+  getProfile: PropTypes.func,
+  children: PropTypes.element.isRequired
 }
 
 export default connect(

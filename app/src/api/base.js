@@ -107,6 +107,8 @@ export const requestUserFeedbackList = () => {
   return Api.request(...config)
 }
 export const requestUserOpinion = feedbackId => {
+  const userId = Storage.get('userId')
+  if (!userId) return Promise.resolve({ opinion: '' })
   const config = [...FEEDBACK.OPINION]
   config[0] = config[0].replace('<issue_id>', feedbackId)
   config[0] = config[0].replace('<user_id>', Storage.get('userId'))

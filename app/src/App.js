@@ -7,8 +7,12 @@ import Admin from './admin'
 const App = () => (
   <BrowserRouter>
     <Switch>
-      <PrivateRoute path='/admin' children={<Admin />} />
-      <Route path='/' children={<User />} />
+      <PrivateRoute path='/admin'>
+        <Admin />
+      </PrivateRoute>
+      <Route path='/'>
+        <User />
+      </Route>
       <Redirect to='/' />
     </Switch>
   </BrowserRouter>
