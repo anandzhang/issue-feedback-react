@@ -6,6 +6,7 @@ import { Card } from 'antd'
 import chinaDate from '../../../utils/chinaDate'
 import MetaList from '../../../comon/MetaList'
 import AddComment from './AddComment'
+import Storage from '../../../utils/Storage'
 
 const CommentList = props => {
   const { id, comments, getComments } = props
@@ -26,7 +27,7 @@ const CommentList = props => {
           `${owner.nickname} 发表于 ${chinaDate(time).fromNow()}`
         )}
       />
-      <AddComment id={id} />
+      {Storage.get('userId') ? <AddComment id={id} /> : ''}
     </Card>
   )
 }

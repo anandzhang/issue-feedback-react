@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Col, Card, Button } from 'antd'
+import { Col, Card, Button, message } from 'antd'
 import CenterStatistic from '../../../comon/CenterStatistic'
 import SimpleList from '../../../comon/SimpleList'
 import AddModal from './AddModal'
@@ -10,6 +10,7 @@ import {
   requestManagerStatistic,
   requestDeveloperStatistic
 } from '../../../api/base'
+import Storage from '../../../utils/Storage'
 
 const RightPart = props => {
   const { feedback, nickname, roleId } = props
@@ -68,6 +69,12 @@ const RightPart = props => {
     }
   }
 
+  const addFeedback = () => {
+    const userId = Storage.get('userId')
+    if (userId) addModal.current.changeVisible()
+    else message.error('请先登录')
+  }
+
   return (
     <Col span={6}>
       <Card style={stylesheet.marginX10}>
@@ -81,7 +88,7 @@ const RightPart = props => {
           : ''}
         <Button
           type='primary'
-          onClick={() => addModal.current.changeVisible()}
+          onClick={addFeedback}
           style={stylesheet.feedbackBtn}
         >
           反馈一下
