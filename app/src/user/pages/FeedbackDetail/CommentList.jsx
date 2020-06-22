@@ -2,10 +2,12 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getComments } from '../../../actions'
-import { Card } from 'antd'
+import { Card, Divider } from 'antd'
+import { WarningOutlined } from '@ant-design/icons'
 import chinaDate from '../../../utils/chinaDate'
 import MetaList from '../../../comon/MetaList'
 import AddComment from './AddComment'
+import Storage from '../../../utils/Storage'
 
 const CommentList = props => {
   const { id, comments, getComments } = props
@@ -26,7 +28,13 @@ const CommentList = props => {
           `${owner.nickname} 发表于 ${chinaDate(time).fromNow()}`
         )}
       />
-      <AddComment id={id} />
+      {Storage.get('userId')
+        ? <AddComment id={id} />
+        : (
+          <Divider plain>
+            <WarningOutlined /> 登录后才可以进行评论
+          </Divider>
+        )}
     </Card>
   )
 }

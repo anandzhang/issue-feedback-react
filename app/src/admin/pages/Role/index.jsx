@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Card, Table, Button } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { WarningOutlined, PlusOutlined } from '@ant-design/icons'
 import AddModal from './AddModal'
 
 const columns = [
@@ -23,7 +23,7 @@ const Role = () => {
 
   return (
     <Card
-      title='后台成员'
+      title={<>后台成员 <WarningOutlined style={{ color: '#ffcc00' }} /></>}
       extra={
         <Button
           type='primary'
