@@ -19,7 +19,10 @@ const AddModal = forwardRef(function Component (props, ref) {
       const data = await testSendCode(value)
       const { result } = data
       form.setFieldsValue(result)
-    } catch { }
+    } catch (err) {
+      if (err.errorFields) message.error('请先输入邮箱')
+      else message.error(err)
+    }
   }
 
   const handleRegister = async valules => {

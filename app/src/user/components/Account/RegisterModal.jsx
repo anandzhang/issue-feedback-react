@@ -25,7 +25,8 @@ const RegisterModal = forwardRef(function Component (props, ref) {
       const { result } = data
       form.current.setFieldsValue(result)
     } catch (err) {
-      message.error(err)
+      if (err.errorFields) message.error('请先输入邮箱')
+      else message.error(err)
     }
   }
 
